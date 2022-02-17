@@ -1,16 +1,13 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Formularios extends BaseSchema {
-  protected tableName = 'formularios'
+export default class Exames extends BaseSchema {
+  protected tableName = 'exames'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').notNullable()
       table.string('titulo').notNullable()
-      table.string('tipo').notNullable()
-      table.string('finalidade').notNullable()
-      table.json('perguntas').notNullable()
-      table.integer('urgencia').notNullable()
+      table.text('texto','longtext').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
