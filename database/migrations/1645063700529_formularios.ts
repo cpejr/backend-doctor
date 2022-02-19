@@ -5,7 +5,7 @@ export default class Formularios extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').notNullable()
+      table.increments('id').primary()
       table.string('titulo').notNullable()
       table.string('tipo').notNullable()
       table.string('finalidade').notNullable()

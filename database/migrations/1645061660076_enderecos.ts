@@ -5,7 +5,7 @@ export default class Enderecos extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').notNullable()
+      table.increments('id').primary()
       table.string('cep', 8).notNullable()
       table.string('pais').notNullable()
       table.string('estado', 2).notNullable()

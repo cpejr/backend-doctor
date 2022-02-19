@@ -5,9 +5,9 @@ export default class Consultorios extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').notNullable()
-      table.string('nome').notNullable()
-
+      table.increments('id').primary();
+      table.string('nome').notNullable();
+      table.integer('id_endereco').unsigned().references('id').inTable('enderecos');
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

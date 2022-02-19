@@ -5,7 +5,7 @@ export default class Exames extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').notNullable()
+      table.increments('id').primary()
       table.string('titulo').notNullable()
       table.text('texto','longtext').notNullable()
 
