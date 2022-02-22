@@ -23,3 +23,8 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+
+Route.get('/enderecos', 'EnderecosController.index')
+Route.post('/enderecos', 'EnderecosController.store')
+Route.put('/enderecos', 'EnderecosController.update')
+Route.delete('/enderecos', 'EnderecosController.destroy')

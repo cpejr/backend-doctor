@@ -3,7 +3,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 export default class Mensagens extends BaseSchema {
   protected tableName = 'mensagens'
 
-  public async up () {
+  public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('mensagem').notNullable()
@@ -12,17 +12,17 @@ export default class Mensagens extends BaseSchema {
       table.string('media_url').nullable()
       table.boolean('foi_enviado').notNullable()
       table.boolean('foi_visualizado').notNullable()
-      table.integer('id_conversa').unsigned().references('id').inTable('conversas');
+      table.integer('id_conversa').unsigned().references('id').inTable('conversas')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
-       table.timestamp('data_criacao', { useTz: true })
-       table.timestamp('data_atualizacao', { useTz: true })
+      table.timestamp('data_criacao', { useTz: true })
+      table.timestamp('data_atualizacao', { useTz: true })
     })
   }
 
-  public async down () {
+  public async down() {
     this.schema.dropTable(this.tableName)
   }
 }

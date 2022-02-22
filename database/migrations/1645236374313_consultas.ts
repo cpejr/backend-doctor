@@ -3,7 +3,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 export default class Consultas extends BaseSchema {
   protected tableName = 'consultas'
 
-  public async up () {
+  public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.time('horario').notNullable()
@@ -11,18 +11,18 @@ export default class Consultas extends BaseSchema {
       table.time('duracao').notNullable()
       table.string('descricao').nullable()
       table.integer('avaliacao').notNullable()
-      table.integer('id_usuario').unsigned().references('id').inTable('usuarios');
-      table.integer('id_consultorio').unsigned().references('id').inTable('consultorios');
+      table.integer('id_usuario').unsigned().references('id').inTable('usuarios')
+      table.integer('id_consultorio').unsigned().references('id').inTable('consultorios')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
-       table.timestamp('data_criacao', { useTz: true })
-       table.timestamp('data_atualizacao', { useTz: true })
+      table.timestamp('data_criacao', { useTz: true })
+      table.timestamp('data_atualizacao', { useTz: true })
     })
   }
 
-  public async down () {
+  public async down() {
     this.schema.dropTable(this.tableName)
   }
 }
