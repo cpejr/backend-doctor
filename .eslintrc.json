@@ -3,5 +3,7 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"]
-  }
+  },
+  "project": "backend-doctor/tsconfig.json"
 }
+

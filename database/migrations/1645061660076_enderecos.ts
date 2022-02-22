@@ -1,3 +1,4 @@
+/* eslint-disable */
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class Enderecos extends BaseSchema {
