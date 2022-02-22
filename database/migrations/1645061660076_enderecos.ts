@@ -1,4 +1,3 @@
-/* eslint-disable */
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class Enderecos extends BaseSchema {
@@ -20,8 +19,8 @@ export default class Enderecos extends BaseSchema {
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('data_criacao', { useTz: true })
+      table.timestamp('data_atualizacao', { useTz: true })
     })
   }
 
