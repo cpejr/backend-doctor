@@ -4,7 +4,6 @@ import EnderecosDTO from 'App/DTO/EnderecosDTO'
 import Endereco from 'App/Models/Endereco'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 
-
 export default class EnderecosController {
   public async index({ request }: HttpContextContract) {
     const enderecoData = {
@@ -45,11 +44,9 @@ export default class EnderecosController {
     return endereco
   }
 
-  public async show({}: HttpContextContract) {}
-
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
-    if(!id) return
+    if (!id) return
 
     const enderecoData = {
       id,
@@ -70,5 +67,13 @@ export default class EnderecosController {
     return endereco
   }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const endereco = await Endereco.findOrFail(id)
+    await endereco.delete()
+
+    return endereco
+  }
 }
