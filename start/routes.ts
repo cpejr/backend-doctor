@@ -33,3 +33,8 @@ Route.get('/formularios', 'FormulariosController.index')
 Route.post('/formularios', 'FormulariosController.store')
 Route.put('/formularios/:id', 'FormulariosController.update')
 Route.delete('/formularios/:id', 'FormulariosController.destroy')
+
+Route.get('/exames', 'ExamesController.index')
+Route.post('/exames', 'ExamesController.store')
+Route.put('/exames/:id', 'ExamesController.update')
+Route.delete('/exames/:id', 'ExamesController.destroy')
