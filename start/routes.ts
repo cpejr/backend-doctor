@@ -38,3 +38,8 @@ Route.get('/exames', 'ExamesController.index')
 Route.post('/exames', 'ExamesController.store')
 Route.put('/exames/:id', 'ExamesController.update')
 Route.delete('/exames/:id', 'ExamesController.destroy')
+
+Route.get('/assinaturas', 'AssinaturasController.index')
+Route.post('/assinaturas', 'AssinaturasController.store')
+Route.put('/assinaturas/:id', 'AssinaturasController.update')
+Route.delete('/assinaturas/:id', 'AssinaturasController.destroy')
