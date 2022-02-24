@@ -17,7 +17,7 @@ export default class EnderecosController {
       numero: request.param('numero'),
       complemento: request.param('complemento'),
     } as EnderecosDTO
-    const enderecos = await EnderecosRepository.find(enderecoData)
+    const enderecos = await EnderecosRepository.find(limpaCamposNulosDeObjeto(enderecoData))
     return enderecos
   }
 
