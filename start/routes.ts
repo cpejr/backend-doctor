@@ -54,3 +54,8 @@ Route.get('/homes', 'HomesController.index')
 Route.post('/homes', 'HomesController.store')
 Route.put('/homes/:id', 'HomesController.update')
 Route.delete('/homes/:id', 'HomesController.destroy')
+
+Route.get('/indicacao_especifica', 'IndicacoesEspecificasController.index')
+Route.post('/indicacao_especifica', 'IndicacoesEspecificasController.store')
+Route.put('/indicacao_especifica/:id', 'IndicacoesEspecificasController.update')
+Route.delete('/indicacao_especifica/:id', 'IndicacoesEspecificasController.destroy')
