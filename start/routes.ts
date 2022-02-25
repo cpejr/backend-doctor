@@ -59,3 +59,8 @@ Route.get('/indicacao_especifica', 'IndicacoesEspecificasController.index')
 Route.post('/indicacao_especifica', 'IndicacoesEspecificasController.store')
 Route.put('/indicacao_especifica/:id', 'IndicacoesEspecificasController.update')
 Route.delete('/indicacao_especifica/:id', 'IndicacoesEspecificasController.destroy')
+
+Route.get('/comentarios', 'ComentariosController.index')
+Route.post('/comentarios', 'ComentariosController.store')
+Route.put('/comentarios/:id', 'ComentariosController.update')
+Route.delete('/comentarios/:id', 'ComentariosController.destroy')
