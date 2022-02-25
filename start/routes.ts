@@ -24,6 +24,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+
 Route.get('/enderecos', 'EnderecosController.index')
 Route.post('/enderecos', 'EnderecosController.store')
 Route.put('/enderecos/:id', 'EnderecosController.update')
@@ -49,7 +50,42 @@ Route.post('/dispositivos', 'DispositivosController.store')
 Route.put('/dispositivos/:id', 'DispositivosController.update')
 Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
 
+Route.delete('/indicacao_especifica/:id', 'IndicacoesEspecificasController.destroy')
+Route.get('/homes', 'HomesController.index')
+Route.post('/homes', 'HomesController.store')
+Route.put('/homes/:id', 'HomesController.update')
+Route.delete('/homes/:id', 'HomesController.destroy')
+
+Route.get('/indicacao_especifica', 'IndicacoesEspecificasController.index')
+Route.post('/indicacao_especifica', 'IndicacoesEspecificasController.store')
+Route.put('/indicacao_especifica/:id', 'IndicacoesEspecificasController.update')
+Route.delete('/indicacao_especifica/:id', 'IndicacoesEspecificasController.destroy')
 Route.get('/indicacoes_especificas', 'IndicacoesEspecificasController.index')
 Route.post('/indicacoes_especificas', 'IndicacoesEspecificasController.store')
 Route.put('/indicacoes_especificas/:id', 'IndicacoesEspecificasController.update')
 Route.delete('/indicacoes_especificas/:id', 'IndicacoesEspecificasController.destroy')
+
+Route.get('/comentarios', 'ComentariosController.index')
+Route.post('/comentarios', 'ComentariosController.store')
+Route.put('/comentarios/:id', 'ComentariosController.update')
+Route.delete('/comentarios/:id', 'ComentariosController.destroy')
+
+Route.get('/sobremims', 'SobreMimsController.index')
+Route.post('/sobremims', 'SobreMimsController.store')
+Route.put('/sobremims/:id', 'SobreMimsController.update')
+Route.delete('/sobremims/:id', 'SobreMimsController.destroy')
+
+Route.get('/consultorios', 'ConsultoriosController.index')
+Route.post('/consultorios', 'ConsultoriosController.store')
+Route.put('/consultorios/:id', 'ConsultoriosController.update')
+Route.delete('/consultorios/:id', 'ConsultoriosController.destroy')
+
+Route.get('/indicacaos', 'IndicacaosController.index')
+Route.post('/indicacaos', 'IndicacaosController.store')
+Route.put('/indicacaos/:id', 'IndicacaosController.update')
+Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
+
+Route.get('/usuarios', 'UsuariosController.index')
+Route.post('/usuarios', 'UsuariosController.store')
+Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.delete('/usuarios/:id', 'UsuariosController.destroy')
