@@ -27,9 +27,30 @@ export default class IndicacaoEspecificasController {
     return indicacaoEspecifica
   }
 
-  
+  public async update({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
 
-  public async update({}: HttpContextContract) {}
+    const indicacaoEspecificaData = {
+      id,
+      titulo: request.input('titulo'),
+      texto: request.input('texto')
+    } as IndicacoesEspecificasDTO
 
-  public async destroy({}: HttpContextContract) {}
+    const indicacaoEspecifica = await IndicacaoEspecifica.findOrFail(id)
+    indicacaoEspecifica.merge(limpaCamposNulosDeObjeto(indicacaoEspecificaData))
+    await indicacaoEspecifica.save()
+
+    return indicacaoEspecifica
+  }
+
+  public async destroy({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const indicacaoEspecifica = await IndicacaoEspecifica.findOrFail(id)
+    await indicacaoEspecifica.delete()
+
+    return indicacaoEspecifica
+  }
 }
