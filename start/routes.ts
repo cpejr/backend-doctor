@@ -48,3 +48,8 @@ Route.get('/dispositivos', 'DispositivosController.index')
 Route.post('/dispositivos', 'DispositivosController.store')
 Route.put('/dispositivos/:id', 'DispositivosController.update')
 Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
+
+Route.get('/indicacao_especifica', 'IndicacoesEspecificasController.index')
+Route.post('/indicacao_especifica', 'IndicacoesEspecificasController.store')
+Route.put('/indicacao_especifica/:id', 'IndicacoesEspecificasController.update')
+Route.delete('/indicacao_especifica/:id', 'IndicacoesEspecificasController.destroy')
