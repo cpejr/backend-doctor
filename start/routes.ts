@@ -24,6 +24,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+
 Route.get('/enderecos', 'EnderecosController.index')
 Route.post('/enderecos', 'EnderecosController.store')
 Route.put('/enderecos/:id', 'EnderecosController.update')
@@ -48,3 +49,8 @@ Route.get('/dispositivos', 'DispositivosController.index')
 Route.post('/dispositivos', 'DispositivosController.store')
 Route.put('/dispositivos/:id', 'DispositivosController.update')
 Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
+
+Route.get('/homes', 'HomesController.index')
+Route.post('/homes', 'HomesController.store')
+Route.put('/homes/:id', 'HomesController.update')
+Route.delete('/homes/:id', 'HomesController.destroy')
