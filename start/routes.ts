@@ -79,3 +79,8 @@ Route.get('/indicacaos', 'IndicacaosController.index')
 Route.post('/indicacaos', 'IndicacaosController.store')
 Route.put('/indicacaos/:id', 'IndicacaosController.update')
 Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
+
+Route.get('/usuarios', 'UsuariosController.index')
+Route.post('/usuarios', 'UsuariosController.store')
+Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.delete('/usuarios/:id', 'UsuariosController.destroy')
