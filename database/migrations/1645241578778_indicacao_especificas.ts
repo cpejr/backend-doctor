@@ -1,11 +1,12 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Indicacoes extends BaseSchema {
-  protected tableName = 'indicacoes'
+export default class IndicacaoEspecificas extends BaseSchema {
+  protected tableName = 'indicacao_especificas'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
+      table.string('titulo').notNullable()
       table.string('texto').notNullable()
 
       /**

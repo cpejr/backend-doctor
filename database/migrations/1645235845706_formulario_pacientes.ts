@@ -9,7 +9,6 @@ export default class FormularioPacientes extends BaseSchema {
       table.json('respostas').notNullable()
       table.string('midia_url').nullable()
       table.string('word').nullable()
-      //definir tipo de documento word e definir se será salvo no banco
       table.boolean('status').notNullable()
       table.integer('id_usuario').unsigned().references('id').inTable('usuarios')
       table.integer('id_formulario').unsigned().references('id').inTable('formularios')

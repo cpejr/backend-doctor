@@ -8,7 +8,7 @@ export default class Consultas extends BaseSchema {
       table.increments('id').primary()
       table.time('horario').notNullable()
       table.date('data').notNullable()
-      table.time('duracao').notNullable()
+      table.integer('duracao_em_minutos').notNullable()
       table.string('descricao').nullable()
       table.integer('avaliacao').notNullable()
       table.integer('id_usuario').unsigned().references('id').inTable('usuarios')

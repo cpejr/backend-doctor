@@ -1,14 +1,13 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Mensagens extends BaseSchema {
-  protected tableName = 'mensagens'
+export default class Mensagems extends BaseSchema {
+  protected tableName = 'mensagems'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('mensagem').notNullable()
-      table.date('data_envio').notNullable()
-      table.time('hora_envio').notNullable()
+      table.datetime('data_envio').notNullable()
       table.string('media_url').nullable()
       table.boolean('foi_enviado').notNullable()
       table.boolean('foi_visualizado').notNullable()

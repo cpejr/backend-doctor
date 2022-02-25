@@ -1,16 +1,12 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Amie extends BaseSchema {
-  protected tableName = 'amie'
+export default class ImagemCarrossels extends BaseSchema {
+  protected tableName = 'imagem_carrossels'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.string('imagem_um').notNullable()
-      //definir tipo de arquivo
-      table.string('texto').notNullable()
-      table.string('imagem_dois').notNullable()
-      //definir tipo de arquivo
+      table.string('imagem').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
