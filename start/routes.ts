@@ -74,3 +74,8 @@ Route.get('/consultorios', 'ConsultoriosController.index')
 Route.post('/consultorios', 'ConsultoriosController.store')
 Route.put('/consultorios/:id', 'ConsultoriosController.update')
 Route.delete('/consultorios/:id', 'ConsultoriosController.destroy')
+
+Route.get('/usuarios', 'UsuariosController.index')
+Route.post('/usuarios', 'UsuariosController.store')
+Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.delete('/usuarios/:id', 'UsuariosController.destroy')
