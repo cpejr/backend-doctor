@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import Endereco from './Endereco'
 import Consultorio from './Consultorio'
-import { BaseModel, column, belongsTo, BelongsTo} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany} from '@ioc:Adonis/Lucid/Orm'
+import Receita from './Receita'
 
 export default class Usuario extends BaseModel {
   @column({ isPrimary: true })
@@ -55,4 +56,9 @@ export default class Usuario extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public data_atualizacao: DateTime
+
+  @hasMany(() => Receita, {
+    foreignKey: 'id_usuario'
+  })
+  public receita: HasMany<typeof Receita>
 }
