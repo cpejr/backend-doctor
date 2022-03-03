@@ -114,3 +114,8 @@ Route.get('/mensagems', 'MensagemsController.index')
 Route.post('/mensagems', 'MensagemsController.store')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
+
+Route.get('/exame_marcados', 'ExamesMarcadosController.index')
+Route.post('/exame_marcados', 'ExamesMarcadosController.store')
+Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
+Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
