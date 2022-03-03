@@ -3,6 +3,8 @@ import EnderecosRepository from 'App/Repositories/EnderecosRepository'
 import EnderecosDTO from 'App/DTO/EnderecosDTO'
 import Endereco from 'App/Models/Endereco'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import EnderecoValidator from 'App/Validators/EnderecoValidator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class EnderecosController {
   public async index({ request }: HttpContextContract) {
@@ -22,14 +24,17 @@ export default class EnderecosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const cep = request.input('cep')
-    const pais = request.input('pais')
-    const estado = request.input('estado')
-    const cidade = request.input('cidade')
-    const bairro = request.input('bairro')
-    const rua = request.input('rua')
-    const numero = request.input('numero')
-    const complemento = request.input('complemento')
+
+    const validateData = await request.validate(EnderecoValidator)
+
+    const cep = validateData.cep
+    const pais = validateData.pais
+    const estado = validateData.estado
+    const cidade = validateData.cidade
+    const bairro = validateData.bairro
+    const rua = validateData.rua
+    const numero = validateData.numero
+    const complemento = validateData.complemento
 
     const endereco = await Endereco.create({
       cep,
