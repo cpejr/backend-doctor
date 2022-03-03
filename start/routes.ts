@@ -114,3 +114,8 @@ Route.get('/mensagems', 'MensagemsController.index')
 Route.post('/mensagems', 'MensagemsController.store')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
+
+Route.get('/consultas', 'ConsultasController.index')
+Route.post('/consultas', 'ConsultasController.store')
+Route.put('/consultas/:id', 'ConsultasController.update')
+Route.delete('/consultas/:id', 'ConsultasController.destroy')
