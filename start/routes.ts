@@ -126,3 +126,8 @@ Route.post('/consultas', 'ConsultasController.store')
 Route.put('/consultas/:id', 'ConsultasController.update')
 Route.delete('/consultas/:id', 'ConsultasController.destroy')
 
+Route.get('/amies', 'AmiesController.index')
+Route.post('/amies', 'AmiesController.store')
+Route.put('/amies/:id', 'AmiesController.update')
+Route.delete('/amies/:id', 'AmiesController.destroy')
+
