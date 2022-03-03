@@ -99,3 +99,8 @@ Route.get('/receitas', 'ReceitasController.index')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+
+Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
+Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')
+Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update')
+Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy')
