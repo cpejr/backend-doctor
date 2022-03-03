@@ -6,8 +6,7 @@ export default class Consultas extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.time('horario').notNullable()
-      table.date('data').notNullable()
+      table.datetime('data_hora').notNullable()
       table.integer('duracao_em_minutos').notNullable()
       table.string('descricao').nullable()
       table.integer('avaliacao').notNullable()
