@@ -104,3 +104,9 @@ Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.
 Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')
 Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update')
 Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy')
+
+Route.get('/conversas', 'ConversasController.index')
+Route.post('/conversas', 'ConversasController.store')
+Route.put('/conversas/:id', 'ConversasController.update')
+Route.delete('/conversas/:id', 'ConversasController.destroy')
+
