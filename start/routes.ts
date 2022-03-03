@@ -115,7 +115,14 @@ Route.post('/mensagems', 'MensagemsController.store')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
+
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')
 Route.post('/formularios_pacientes', 'FormulariosPacientesController.store')
 Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
 Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destroy')
+
+Route.get('/consultas', 'ConsultasController.index')
+Route.post('/consultas', 'ConsultasController.store')
+Route.put('/consultas/:id', 'ConsultasController.update')
+Route.delete('/consultas/:id', 'ConsultasController.destroy')
+
