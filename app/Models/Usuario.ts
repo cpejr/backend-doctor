@@ -47,7 +47,7 @@ export default class Usuario extends BaseModel {
   public endereco: BelongsTo<typeof Endereco>
 
   @belongsTo(() => Consultorio, {
-    localKey: 'id_endereco'
+    localKey: 'id_consultorio'
   })
   public consultorio: BelongsTo<typeof Consultorio>
 

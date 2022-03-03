@@ -99,3 +99,18 @@ Route.get('/receitas', 'ReceitasController.index')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+
+Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
+Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')
+Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update')
+Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy')
+
+Route.get('/conversas', 'ConversasController.index')
+Route.post('/conversas', 'ConversasController.store')
+Route.put('/conversas/:id', 'ConversasController.update')
+Route.delete('/conversas/:id', 'ConversasController.destroy')
+
+Route.get('/mensagems', 'MensagemsController.index')
+Route.post('/mensagems', 'MensagemsController.store')
+Route.put('/mensagems/:id', 'MensagemsController.update')
+Route.delete('/mensagems/:id', 'MensagemsController.destroy')

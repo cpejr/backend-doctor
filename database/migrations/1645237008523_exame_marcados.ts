@@ -6,8 +6,7 @@ export default class ExameMarcados extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.time('horario').notNullable()
-      table.date('data').notNullable()
+      table.datetime('data_hora').notNullable()
       table.string('descricao').nullable()
       table.date('data_envio').notNullable()
       table.date('data_devolucao').notNullable()
