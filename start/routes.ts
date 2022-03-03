@@ -104,3 +104,8 @@ Route.get('/conversas', 'ConversasController.index')
 Route.post('/conversas', 'ConversasController.store')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.delete('/conversas/:id', 'ConversasController.destroy')
+
+Route.get('/mensagems', 'MensagemsController.index')
+Route.post('/mensagems', 'MensagemsController.store')
+Route.put('/mensagems/:id', 'MensagemsController.update')
+Route.delete('/mensagems/:id', 'MensagemsController.destroy')

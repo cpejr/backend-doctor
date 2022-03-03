@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Usuario from './Usuario'
+import Mensagem from './Mensagem'
 
 export default class Conversa extends BaseModel {
   @column({ isPrimary: true })
@@ -28,4 +29,8 @@ export default class Conversa extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public data_atualizacao: DateTime
 
+  @hasMany(() => Mensagem, {
+    foreignKey: 'id_conversa'
+  })
+  public mensagem: HasMany<typeof Mensagem>
 }
