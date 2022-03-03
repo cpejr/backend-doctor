@@ -99,3 +99,8 @@ Route.get('/receitas', 'ReceitasController.index')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+
+Route.get('/conversas', 'ConversasController.index')
+Route.post('/conversas', 'ConversasController.store')
+Route.put('/conversas/:id', 'ConversasController.update')
+Route.delete('/conversas/:id', 'ConversasController.destroy')
