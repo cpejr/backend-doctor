@@ -3,9 +3,10 @@ import Assinatura from 'App/Models/Assinatura'
 import AssinaturasDTO from 'App/DTO/AssinaturasDTO'
 import AssinaturasRepository from 'App/Repositories/AssinaturasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import AssinaturaValidator from 'App/Validators/AssinaturaValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
-
+import {
+  AssinaturaValidatorStore,
+  AssinaturaValidatorUpdate,
+} from 'App/Validators/AssinaturaValidator'
 export default class AssinaturasController {
   public async index({ request }: HttpContextContract) {
     const assinaturaData = {
@@ -17,7 +18,7 @@ export default class AssinaturasController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(AssinaturaValidator)
+    const validateData = await request.validate(AssinaturaValidatorStore)
 
     const doc_assinatura = validateData.doc_assinatura
 
@@ -31,31 +32,22 @@ export default class AssinaturasController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      doc_assinatura: schema.string.optional({ trim: true }),
-    })
+    const validateData = await request.validate(AssinaturaValidatorUpdate)
 
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      },
-    })
+    const assinatura = await Assinatura.findOrFail(id)
+    assinatura.merge(limpaCamposNulosDeObjeto(validateData))
+    await assinatura.save()
 
-    const assiantura = await Assinatura.findOrFail(id)
-    assiantura.merge(limpaCamposNulosDeObjeto(validateData))
-    await assiantura.save()
-
-    return assiantura
+    return assinatura
   }
 
   public async destroy({ request }: HttpContextContract) {
     const id = request.param('id')
     if (!id) return
 
-    const assiantura = await Assinatura.findOrFail(id)
-    await assiantura.delete()
+    const assinatura = await Assinatura.findOrFail(id)
+    await assinatura.delete()
 
-    return assiantura
+    return assinatura
   }
 }
