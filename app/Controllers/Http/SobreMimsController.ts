@@ -3,6 +3,8 @@ import SobreMim from 'App/Models/SobreMim'
 import SobreMimsDTO from 'App/DTO/SobreMimsDTO'
 import SobreMimsRepository from 'App/Repositories/SobreMimsRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import { schema } from '@ioc:Adonis/Core/Validator'
+import SobreMimValidator from 'App/Validators/SobreMimValidator'
 
 export default class SobreMimsController {
   public async index({ request }: HttpContextContract) {
@@ -20,12 +22,14 @@ export default class SobreMimsController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const imagem_um = request.input('imagem_um')
-    const titulo_um = request.input('titulo_um')
-    const texto_um = request.input('texto_um')
-    const imagem_dois = request.input('imagem_dois')
-    const titulo_dois = request.input('titulo_dois')
-    const texto_dois = request.input('texto_dois')
+    const validateData = await request.validate(SobreMimValidator)
+
+    const imagem_um = validateData.imagem_um
+    const titulo_um = validateData.titulo_um
+    const texto_um = validateData.texto_um
+    const imagem_dois = validateData.imagem_dois
+    const titulo_dois = validateData.titulo_dois
+    const texto_dois = validateData.texto_dois
 
     const SobreMims = await SobreMim.create({
       imagem_um,
@@ -42,18 +46,24 @@ export default class SobreMimsController {
     const id = request.param('id')
     if (!id) return
 
-    const sobreMimData = {
-      id,
-      imagem_um: request.input('imagem_um'),
-      titulo_um: request.input('titulo_um'),
-      texto_um: request.input('texto_um'),
-      imagem_dois: request.input('imagem_dois'),
-      titulo_dois: request.input('titulo_dois'),
-      texto_dois: request.input('texto_dois'),
-    } as SobreMimsDTO
+    const validatorSchema = schema.create({
+      imagem_um: schema.string.optional({ trim: true }),
+      titulo_um: schema.string.optional({ trim: true }),
+      texto_um: schema.string.optional({ trim: true }),
+      imagem_dois: schema.string.optional({ trim: true }),
+      titulo_dois: schema.string.optional({ trim: true }),
+      texto_dois: schema.string.optional({ trim: true }),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        string: 'O campo {{field}} deve ser uma string',
+      },
+    })
 
     const SobreMims = await SobreMim.findOrFail(id)
-    SobreMims.merge(limpaCamposNulosDeObjeto(sobreMimData))
+    SobreMims.merge(limpaCamposNulosDeObjeto(validateData))
     await SobreMims.save()
 
     return SobreMims
