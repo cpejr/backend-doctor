@@ -62,8 +62,7 @@ export default class FormulariosController {
       messages: {
         'urgencia.range': 'Insira estrelas de 1 a 3',
         string: 'O campo {{field}} deve ser uma string',
-        number: 'O campo {{field}} deve ser um inteiro',
-        enum: '{{ field }} deve ser {{ options.choices }}',
+        number: 'O campo {{field}} deve ser um inteiro'       
       },
     })
 
