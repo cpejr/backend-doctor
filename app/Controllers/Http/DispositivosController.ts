@@ -3,6 +3,8 @@ import DispositivosRepository from 'App/Repositories/Dispositivos.Repository'
 import DispositivosDTO from 'App/DTO/Dispositivos.DTO'
 import Dispositivo from 'App/Models/Dispositivo'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import DispositivoValidator from 'App/Validators/DispositivoValidator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class DispositivosController {
   public async index({ request }: HttpContextContract) {
@@ -11,13 +13,17 @@ export default class DispositivosController {
       titulo: request.param('titulo'),
       esta_disponivel: request.param('esta_disponivel'),
     } as DispositivosDTO
-    const dispositivos = await DispositivosRepository.find(limpaCamposNulosDeObjeto(dispositivoData))
+    const dispositivos = await DispositivosRepository.find(
+      limpaCamposNulosDeObjeto(dispositivoData)
+    )
     return dispositivos
   }
 
   public async store({ request }: HttpContextContract) {
-    const titulo = request.input('titulo')
-    const esta_disponivel = request.input('esta_disponivel')
+    const validateData = await request.validate(DispositivoValidator)
+
+    const titulo = validateData.titulo
+    const esta_disponivel = validateData.esta_disponivel
 
     const dispositivo = await Dispositivo.create({
       titulo,
@@ -30,14 +36,21 @@ export default class DispositivosController {
     const id = request.param('id')
     if (!id) return
 
-    const dispositivoData = {
-      id,
-      titulo: request.input('titulo'),
-      esta_disponivel: request.input('esta_disponivel'),
-    } as DispositivosDTO
+    const validatorSchema = schema.create({
+      titulo: schema.string.optional({ trim: true }),
+      esta_disponivel: schema.boolean.optional(),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        string: 'O campo {{field}} deve ser uma string',
+        boolean: 'O campo {{field}} deve ser uma boleano',
+      },
+    })
 
     const dispositivo = await Dispositivo.findOrFail(id)
-    dispositivo.merge(limpaCamposNulosDeObjeto(dispositivoData))
+    dispositivo.merge(limpaCamposNulosDeObjeto(validateData))
     await dispositivo.save()
 
     return dispositivo

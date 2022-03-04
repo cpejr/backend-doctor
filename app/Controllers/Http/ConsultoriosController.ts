@@ -4,7 +4,7 @@ import ConsultoriosDTO from 'App/DTO/ConsultoriosDTO'
 import ConsultoriosRepository from 'App/Repositories/ConsultoriosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import ConsultorioValidator from 'App/Validators/ConsultorioValidator'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class ConsultoriosController {
   public async index({ request }: HttpContextContract) {
