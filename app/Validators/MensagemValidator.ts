@@ -1,17 +1,23 @@
 import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class DispositivoValidator {
+export default class MensagemValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    titulo: schema.string({ trim: true }),
-    esta_disponivel: schema.boolean(),
+    mensagem: schema.string({ trim: true }),
+    data_envio: schema.date({
+      format: 'dd/MM/yyyy HH:mm:ss'
+    }),
+    media_url: schema.string({ trim: true }),
+    foi_enviado: schema.boolean(),
+    foi_visualizado: schema.boolean(),
   })
 
   public messages = {
     required: 'Digite um {{field}}',
     string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser uma boleano',
+    date: 'A data_envio deve ser do formato dd/MM/yyyy HH:mm:ss',
   }
 }

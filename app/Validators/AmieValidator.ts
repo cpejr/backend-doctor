@@ -1,11 +1,15 @@
 import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class ComentarioValidator {
+export default class AmieValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    comentario: schema.string({ trim: true }),
+    imagem_um: schema.string({ trim: true }),
+
+    texto: schema.string({ trim: true }),
+
+    imagem_dois: schema.string({ trim: true }),
   })
 
   public messages = {
