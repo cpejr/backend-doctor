@@ -3,6 +3,8 @@ import ReceitasDTO from 'App/DTO/ReceitasDTO'
 import Receita from 'App/Models/Receita'
 import ReceitasRepository from 'App/Repositories/ReceitasRepostory'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import ReceitaValidator from 'App/Validators/ReceitaValidator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class ReceitasController {
   public async index({ request }: HttpContextContract) {
@@ -17,14 +19,16 @@ export default class ReceitasController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const titulo = request.input('titulo')
-    const descricao = request.input('descricao')
+    const validateData = await request.validate(ReceitaValidator)
+
+    const titulo = validateData.titulo
+    const descricao = validateData.descricao
     const id_usuario = request.input('id_usuario')
 
     const receita = await Receita.create({
       titulo,
       descricao,
-      id_usuario
+      id_usuario,
     })
     return receita
   }
@@ -33,15 +37,25 @@ export default class ReceitasController {
     const id = request.param('id')
     if (!id) return
 
-    const receitaData = {
-      id,
-      titulo: request.input('titulo'),
-      descricao: request.input('descricao'),
-      id_usuario: request.input('id_usuario'),
-    } as ReceitasDTO
+    const validatorSchema = schema.create({
+      titulo: schema.string.optional({
+        trim: true,
+      }),
+      descricao: schema.string.optional({
+        trim: true,
+      }),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        required: 'Digite um(a) {{field}}',
+        string: 'O campo {{field}} deve ser uma string',
+      },
+    })
 
     const receita = await Receita.findOrFail(id)
-    receita.merge(limpaCamposNulosDeObjeto(receitaData))
+    receita.merge(limpaCamposNulosDeObjeto(validateData))
     await receita.save()
 
     return receita
