@@ -13,7 +13,7 @@ export default class UsuarioValidator {
       rules.minLength(11),
       rules.maxLength(11),
     ]),
-    data_nascimento: schema.date(),
+    data_nascimento: schema.date({ format: "dd/MM/yyyy" }),
     convenio: schema.string.optional({ trim: true }),
     tipo: schema.enum(['MASTER', 'SECRETARIA', 'PACIENTE']),
     aprovado: schema.boolean.optional(),
@@ -28,6 +28,7 @@ export default class UsuarioValidator {
     string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser um boleano',
     enum: 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
-    email: 'Insira um email valido'
+    email: 'Insira um email valido',
+    'date.format': 'Insira uma data no formato dd/MM/yyyy'
   }
 }

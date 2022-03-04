@@ -32,7 +32,7 @@ export default class UsuariosController {
     const nome = validateData.nome
     const email = validateData.email
     const telefone = validateData.telefone
-    const data_nascimento = request.input('data_nascimento')
+    const data_nascimento = new Date(validateData.data_nascimento.toISODate())
     const convenio = validateData.convenio
     const tipo = validateData.tipo
     const aprovado = validateData.aprovado
