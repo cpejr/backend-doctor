@@ -3,6 +3,8 @@ import Assinatura from 'App/Models/Assinatura'
 import AssinaturasDTO from 'App/DTO/AssinaturasDTO'
 import AssinaturasRepository from 'App/Repositories/AssinaturasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import AssinaturaValidator from 'App/Validators/AssinaturaValidator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class AssinaturasController {
   public async index({ request }: HttpContextContract) {
@@ -15,7 +17,9 @@ export default class AssinaturasController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const doc_assinatura = request.input('doc_assinatura')
+    const validateData = await request.validate(AssinaturaValidator)
+
+    const doc_assinatura = validateData.doc_assinatura
 
     const assinatura = await Assinatura.create({
       doc_assinatura,
@@ -27,13 +31,19 @@ export default class AssinaturasController {
     const id = request.param('id')
     if (!id) return
 
-    const assinaturaData = {
-      id,
-      doc_assinatura: request.input('doc_assinatura'),
-    } as AssinaturasDTO
+    const validatorSchema = schema.create({
+      doc_assinatura: schema.string.optional({ trim: true }),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        string: 'O campo {{field}} deve ser uma string',
+      },
+    })
 
     const assiantura = await Assinatura.findOrFail(id)
-    assiantura.merge(limpaCamposNulosDeObjeto(assinaturaData))
+    assiantura.merge(limpaCamposNulosDeObjeto(validateData))
     await assiantura.save()
 
     return assiantura
