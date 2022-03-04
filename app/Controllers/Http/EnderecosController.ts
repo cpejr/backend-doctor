@@ -4,7 +4,7 @@ import EnderecosDTO from 'App/DTO/EnderecosDTO'
 import Endereco from 'App/Models/Endereco'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import EnderecoValidator from 'App/Validators/EnderecoValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class EnderecosController {
   public async index({ request }: HttpContextContract) {
@@ -24,7 +24,6 @@ export default class EnderecosController {
   }
 
   public async store({ request }: HttpContextContract) {
-
     const validateData = await request.validate(EnderecoValidator)
 
     const cep = validateData.cep
@@ -53,20 +52,29 @@ export default class EnderecosController {
     const id = request.param('id')
     if (!id) return
 
-    const enderecoData = {
-      id,
-      cep: request.input('cep'),
-      pais: request.input('pais'),
-      estado: request.input('estado'),
-      cidade: request.input('cidade'),
-      bairro: request.input('bairro'),
-      rua: request.input('rua'),
-      numero: request.input('numero'),
-      complemento: request.input('complemento'),
-    } as EnderecosDTO
+    const validatorSchema = schema.create({
+      cep: schema.string.optional({ trim: true }, [rules.minLength(8), rules.maxLength(8)]),
+      pais: schema.string.optional({ trim: true }),
+      estado: schema.string.optional({ trim: true }, [rules.minLength(2), rules.maxLength(2)]),
+      cidade: schema.string.optional({ trim: true }),
+      bairro: schema.string.optional({ trim: true }),
+      rua: schema.string.optional({ trim: true }),
+      numero: schema.number.optional(),
+      complemento: schema.string.optional({ trim: true }),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        minLength: 'Insira {{options.minLength}} digitos em {{field}}',
+        maxLength: 'Insira {{options.maxLength}} digitos em {{field}}',
+        string: 'O campo {{field}} deve ser uma string',
+        number: 'O campo {{field}} deve ser um inteiro',
+      },
+    })
 
     const endereco = await Endereco.findOrFail(id)
-    endereco.merge(limpaCamposNulosDeObjeto(enderecoData))
+    endereco.merge(limpaCamposNulosDeObjeto(validateData))
     await endereco.save()
 
     return endereco
