@@ -3,7 +3,8 @@ import IndicacoesEspecificasDTO from 'App/DTO/IndicacoesEspecificasDTO'
 import IndicacoesEspecificasRepository from 'App/Repositories/IndicacoesEspecificasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import IndicacaoEspecifica from 'App/Models/IndicacaoEspecifica'
-
+import IndicacaoEspecificaValidator from 'App/Validators/IndicacaoEspecificaValidator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class IndicacaoEspecificasController {
   public async index({ request }: HttpContextContract) {
@@ -12,13 +13,17 @@ export default class IndicacaoEspecificasController {
       titulo: request.param('titulo'),
       texto: request.param('texto'),
     } as IndicacoesEspecificasDTO
-    const indicacoesEspecificas = await IndicacoesEspecificasRepository.find(limpaCamposNulosDeObjeto(indicacaoEspecificaData))
+    const indicacoesEspecificas = await IndicacoesEspecificasRepository.find(
+      limpaCamposNulosDeObjeto(indicacaoEspecificaData)
+    )
     return indicacoesEspecificas
   }
 
   public async store({ request }: HttpContextContract) {
-    const titulo = request.input('titulo')
-    const texto = request.input('texto')
+    const validateData = await request.validate(IndicacaoEspecificaValidator)
+
+    const titulo = validateData.titulo
+    const texto = validateData.texto
 
     const indicacaoEspecifica = await IndicacaoEspecifica.create({
       titulo,
@@ -30,15 +35,19 @@ export default class IndicacaoEspecificasController {
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
     if (!id) return
+    const validatorSchema = schema.create({
+      titulo: schema.string.optional({ trim: true }),
+      texto: schema.string.optional({ trim: true }),
+    })
 
-    const indicacaoEspecificaData = {
-      id,
-      titulo: request.input('titulo'),
-      texto: request.input('texto')
-    } as IndicacoesEspecificasDTO
-
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        string: 'O campo {{field}} deve ser uma string',
+      },
+    })
     const indicacaoEspecifica = await IndicacaoEspecifica.findOrFail(id)
-    indicacaoEspecifica.merge(limpaCamposNulosDeObjeto(indicacaoEspecificaData))
+    indicacaoEspecifica.merge(limpaCamposNulosDeObjeto(validateData))
     await indicacaoEspecifica.save()
 
     return indicacaoEspecifica
