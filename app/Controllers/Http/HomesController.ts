@@ -3,7 +3,7 @@ import Home from 'App/Models/Home'
 import HomesDTO from 'App/DTO/HomesDTO'
 import HomesRepository from 'App/Repositories/HomesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 import HomeValidator from 'App/Validators/HomeValidator'
 
 export default class HomesController {
