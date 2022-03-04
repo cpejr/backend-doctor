@@ -5,7 +5,7 @@ export default class FormularioPacienteValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    respostas: schema.string({ trim: true }),
+    // respostas: schema.string.optional({ trim: true }),
     midia_url: schema.string.optional({ trim: true }),
     word: schema.string.optional({ trim: true }),
     status: schema.boolean(),
