@@ -3,6 +3,8 @@ import Home from 'App/Models/Home'
 import HomesDTO from 'App/DTO/HomesDTO'
 import HomesRepository from 'App/Repositories/HomesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import HomeValidator from 'App/Validators/HomeValidator'
 
 export default class HomesController {
   public async index({ request }: HttpContextContract) {
@@ -24,16 +26,18 @@ export default class HomesController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const video = request.input('video')
-    const titulo_um = request.input('titulo_um')
-    const texto_um = request.input('texto_um')
-    const titulo_dois = request.input('titulo_dois')
-    const texto_dois = request.input('texto_dois')
-    const titulo_tres = request.input('titulo_tres')
-    const texto_tres = request.input('texto_tres')
-    const titulo_quatro = request.input('titulo_quatro')
-    const texto_quatro = request.input('texto_quatro')
-    const imagem_quatro = request.input('titulo_quatro')
+    const validateData = await request.validate(HomeValidator)
+
+    const video = validateData.video
+    const titulo_um = validateData.titulo_um
+    const texto_um = validateData.texto_um
+    const titulo_dois = validateData.titulo_dois
+    const texto_dois = validateData.texto_dois
+    const titulo_tres = validateData.titulo_tres
+    const texto_tres = validateData.texto_tres
+    const titulo_quatro = validateData.titulo_quatro
+    const texto_quatro = validateData.texto_quatro
+    const imagem_quatro = validateData.imagem_quatro
 
     const home = await Home.create({
       video,
@@ -54,22 +58,28 @@ export default class HomesController {
     const id = request.param('id')
     if (!id) return
 
-    const homeData = {
-      id,
-      video: request.input('video'),
-      titulo_um: request.input('titulo_um'),
-      texto_um: request.input('texto_um'),
-      titulo_dois: request.input('titulo_dois'),
-      texto_dois: request.input('texto_dois'),
-      titulo_tres: request.input('titulo_tres'),
-      texto_tres: request.input('texto_tres'),
-      titulo_quatro: request.input('titulo_quatro'),
-      texto_quatro: request.input('texto_quatro'),
-      imagem_quatro: request.input('imagem_quatro'),
-    } as HomesDTO
+    const validatorSchema = schema.create({
+      video: schema.string.optional({ trim: true }),
+      titulo_um: schema.string.optional({ trim: true }),
+      texto_um: schema.string.optional({ trim: true }),
+      titulo_dois: schema.string.optional({ trim: true }),
+      texto_dois: schema.string.optional({ trim: true }),
+      titulo_tres: schema.string.optional({ trim: true }),
+      texto_tres: schema.string.optional({ trim: true }),
+      titulo_quatro: schema.string.optional({ trim: true }),
+      texto_quatro: schema.string.optional({ trim: true }),
+      imagem_quatro: schema.string.optional({ trim: true }),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        string: 'O campo {{field}} deve ser uma string',
+      },
+    })
 
     const home = await Home.findOrFail(id)
-    home.merge(limpaCamposNulosDeObjeto(homeData))
+    home.merge(limpaCamposNulosDeObjeto(validateData))
     await home.save()
 
     return home
