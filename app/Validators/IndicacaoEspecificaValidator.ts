@@ -10,6 +10,7 @@ export default class IndicacaoEspecificaValidator {
   })
 
   public messages = {
+    required: 'Digite um {{field}}',
     string: 'O campo {{field}} deve ser uma string',
   }
 }

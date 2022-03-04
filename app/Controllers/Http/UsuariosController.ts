@@ -82,6 +82,7 @@ export default class UsuariosController {
         string: 'O campo {{field}} deve ser uma string',
         boolean: 'O campo {{field}} deve ser um boleano',
         enum: 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
+        email: 'Insira um email valido'
       },
     })
 

@@ -14,11 +14,11 @@ export default class UsuarioValidator {
       rules.maxLength(11),
     ]),
     data_nascimento: schema.date(),
-    convenio: schema.string({ trim: true }),
+    convenio: schema.string.optional({ trim: true }),
     tipo: schema.enum(['MASTER', 'SECRETARIA', 'PACIENTE']),
-    aprovado: schema.boolean(),
-    avatar_url: schema.string({ trim: true }),
-    codigo: schema.string({ trim: true }),
+    aprovado: schema.boolean.optional(),
+    avatar_url: schema.string.optional({ trim: true }),
+    codigo: schema.string.optional({ trim: true }),
   })
 
   public messages = {
@@ -28,6 +28,6 @@ export default class UsuarioValidator {
     string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser um boleano',
     enum: 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
-    Date: 'O campo {{field}} deve ser uma data',
+    email: 'Insira um email valido'
   }
 }
