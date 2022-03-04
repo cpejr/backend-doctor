@@ -32,9 +32,9 @@ export default class ExameMarcadosController {
 
     const data_hora = validateData.data_hora
     const descricao = validateData.descricao
-    const data_envio = request.input('data_envio')
-    const data_devolucao = request.input('data_devolucao')
-    const data_pagamento = request.input('data_pagamento')
+    const data_envio = validateData.data_envio
+    const data_devolucao = validateData.data_devolucao
+    const data_pagamento = validateData.data_pagamento
     const esta_atrasado = validateData.esta_atrasado
     const esta_disponivel = validateData.esta_disponivel
     const id_usuario = request.input('id_usuario')
@@ -63,10 +63,19 @@ export default class ExameMarcadosController {
     if (!id) return
 
     const validatorSchema = schema.create({
-      data_hora: schema.date.optional({
+      data_hora: schema.date({
         format: 'dd/MM/yyyy HH:mm:ss'
       }),
       descricao: schema.string.optional({ trim: true }),
+      data_envio: schema.date.optional({
+        format: 'dd/MM/yyyy HH:mm:ss'
+      }),
+      data_devolucao: schema.date.optional({
+        format: 'dd/MM/yyyy HH:mm:ss'
+      }),
+      data_pagamento: schema.date.optional({
+        format: 'dd/MM/yyyy HH:mm:ss'
+      }),
       esta_atrasado: schema.boolean.optional(),
       esta_disponivel: schema.boolean.optional(),
     })

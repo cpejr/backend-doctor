@@ -9,8 +9,17 @@ export default class ExameMarcadoValidator {
       format: 'dd/MM/yyyy HH:mm:ss'
     }),
     descricao: schema.string.optional({ trim: true }),
-    esta_atrasado: schema.boolean(),
-    esta_disponivel: schema.boolean(),
+    data_envio: schema.date.optional({
+      format: 'dd/MM/yyyy HH:mm:ss'
+    }),
+    data_devolucao: schema.date.optional({
+      format: 'dd/MM/yyyy HH:mm:ss'
+    }),
+    data_pagamento: schema.date.optional({
+      format: 'dd/MM/yyyy HH:mm:ss'
+    }),
+    esta_atrasado: schema.boolean.optional(),
+    esta_disponivel: schema.boolean.optional(),
   })
 
   public messages = {
