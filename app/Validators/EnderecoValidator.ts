@@ -37,7 +37,7 @@ export default class EnderecoValidator {
     bairro: schema.string({ trim: true }),
     rua: schema.string({ trim: true }),
     numero: schema.number(),
-    complemento: schema.string.optional({ trim: true })
+    complemento: schema.string.optional({ trim: true }),
   })
 
   /**
