@@ -3,6 +3,7 @@ import Formulario from 'App/Models/Formulario'
 import FormulariosDTO from 'App/DTO/FormulariosDTO'
 import FormulariosRepository from 'App/Repositories/FormulariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import FormularioValidator from 'App/Validators/FormularioValidator'
 
 export default class FormulariosController {
   public async index({ request }: HttpContextContract) {
@@ -19,11 +20,13 @@ export default class FormulariosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const titulo = request.input('titulo')
-    const tipo = request.input('tipo')
-    const finalidade = request.input('finalidade')
+    const validateData = await request.validate(FormularioValidator)
+
+    const titulo = validateData.titulo
+    const tipo = validateData.tipo
+    const finalidade = validateData.finalidade
     const perguntas = request.input('perguntas')
-    const urgencia = request.input('urgencia')
+    const urgencia = validateData.urgencia
 
     const formulario = await Formulario.create({
       titulo,
