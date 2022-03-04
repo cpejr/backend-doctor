@@ -3,8 +3,7 @@ import Amie from 'App/Models/Amie'
 import AmiesDTO from 'App/DTO/AmiesDTO'
 import AmiesRepository from 'App/Repositories/AmiesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import AmieValidator from 'App/Validators/AmieValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { AmieValidatorStore, AmieValidatorUpdate } from 'App/Validators/AmieValidator'
 export default class AmiesController {
   public async index({ request }: HttpContextContract) {
     const amieData = {
@@ -18,7 +17,7 @@ export default class AmiesController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(AmieValidator)
+    const validateData = await request.validate(AmieValidatorStore)
 
     const imagem_um = validateData.imagem_um
     const texto = validateData.texto
@@ -36,17 +35,8 @@ export default class AmiesController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      imagem_um: schema.string.optional({ trim: true }),
-      texto: schema.string.optional({ trim: true }),
-      imagem_dois: schema.string.optional({ trim: true }),
-    })
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      },
-    })
+    const validateData = await request.validate(AmieValidatorUpdate)
+    
     const amie = await Amie.findOrFail(id)
     amie.merge(limpaCamposNulosDeObjeto(validateData))
     await amie.save()
