@@ -3,7 +3,8 @@ import Indicacao from 'App/Models/Indicacao'
 import IndicacaosRepository from 'App/Repositories/IndicacaosRepository'
 import IndicacaosDTO from 'App/DTO/IndicacaosDTO'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-
+import IndicacaoValidator from 'App/Validators/IndicacaoValidator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 export default class IndicacaosController {
   public async index({ request }: HttpContextContract) {
     const indicacaoData = {
@@ -15,7 +16,9 @@ export default class IndicacaosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const texto = request.input('texto')
+    const validateData = await request.validate(IndicacaoValidator)
+
+    const texto = validateData.texto
 
     const indicacao = await Indicacao.create({
       texto,
@@ -27,13 +30,18 @@ export default class IndicacaosController {
     const id = request.param('id')
     if (!id) return
 
-    const indicacaoData = {
-      id,
-      texto: request.input('texto'),
-    } as IndicacaosDTO
+    const validatorSchema = schema.create({
+      texto: schema.string.optional({ trim: true }),
+    })
 
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        string: 'O campo {{field}} deve ser uma string',
+      },
+    })
     const indicacao = await Indicacao.findOrFail(id)
-    indicacao.merge(limpaCamposNulosDeObjeto(indicacaoData))
+    indicacao.merge(limpaCamposNulosDeObjeto(validateData))
     await indicacao.save()
 
     return indicacao
