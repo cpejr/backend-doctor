@@ -4,6 +4,7 @@ import FormulariosDTO from 'App/DTO/FormulariosDTO'
 import FormulariosRepository from 'App/Repositories/FormulariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import FormularioValidator from 'App/Validators/FormularioValidator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class FormulariosController {
   public async index({ request }: HttpContextContract) {
@@ -42,17 +43,32 @@ export default class FormulariosController {
     const id = request.param('id')
     if (!id) return
 
-    const formularioData = {
-      id,
-      titulo: request.input('titulo'),
-      tipo: request.input('tipo'),
-      finalidade: request.input('finalidade'),
-      perguntas: request.input('perguntas'),
-      urgencia: request.input('urgencia'),
-    } as FormulariosDTO
+    const validatorSchema = schema.create({
+      titulo: schema.string.optional({
+        trim: true,
+      }),
+      tipo: schema.string.optional({
+        trim: true,
+      }),
+      finalidade: schema.string.optional({
+        trim: true,
+      }),
+      urgencia: schema.number.optional([
+        rules.range(1, 3)]),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        'urgencia.range': 'Insira estrelas de 1 a 3',
+        string: 'O campo {{field}} deve ser uma string',
+        number: 'O campo {{field}} deve ser um inteiro',
+        enum: '{{ field }} deve ser {{ options.choices }}',
+      },
+    })
 
     const formulario = await Formulario.findOrFail(id)
-    formulario.merge(limpaCamposNulosDeObjeto(formularioData))
+    formulario.merge(limpaCamposNulosDeObjeto(validateData))
     await formulario.save()
 
     return formulario
