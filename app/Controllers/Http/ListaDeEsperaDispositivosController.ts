@@ -3,6 +3,8 @@ import ListaDeEsperaDispositivosDTO from 'App/DTO/ListaDeEsperaDispositivosDTO'
 import ListaDeEsperaDispositivo from 'App/Models/ListaDeEsperaDispositivo'
 import ListaDeEsperaDispositivosRepository from 'App/Repositories/ListaDeEsperaDispositivosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import ListaDeEsperaDispositivoValidator from 'App/Validators/ListaDeEsperaDispositivoValidator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class ListaDeEsperaDispositivosController {
   public async index({ request }: HttpContextContract) {
@@ -18,8 +20,10 @@ export default class ListaDeEsperaDispositivosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const posicao = request.input('posicao')
-    const esta_disponivel = request.input('esta_disponivel')
+    const validateData = await request.validate(ListaDeEsperaDispositivoValidator)
+
+    const posicao = validateData.posicao
+    const esta_disponivel = validateData.esta_disponivel
     const id_usuario = request.input('id_usuario')
     const id_dispositivo = request.input('id_dispositivo')
 
@@ -36,16 +40,27 @@ export default class ListaDeEsperaDispositivosController {
     const id = request.param('id')
     if (!id) return
 
-    const listaDeEsperaDispositivoData = {
-      id,
-      posicao: request.input('posicao'),
-      esta_disponivel: request.input('esta_disponivel'),
-      id_usuario: request.input('id_usuario'),
-      id_dispositivo: request.input('id_dispositivo')
-    } as ListaDeEsperaDispositivosDTO
+    const validatorSchema = schema.create({
+      posicao: schema.number.optional([
+        rules.unique({
+          table:'lista_de_espera_dispositivos',
+          column:'posicao'
+        })
+      ]),
+      esta_disponivel: schema.boolean.optional(),
+    })
+
+    const validateData = await request.validate({
+      schema: validatorSchema,
+      messages: {
+        number: 'O campo {{field}} deve ser um inteiro',
+        boolean: 'O campo {{field}} deve ser uma boleano',
+        'posicao.unique': 'O valor de {{field}} deve ser único'
+      }
+    })
 
     const listaDeEsperaDispositivo = await ListaDeEsperaDispositivo.findOrFail(id)
-    listaDeEsperaDispositivo.merge(limpaCamposNulosDeObjeto(listaDeEsperaDispositivoData))
+    listaDeEsperaDispositivo.merge(limpaCamposNulosDeObjeto(validateData))
     await listaDeEsperaDispositivo.save()
 
     return listaDeEsperaDispositivo
