@@ -8,9 +8,6 @@ export default class ImagemCarrossels extends BaseSchema {
       table.increments('id').primary()
       table.string('imagem').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

@@ -9,9 +9,6 @@ export default class Exames extends BaseSchema {
       table.string('titulo').notNullable()
       table.text('texto', 'longtext').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

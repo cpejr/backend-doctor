@@ -15,9 +15,6 @@ export default class Enderecos extends BaseSchema {
       table.integer('numero').notNullable()
       table.string('complemento').nullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

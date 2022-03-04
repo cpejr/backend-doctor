@@ -8,9 +8,6 @@ export default class Assinaturas extends BaseSchema {
       table.increments('id').primary()
       table.string('doc_assinatura').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

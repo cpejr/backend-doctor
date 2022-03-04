@@ -10,9 +10,6 @@ export default class Amies extends BaseSchema {
       table.string('texto').notNullable()
       table.string('imagem_dois').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

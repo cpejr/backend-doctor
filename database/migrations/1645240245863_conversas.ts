@@ -9,9 +9,6 @@ export default class Conversas extends BaseSchema {
       table.integer('id_remetente').unsigned().references('id').inTable('usuarios')
       table.integer('id_destinatario').unsigned().references('id').inTable('usuarios')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

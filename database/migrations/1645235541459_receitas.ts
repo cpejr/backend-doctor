@@ -10,9 +10,6 @@ export default class Receitas extends BaseSchema {
       table.string('descricao').notNullable()
       table.integer('id_usuario').unsigned().references('id').inTable('usuarios')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

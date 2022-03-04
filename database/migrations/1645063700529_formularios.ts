@@ -12,9 +12,6 @@ export default class Formularios extends BaseSchema {
       table.json('perguntas').notNullable()
       table.integer('urgencia').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

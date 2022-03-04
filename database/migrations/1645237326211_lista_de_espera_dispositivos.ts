@@ -6,14 +6,11 @@ export default class ListaDeEsperaDispositivos extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('posicao').nullable()
+      table.integer('posicao').notNullable()
       table.boolean('esta_disponivel').notNullable()
       table.integer('id_usuario').unsigned().references('id').inTable('usuarios')
       table.integer('id_dispositivo').unsigned().references('id').inTable('dispositivos')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

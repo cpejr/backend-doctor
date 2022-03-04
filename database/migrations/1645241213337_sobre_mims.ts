@@ -13,9 +13,6 @@ export default class SobreMims extends BaseSchema {
       table.string('titulo_dois').notNullable()
       table.string('texto_dois').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

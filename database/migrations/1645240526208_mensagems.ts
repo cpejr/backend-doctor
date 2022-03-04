@@ -13,9 +13,6 @@ export default class Mensagems extends BaseSchema {
       table.boolean('foi_visualizado').notNullable()
       table.integer('id_conversa').unsigned().references('id').inTable('conversas')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

@@ -17,9 +17,6 @@ export default class Homes extends BaseSchema {
       table.string('texto_quatro').notNullable()
       table.string('imagem_quatro').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

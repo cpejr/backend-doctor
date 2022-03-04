@@ -9,9 +9,6 @@ export default class Consultorios extends BaseSchema {
       table.string('nome').notNullable()
       table.integer('id_endereco').unsigned().references('id').inTable('enderecos')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

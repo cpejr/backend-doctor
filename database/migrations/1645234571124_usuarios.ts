@@ -10,13 +10,13 @@ export default class Usuarios extends BaseSchema {
       table.string('email').notNullable()
       table.string('telefone', 11).notNullable()
       table.date('data_nascimento').notNullable()
-      table.string('convenio').notNullable()
+      table.string('convenio').nullable()
       table.enu('tipo', ['MASTER', 'SECRETARIA', 'PACIENTE']).notNullable()
-      table.boolean('aprovado').notNullable()
-      table.string('avatar_url').notNullable()
-      table.string('codigo').notNullable()
+      table.boolean('aprovado').nullable()
+      table.string('avatar_url').nullable()
+      table.string('codigo').nullable()
       table.integer('id_endereco').unsigned().references('id').inTable('enderecos')
-      table.integer('id_consultorio').unsigned().references('id').inTable('consultorios')
+      table.integer('id_consultorio').unsigned().references('id').inTable('consultorios').nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

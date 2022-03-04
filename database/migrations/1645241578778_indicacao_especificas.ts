@@ -9,9 +9,6 @@ export default class IndicacaoEspecificas extends BaseSchema {
       table.string('titulo').notNullable()
       table.string('texto').notNullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })
