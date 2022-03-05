@@ -3,8 +3,7 @@ import ListaDeEsperaDispositivosDTO from 'App/DTO/ListaDeEsperaDispositivosDTO'
 import ListaDeEsperaDispositivo from 'App/Models/ListaDeEsperaDispositivo'
 import ListaDeEsperaDispositivosRepository from 'App/Repositories/ListaDeEsperaDispositivosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import ListaDeEsperaDispositivoValidator from 'App/Validators/ListaDeEsperaDispositivoValidator'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { ListaDeEsperaDispositivoValidatorStore, ListaDeEsperaDispositivoValidatorUpdate } from 'App/Validators/ListaDeEsperaDispositivoValidator'
 
 export default class ListaDeEsperaDispositivosController {
   public async index({ request }: HttpContextContract) {
@@ -20,7 +19,7 @@ export default class ListaDeEsperaDispositivosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ListaDeEsperaDispositivoValidator)
+    const validateData = await request.validate(ListaDeEsperaDispositivoValidatorStore)
 
     const posicao = validateData.posicao
     const esta_disponivel = validateData.esta_disponivel
@@ -40,24 +39,7 @@ export default class ListaDeEsperaDispositivosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      posicao: schema.number.optional([
-        rules.unique({
-          table:'lista_de_espera_dispositivos',
-          column:'posicao'
-        })
-      ]),
-      esta_disponivel: schema.boolean.optional(),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        number: 'O campo {{field}} deve ser um inteiro',
-        boolean: 'O campo {{field}} deve ser uma boleano',
-        'posicao.unique': 'O valor de {{field}} deve ser único'
-      }
-    })
+    const validateData = await request.validate(ListaDeEsperaDispositivoValidatorUpdate)
 
     const listaDeEsperaDispositivo = await ListaDeEsperaDispositivo.findOrFail(id)
     listaDeEsperaDispositivo.merge(limpaCamposNulosDeObjeto(validateData))
