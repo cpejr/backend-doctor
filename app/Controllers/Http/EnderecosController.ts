@@ -3,7 +3,7 @@ import EnderecosRepository from 'App/Repositories/EnderecosRepository'
 import EnderecosDTO from 'App/DTO/EnderecosDTO'
 import Endereco from 'App/Models/Endereco'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import EnderecoValidator from 'App/Validators/EnderecoValidator'
+import { EnderecoValidatorStore, EnderecoValidatorUpdate } from 'App/Validators/EnderecoValidator'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class EnderecosController {
@@ -24,7 +24,7 @@ export default class EnderecosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(EnderecoValidator)
+    const validateData = await request.validate(EnderecoValidatorStore)
 
     const cep = validateData.cep
     const pais = validateData.pais
@@ -52,26 +52,7 @@ export default class EnderecosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      cep: schema.string.optional({ trim: true }, [rules.minLength(8), rules.maxLength(8)]),
-      pais: schema.string.optional({ trim: true }),
-      estado: schema.string.optional({ trim: true }, [rules.minLength(2), rules.maxLength(2)]),
-      cidade: schema.string.optional({ trim: true }),
-      bairro: schema.string.optional({ trim: true }),
-      rua: schema.string.optional({ trim: true }),
-      numero: schema.number.optional(),
-      complemento: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        minLength: 'Insira {{options.minLength}} digitos em {{field}}',
-        maxLength: 'Insira {{options.maxLength}} digitos em {{field}}',
-        string: 'O campo {{field}} deve ser uma string',
-        number: 'O campo {{field}} deve ser um inteiro',
-      },
-    })
+    const validateData = await request.validate(EnderecoValidatorUpdate)
 
     const endereco = await Endereco.findOrFail(id)
     endereco.merge(limpaCamposNulosDeObjeto(validateData))
