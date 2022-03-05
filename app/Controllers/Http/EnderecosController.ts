@@ -4,7 +4,7 @@ import EnderecosDTO from 'App/DTO/EnderecosDTO'
 import Endereco from 'App/Models/Endereco'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { EnderecoValidatorStore, EnderecoValidatorUpdate } from 'App/Validators/EnderecoValidator'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+
 
 export default class EnderecosController {
   public async index({ request }: HttpContextContract) {
