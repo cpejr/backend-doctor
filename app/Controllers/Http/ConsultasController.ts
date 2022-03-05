@@ -3,8 +3,7 @@ import Consulta from 'App/Models/Consulta'
 import ConsultasDTO from 'App/DTO/ConsultasDTO'
 import ConsultasRepository from 'App/Repositories/ConsultasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import ConsultaValidator from 'App/Validators/ConsultaValidator'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { ConsultaValidatorStore, ConsultaValidatorUpdate } from 'App/Validators/ConsultaValidator'
 export default class ConsultasController {
   public async index({ request }: HttpContextContract) {
     const consultaData = {
@@ -21,7 +20,7 @@ export default class ConsultasController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ConsultaValidator)
+    const validateData = await request.validate(ConsultaValidatorStore)
 
     const data_hora = validateData.data_hora
     const duracao_em_minutos = validateData.duracao_em_minutos
@@ -45,26 +44,7 @@ export default class ConsultasController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      data_hora: schema.date.optional({
-        format: 'dd/MM/yyyy HH:mm:ss'
-      }),
-      duracao_em_minutos: schema.number.optional([rules.unsigned()]),
-      descricao: schema.string.optional({ trim: true }),
-      avaliacao: schema.number.optional([rules.range(0, 4)]),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        required: 'Digite um {{field}}',
-        'avaliacao.range': 'Insira valores entre 1 e 3 em avaliacao',
-        string: 'O campo {{field}} deve ser uma string',
-        number: 'O campo {{field}} deve ser um inteiro',
-        'date.format': 'A data_hora deve ser do formato dd/MM/yyyy HH:mm:ss',
-        unsigned: 'A duracao_em_minutos deve ser um numero positivo'
-      },
-    })
+    const validateData = await request.validate(ConsultaValidatorUpdate)
 
     const consulta = await Consulta.findOrFail(id)
     consulta.merge(limpaCamposNulosDeObjeto(validateData))
