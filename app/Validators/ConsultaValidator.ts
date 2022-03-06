@@ -11,7 +11,7 @@ export default class ConsultaValidator {
     duracao_em_minutos: schema.number([
       rules.unsigned()]),
     descricao: schema.string.optional({ trim: true }),
-    avaliacao: schema.number([rules.range(1, 3),]),
+    avaliacao: schema.number.optional([rules.range(1, 3),]),
   })
 
   public messages = {
