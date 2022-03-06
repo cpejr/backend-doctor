@@ -6,7 +6,7 @@ import Consultorio from './Consultorio'
 import Dispositivo from './Dispositivo'
 
 export default class ExameMarcado extends BaseModel {
-  public static table = 'exame_marcados' 
+  public static table = 'exame_marcados'
 
   @column({ isPrimary: true })
   public id: number
@@ -18,13 +18,13 @@ export default class ExameMarcado extends BaseModel {
   public descricao: string
 
   @column()
-  public data_envio: Date
+  public data_envio: DateTime
 
   @column()
-  public data_devolucao: Date
+  public data_devolucao: DateTime
 
   @column()
-  public data_pagamento: Date
+  public data_pagamento: DateTime
 
   @column()
   public esta_atrasado: boolean

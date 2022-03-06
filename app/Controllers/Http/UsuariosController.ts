@@ -3,8 +3,7 @@ import Usuario from 'App/Models/Usuario'
 import UsuariosDTO from 'App/DTO/UsuariosDTO'
 import UsuariosRepository from 'App/Repositories/UsuariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import UsuarioValidator from 'App/Validators/UsuarioValidator'
+import { UsuarioValidatorStore, UsuarioValidatorUpdate } from 'App/Validators/UsuarioValidator'
 
 export default class UsuariosController {
   public async index({ request }: HttpContextContract) {
@@ -27,12 +26,12 @@ export default class UsuariosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(UsuarioValidator)
+    const validateData = await request.validate(UsuarioValidatorStore)
 
     const nome = validateData.nome
     const email = validateData.email
     const telefone = validateData.telefone
-    const data_nascimento = request.input('data_nascimento')
+    const data_nascimento = new Date(validateData.data_nascimento.toISODate())
     const convenio = validateData.convenio
     const tipo = validateData.tipo
     const aprovado = validateData.aprovado
@@ -61,29 +60,7 @@ export default class UsuariosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      nome: schema.string.optional({ trim: true }),
-      email: schema.string.optional({ trim: true }, [rules.email()]),
-      telefone: schema.string.optional({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
-      data_nascimento: schema.date.optional(),
-      convenio: schema.string.optional({ trim: true }),
-      tipo: schema.enum.optional(['MASTER', 'SECRETARIA', 'PACIENTE']),
-      aprovado: schema.boolean.optional(),
-      avatar_url: schema.string.optional({ trim: true }),
-      codigo: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        required: 'Digite um {{field}}',
-        minLength: 'Insira {{options.minLength}} digitos em {{field}}',
-        maxLength: 'Insira {{options.maxLength}} digitos em {{field}}',
-        string: 'O campo {{field}} deve ser uma string',
-        boolean: 'O campo {{field}} deve ser um boleano',
-        enum: 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
-      },
-    })
+    const validateData = await request.validate(UsuarioValidatorUpdate)
 
     const usuario = await Usuario.findOrFail(id)
     usuario.merge(limpaCamposNulosDeObjeto(validateData))

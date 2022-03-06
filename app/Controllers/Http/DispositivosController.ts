@@ -3,8 +3,7 @@ import DispositivosRepository from 'App/Repositories/Dispositivos.Repository'
 import DispositivosDTO from 'App/DTO/Dispositivos.DTO'
 import Dispositivo from 'App/Models/Dispositivo'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import DispositivoValidator from 'App/Validators/DispositivoValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { DispositivoValidatorStore, DispositivoValidatorUpdate } from 'App/Validators/DispositivoValidator'
 
 export default class DispositivosController {
   public async index({ request }: HttpContextContract) {
@@ -20,7 +19,7 @@ export default class DispositivosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(DispositivoValidator)
+    const validateData = await request.validate(DispositivoValidatorStore)
 
     const titulo = validateData.titulo
     const esta_disponivel = validateData.esta_disponivel
@@ -36,18 +35,7 @@ export default class DispositivosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      titulo: schema.string.optional({ trim: true }),
-      esta_disponivel: schema.boolean.optional(),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-        boolean: 'O campo {{field}} deve ser uma boleano',
-      },
-    })
+    const validateData = await request.validate(DispositivoValidatorUpdate)
 
     const dispositivo = await Dispositivo.findOrFail(id)
     dispositivo.merge(limpaCamposNulosDeObjeto(validateData))

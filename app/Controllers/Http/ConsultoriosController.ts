@@ -3,9 +3,7 @@ import Consultorio from 'App/Models/Consultorio'
 import ConsultoriosDTO from 'App/DTO/ConsultoriosDTO'
 import ConsultoriosRepository from 'App/Repositories/ConsultoriosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import ConsultorioValidator from 'App/Validators/ConsultorioValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
-
+import { ConsultorioValidatorStore, ConsultorioValidatorUpdate } from 'App/Validators/ConsultorioValidator'
 export default class ConsultoriosController {
   public async index({ request }: HttpContextContract) {
     const consultorioData = {
@@ -18,7 +16,7 @@ export default class ConsultoriosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ConsultorioValidator)
+    const validateData = await request.validate(ConsultorioValidatorStore)
 
     const nome = validateData.nome
     const id_endereco = request.input('id_endereco')
@@ -34,16 +32,7 @@ export default class ConsultoriosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      nome: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      }
-    })
+    const validateData = await request.validate(ConsultorioValidatorUpdate)
 
     const consultorio = await Consultorio.findOrFail(id)
     consultorio.merge(limpaCamposNulosDeObjeto(validateData))

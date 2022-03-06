@@ -3,8 +3,7 @@ import ExamesMarcadosDTO from 'App/DTO/ExamesMarcadosDTO'
 import ExameMarcado from 'App/Models/ExameMarcado'
 import ExamesMarcadosRepository from 'App/Repositories/ExamesMarcadosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema } from '@ioc:Adonis/Core/Validator'
-import ExameMarcadoValidator from 'App/Validators/ExameMarcadoValidator'
+import { ExameMarcadoValidatorStore, ExameMarcadoValidatorUpdate} from 'App/Validators/ExameMarcadoValidator'
 export default class ExameMarcadosController {
   public async index({ request }: HttpContextContract) {
     const exameMarcadoData = {
@@ -28,13 +27,13 @@ export default class ExameMarcadosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ExameMarcadoValidator)
+    const validateData = await request.validate(ExameMarcadoValidatorStore)
 
     const data_hora = validateData.data_hora
     const descricao = validateData.descricao
-    const data_envio = request.input('data_envio')
-    const data_devolucao = request.input('data_devolucao')
-    const data_pagamento = request.input('data_pagamento')
+    const data_envio = validateData.data_envio
+    const data_devolucao = validateData.data_devolucao
+    const data_pagamento = validateData.data_pagamento
     const esta_atrasado = validateData.esta_atrasado
     const esta_disponivel = validateData.esta_disponivel
     const id_usuario = request.input('id_usuario')
@@ -62,23 +61,7 @@ export default class ExameMarcadosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      data_hora: schema.date.optional({
-        format: 'dd/MM/yyyy HH:mm:ss'
-      }),
-      descricao: schema.string.optional({ trim: true }),
-      esta_atrasado: schema.boolean.optional(),
-      esta_disponivel: schema.boolean.optional(),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-        boolean: 'O campo {{field}} deve ser uma boleano',
-        date: 'A data_hora deve ser do formato dd/MM/yyyy HH:mm:ss',
-      },
-    })
+    const validateData = await request.validate(ExameMarcadoValidatorUpdate)
 
     const exameMarcado = await ExameMarcado.findOrFail(id)
     exameMarcado.merge(limpaCamposNulosDeObjeto(validateData))

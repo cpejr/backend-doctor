@@ -3,8 +3,7 @@ import Home from 'App/Models/Home'
 import HomesDTO from 'App/DTO/HomesDTO'
 import HomesRepository from 'App/Repositories/HomesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema } from '@ioc:Adonis/Core/Validator'
-import HomeValidator from 'App/Validators/HomeValidator'
+import { HomeValidatorStore, HomeValidatorUpdate } from 'App/Validators/HomeValidator'
 
 export default class HomesController {
   public async index({ request }: HttpContextContract) {
@@ -26,7 +25,7 @@ export default class HomesController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(HomeValidator)
+    const validateData = await request.validate(HomeValidatorStore)
 
     const video = validateData.video
     const titulo_um = validateData.titulo_um
@@ -58,25 +57,7 @@ export default class HomesController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      video: schema.string.optional({ trim: true }),
-      titulo_um: schema.string.optional({ trim: true }),
-      texto_um: schema.string.optional({ trim: true }),
-      titulo_dois: schema.string.optional({ trim: true }),
-      texto_dois: schema.string.optional({ trim: true }),
-      titulo_tres: schema.string.optional({ trim: true }),
-      texto_tres: schema.string.optional({ trim: true }),
-      titulo_quatro: schema.string.optional({ trim: true }),
-      texto_quatro: schema.string.optional({ trim: true }),
-      imagem_quatro: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      },
-    })
+    const validateData = await request.validate(HomeValidatorUpdate)
 
     const home = await Home.findOrFail(id)
     home.merge(limpaCamposNulosDeObjeto(validateData))

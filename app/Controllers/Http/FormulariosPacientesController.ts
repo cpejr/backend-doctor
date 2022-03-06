@@ -3,8 +3,10 @@ import FormularioPaciente from 'App/Models/FormularioPaciente'
 import FormulariosPacientesDTO from 'App/DTO/FormulariosPacientesDTO'
 import FormulariosPacientesRepository from 'App/Repositories/FormulariosPacientesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import FormularioPacienteValidator from 'App/Validators/FormularioPacienteValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
+import {
+  FormularioPacienteValidatorStore,
+  FormularioPacienteValidatorUpdate,
+} from 'App/Validators/FormularioPacienteValidator'
 export default class FormulariosPacientesController {
   public async index({ request }: HttpContextContract) {
     const formularioPacienteData = {
@@ -23,7 +25,7 @@ export default class FormulariosPacientesController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(FormularioPacienteValidator)
+    const validateData = await request.validate(FormularioPacienteValidatorStore)
 
     const respostas = request.input('respostas')
     const midia_url = validateData.midia_url
@@ -47,19 +49,7 @@ export default class FormulariosPacientesController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      midia_url: schema.string.optional({ trim: true }),
-      word: schema.string.optional({ trim: true }),
-      status: schema.boolean.optional(),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-        boolean: 'O campo {{field}} deve ser uma string',
-      },
-    })
+    const validateData = await request.validate(FormularioPacienteValidatorUpdate)
 
     const formularioPaciente = await FormularioPaciente.findOrFail(id)
     formularioPaciente.merge(limpaCamposNulosDeObjeto(validateData))

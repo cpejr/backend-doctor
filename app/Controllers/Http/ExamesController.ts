@@ -3,8 +3,7 @@ import Exame from 'App/Models/Exame'
 import ExamesRepository from 'App/Repositories/ExamesRepository'
 import ExamesDTO from 'App/DTO/ExamesDTO'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import ExameValidator from 'App/Validators/ExameValidator'
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { ExameValidatorStore, ExameValidatorUpdate } from 'App/Validators/ExameValidator'
 
 export default class ExamesController {
   public async index({ request }: HttpContextContract) {
@@ -18,7 +17,7 @@ export default class ExamesController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ExameValidator)
+    const validateData = await request.validate(ExameValidatorStore)
 
     const titulo = validateData.titulo
     const texto = validateData.texto
@@ -34,22 +33,7 @@ export default class ExamesController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      titulo: schema.string.optional({
-        trim: true,
-      }),
-      texto: schema.string.optional({
-        trim: true,
-      }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        required: 'Digite um {{field}}',
-        string: 'O campo {{field}} deve ser uma string'
-      }
-    })
+    const validateData = await request.validate(ExameValidatorUpdate)
 
     const exame = await Exame.findOrFail(id)
     exame.merge(limpaCamposNulosDeObjeto(validateData))
