@@ -4,7 +4,7 @@ import SobreMimsDTO from 'App/DTO/SobreMimsDTO'
 import SobreMimsRepository from 'App/Repositories/SobreMimsRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { schema } from '@ioc:Adonis/Core/Validator'
-import SobreMimValidator from 'App/Validators/SobreMimValidator'
+import { SobreMimValidatorStore, SobreMimValidatorUpdate } from 'App/Validators/SobreMimValidator'
 
 export default class SobreMimsController {
   public async index({ request }: HttpContextContract) {
@@ -22,7 +22,7 @@ export default class SobreMimsController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(SobreMimValidator)
+    const validateData = await request.validate(SobreMimValidatorStore)
 
     const imagem_um = validateData.imagem_um
     const titulo_um = validateData.titulo_um
@@ -46,21 +46,7 @@ export default class SobreMimsController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      imagem_um: schema.string.optional({ trim: true }),
-      titulo_um: schema.string.optional({ trim: true }),
-      texto_um: schema.string.optional({ trim: true }),
-      imagem_dois: schema.string.optional({ trim: true }),
-      titulo_dois: schema.string.optional({ trim: true }),
-      texto_dois: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      },
-    })
+    const validateData = await request.validate(SobreMimValidatorUpdate)
 
     const SobreMims = await SobreMim.findOrFail(id)
     SobreMims.merge(limpaCamposNulosDeObjeto(validateData))
