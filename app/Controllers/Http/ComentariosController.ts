@@ -4,7 +4,7 @@ import ComentariosDTO from 'App/DTO/ComentariosDTO'
 import ComentariosRepository from 'App/Repositories/ComentariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { schema } from '@ioc:Adonis/Core/Validator'
-import ComentarioValidator from 'App/Validators/ComentarioValidator'
+import { ComentarioValidatorStore, ComentarioValidatorUpdate } from 'App/Validators/ComentarioValidator'
 export default class ComentariosController {
   public async index({ request }: HttpContextContract) {
     const comentarioData = {
@@ -16,7 +16,7 @@ export default class ComentariosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ComentarioValidator)
+    const validateData = await request.validate(ComentarioValidatorStore)
 
     const comentario = validateData.comentario
 
@@ -30,16 +30,7 @@ export default class ComentariosController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      comentario: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      }
-    })
+    const validateData = await request.validate(ComentarioValidatorUpdate)
 
     const comentarios = await Comentario.findOrFail(id)
     comentarios.merge(limpaCamposNulosDeObjeto(validateData))
