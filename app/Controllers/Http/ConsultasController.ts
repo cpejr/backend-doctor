@@ -4,6 +4,7 @@ import ConsultasDTO from 'App/DTO/ConsultasDTO'
 import ConsultasRepository from 'App/Repositories/ConsultasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { ConsultaValidatorStore, ConsultaValidatorUpdate } from 'App/Validators/ConsultaValidator'
+
 export default class ConsultasController {
   public async index({ request }: HttpContextContract) {
     const consultaData = {

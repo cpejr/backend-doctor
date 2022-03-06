@@ -4,6 +4,7 @@ import ExameMarcado from 'App/Models/ExameMarcado'
 import ExamesMarcadosRepository from 'App/Repositories/ExamesMarcadosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { ExameMarcadoValidatorStore, ExameMarcadoValidatorUpdate} from 'App/Validators/ExameMarcadoValidator'
+
 export default class ExameMarcadosController {
   public async index({ request }: HttpContextContract) {
     const exameMarcadoData = {

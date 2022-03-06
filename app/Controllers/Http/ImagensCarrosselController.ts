@@ -3,8 +3,8 @@ import ImagemCarrossel from 'App/Models/ImagemCarrossel'
 import ImagensCarrosselRepository from 'App/Repositories/ImagensCarrosselReposiory'
 import ImagensCarrosselDTO from 'App/DTO/ImagensCarrossel'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema } from '@ioc:Adonis/Core/Validator'
 import { ImagemCarroselValidatorStore, ImagemCarroselValidatorUpdate } from 'App/Validators/ImagemCarrosselValidator'
+
 export default class ImagensCarrosselController {
   public async index({ request }: HttpContextContract) {
     const imagemCarrosselData = {

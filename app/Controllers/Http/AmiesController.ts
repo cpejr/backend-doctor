@@ -4,6 +4,7 @@ import AmiesDTO from 'App/DTO/AmiesDTO'
 import AmiesRepository from 'App/Repositories/AmiesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { AmieValidatorStore, AmieValidatorUpdate } from 'App/Validators/AmieValidator'
+
 export default class AmiesController {
   public async index({ request }: HttpContextContract) {
     const amieData = {

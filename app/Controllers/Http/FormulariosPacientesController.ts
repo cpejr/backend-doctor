@@ -7,6 +7,7 @@ import {
   FormularioPacienteValidatorStore,
   FormularioPacienteValidatorUpdate,
 } from 'App/Validators/FormularioPacienteValidator'
+
 export default class FormulariosPacientesController {
   public async index({ request }: HttpContextContract) {
     const formularioPacienteData = {

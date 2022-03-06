@@ -3,8 +3,8 @@ import Indicacao from 'App/Models/Indicacao'
 import IndicacaosRepository from 'App/Repositories/IndicacaosRepository'
 import IndicacaosDTO from 'App/DTO/IndicacaosDTO'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema } from '@ioc:Adonis/Core/Validator'
 import { IndicacaoValidatorStore, IndicacaoValidatorUpdate } from 'App/Validators/IndicacaoValidator'
+
 export default class IndicacaosController {
   public async index({ request }: HttpContextContract) {
     const indicacaoData = {

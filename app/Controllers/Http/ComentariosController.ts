@@ -3,8 +3,8 @@ import Comentario from 'App/Models/Comentario'
 import ComentariosDTO from 'App/DTO/ComentariosDTO'
 import ComentariosRepository from 'App/Repositories/ComentariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema } from '@ioc:Adonis/Core/Validator'
 import { ComentarioValidatorStore, ComentarioValidatorUpdate } from 'App/Validators/ComentarioValidator'
+
 export default class ComentariosController {
   public async index({ request }: HttpContextContract) {
     const comentarioData = {

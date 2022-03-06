@@ -3,7 +3,6 @@ import SobreMim from 'App/Models/SobreMim'
 import SobreMimsDTO from 'App/DTO/SobreMimsDTO'
 import SobreMimsRepository from 'App/Repositories/SobreMimsRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { schema } from '@ioc:Adonis/Core/Validator'
 import { SobreMimValidatorStore, SobreMimValidatorUpdate } from 'App/Validators/SobreMimValidator'
 
 export default class SobreMimsController {

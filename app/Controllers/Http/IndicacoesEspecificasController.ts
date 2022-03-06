@@ -3,7 +3,6 @@ import IndicacoesEspecificasDTO from 'App/DTO/IndicacoesEspecificasDTO'
 import IndicacoesEspecificasRepository from 'App/Repositories/IndicacoesEspecificasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import IndicacaoEspecifica from 'App/Models/IndicacaoEspecifica'
-import { schema } from '@ioc:Adonis/Core/Validator'
 import { IndicacaoEspecificaValidatorStore, IndicacaoEspecificaValidatorUpdate } from 'App/Validators/IndicacaoEspecificaValidator'
 
 export default class IndicacaoEspecificasController {

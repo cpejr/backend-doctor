@@ -4,6 +4,7 @@ import ConsultoriosDTO from 'App/DTO/ConsultoriosDTO'
 import ConsultoriosRepository from 'App/Repositories/ConsultoriosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { ConsultorioValidatorStore, ConsultorioValidatorUpdate } from 'App/Validators/ConsultorioValidator'
+
 export default class ConsultoriosController {
   public async index({ request }: HttpContextContract) {
     const consultorioData = {
