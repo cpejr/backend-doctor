@@ -3,8 +3,8 @@ import ImagemCarrossel from 'App/Models/ImagemCarrossel'
 import ImagensCarrosselRepository from 'App/Repositories/ImagensCarrosselReposiory'
 import ImagensCarrosselDTO from 'App/DTO/ImagensCarrossel'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import ImagemCarrosselValidator from 'App/Validators/ImagemCarrosselValidator'
 import { schema } from '@ioc:Adonis/Core/Validator'
+import { ImagemCarroselValidatorStore, ImagemCarroselValidatorUpdate } from 'App/Validators/ImagemCarrosselValidator'
 export default class ImagensCarrosselController {
   public async index({ request }: HttpContextContract) {
     const imagemCarrosselData = {
@@ -18,7 +18,7 @@ export default class ImagensCarrosselController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(ImagemCarrosselValidator)
+    const validateData = await request.validate(ImagemCarroselValidatorStore)
 
     const imagem = validateData.imagem
 
@@ -32,16 +32,8 @@ export default class ImagensCarrosselController {
     const id = request.param('id')
     if (!id) return
 
-    const validatorSchema = schema.create({
-      imagem: schema.string.optional({ trim: true }),
-    })
-
-    const validateData = await request.validate({
-      schema: validatorSchema,
-      messages: {
-        string: 'O campo {{field}} deve ser uma string',
-      },
-    })
+    const validateData = await request.validate(ImagemCarroselValidatorUpdate)
+    
     const imagemCarrossel = await ImagemCarrossel.findOrFail(id)
     imagemCarrossel.merge(limpaCamposNulosDeObjeto(validateData))
     await imagemCarrossel.save()
