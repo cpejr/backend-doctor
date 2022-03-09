@@ -26,7 +26,7 @@ export class ExameMarcadoValidatorStore {
     required: 'Digite um {{field}}',
     string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser uma boleano',
-    date: 'A data_hora deve ser do formato dd/MM/yyyy HH:mm:ss',
+    'date.format': 'A {{field}} deve ser do formato dd/MM/yyyy HH:mm:ss',
   }
 }
 export class ExameMarcadoValidatorUpdate {
@@ -53,6 +53,6 @@ export class ExameMarcadoValidatorUpdate {
   public messages = {
     string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser uma boleano',
-    date: 'A data_hora deve ser do formato dd/MM/yyyy HH:mm:ss',
+    'date.format': 'A {{field}} deve ser do formato dd/MM/yyyy HH:mm:ss',
   }
 }
