@@ -3,7 +3,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 export default class Enderecos extends BaseSchema {
   protected tableName = 'enderecos'
 
-  public async up () {
+  public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('cep', 8).notNullable()
@@ -15,16 +15,12 @@ export default class Enderecos extends BaseSchema {
       table.integer('numero').notNullable()
       table.string('complemento').nullable()
 
-      
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('data_criacao', { useTz: true })
+      table.timestamp('data_atualizacao', { useTz: true })
     })
   }
 
-  public async down () {
+  public async down() {
     this.schema.dropTable(this.tableName)
   }
 }
