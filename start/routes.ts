@@ -1,31 +1,8 @@
-/*
-|--------------------------------------------------------------------------
-| Routes
-|--------------------------------------------------------------------------
-|
-| This file is dedicated for defining HTTP routes. A single file is enough
-| for majority of projects, however you can define routes in different
-| files and just make sure to import them inside this file. For example
-|
-| Define routes in following two files
-| ├── start/routes/cart.ts
-| ├── start/routes/customer.ts
-|
-| and then import them inside `start/routes.ts` as follows
-|
-| import './routes/cart'
-| import './routes/customer'
-|
-*/
-
 import Route from '@ioc:Adonis/Core/Route'
-import Hash from '@ioc:Adonis/Core/Hash'
-import Usuario from 'App/Models/Usuario'
 
 Route.get('/', async () => {
   return { hello: 'world' }
 })
-
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.post('/enderecos', 'EnderecosController.store')
@@ -112,7 +89,6 @@ Route.post('/mensagems', 'MensagemsController.store')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
-
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')
 Route.post('/formularios_pacientes', 'FormulariosPacientesController.store')
 Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
@@ -133,37 +109,4 @@ Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
-// Route.post('login', async ({ auth, request, response }) => {
-//   const email = request.input('email')
-//   const senha = request.input('senha')
-
-//   // Lookup user manually
-//   const usuario = await Usuario
-//     .query()
-//     .where('email', email)
-//     // .where('tenant_id', getTenantIdFromSomewhere)
-//     // .whereNull('is_deleted')
-//     .firstOrFail()
-
-//   // Verify password
-//   if (!(await Hash.verify(usuario.senha, senha))) {
-//     return response.badRequest('Invalid credentials')
-//   }
-
-//   // Generate token
-//   const token = await auth.use('api').generate(usuario)
-//   return token
-// })
-
-// Route.post('login', async ({ auth, request, response }) => {
-//   const email = request.input('email')
-//   const senha = request.input('senha')
-//   console.log(email)
-
-//   try {
-//     const token = await auth.use('api').attempt(email, senha)
-//     return token
-//   } catch {
-//     return response.badRequest('Invalid credentials')
-//   }
-// })
+Route.post('/login', 'SessoesController.login')
