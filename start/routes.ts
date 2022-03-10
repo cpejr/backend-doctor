@@ -19,6 +19,8 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import Hash from '@ioc:Adonis/Core/Hash'
+import Usuario from 'App/Models/Usuario'
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -130,3 +132,38 @@ Route.get('/exame_marcados', 'ExamesMarcadosController.index')
 Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
+
+// Route.post('login', async ({ auth, request, response }) => {
+//   const email = request.input('email')
+//   const senha = request.input('senha')
+
+//   // Lookup user manually
+//   const usuario = await Usuario
+//     .query()
+//     .where('email', email)
+//     // .where('tenant_id', getTenantIdFromSomewhere)
+//     // .whereNull('is_deleted')
+//     .firstOrFail()
+
+//   // Verify password
+//   if (!(await Hash.verify(usuario.senha, senha))) {
+//     return response.badRequest('Invalid credentials')
+//   }
+
+//   // Generate token
+//   const token = await auth.use('api').generate(usuario)
+//   return token
+// })
+
+// Route.post('login', async ({ auth, request, response }) => {
+//   const email = request.input('email')
+//   const senha = request.input('senha')
+//   console.log(email)
+
+//   try {
+//     const token = await auth.use('api').attempt(email, senha)
+//     return token
+//   } catch {
+//     return response.badRequest('Invalid credentials')
+//   }
+// })

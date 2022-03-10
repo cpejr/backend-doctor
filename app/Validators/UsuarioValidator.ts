@@ -7,6 +7,8 @@ export class UsuarioValidatorStore {
   public schema = schema.create({
     nome: schema.string({ trim: true }),
     email: schema.string({ trim: true }, [rules.email()]),
+    senha: schema.string({ trim: true }),
+    token_usuario: schema.string.optional({ trim: true }),
     telefone: schema.string({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
     data_nascimento: schema.date({ format: 'dd/MM/yyyy' }),
     convenio: schema.string.optional({ trim: true }),
@@ -33,6 +35,8 @@ export class UsuarioValidatorUpdate {
   public schema = schema.create({
     nome: schema.string.optional({ trim: true }),
     email: schema.string.optional({ trim: true }, [rules.email()]),
+    senha: schema.string.optional({ trim: true }),
+    token_usuario: schema.string.optional({ trim: true }),
     telefone: schema.string.optional({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
     data_nascimento: schema.date.optional({ format: 'dd/MM/yyyy' }),
     convenio: schema.string.optional({ trim: true }),

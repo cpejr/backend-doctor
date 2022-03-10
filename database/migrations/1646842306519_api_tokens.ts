@@ -6,16 +6,16 @@ export default class ApiTokens extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('user_id').unsigned().references('id').inTable('usuario_autenticados').onDelete('CASCADE')
-      table.string('name').notNullable()
-      table.string('type').notNullable()
+      table.integer('id_usuario').unsigned().references('id').inTable('usuarios').onDelete('CASCADE')
+      table.string('nome').notNullable()
+      table.string('tipo').notNullable()
       table.string('token', 64).notNullable().unique()
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
        */
-      table.timestamp('expires_at', { useTz: true }).nullable()
-      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('data_expiracao', { useTz: true }).nullable()
+      table.timestamp('data_criacao', { useTz: true }).notNullable()
     })
   }
 
