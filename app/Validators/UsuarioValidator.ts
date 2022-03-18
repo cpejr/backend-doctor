@@ -7,7 +7,7 @@ export class UsuarioValidatorStore {
   public schema = schema.create({
     nome: schema.string({ trim: true }),
     email: schema.string({ trim: true }, [rules.email()]),
-    senha: schema.string({ trim: true }),
+    senha: schema.string({ trim: true },[rules.minLength(8)]),
     token_usuario: schema.string.optional({ trim: true }),
     telefone: schema.string({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
     data_nascimento: schema.date({ format: 'yyyy-MM-dd' }),
@@ -23,9 +23,9 @@ export class UsuarioValidatorStore {
     'minLength': 'Insira {{options.minLength}} digitos em {{field}}',
     'maxLength': 'Insira {{options.maxLength}} digitos em {{field}}',
     'string': 'O campo {{field}} deve ser uma string',
-    'boolean': 'O campo {{field}} deve ser um boleano',
+    'boolean': 'O campo {{field}} deve ser um booleano',
     'enum': 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
-    'email': 'Insira um email valido',
+    'email': 'Insira um email válido',
     'date.format': 'Insira uma data no formato dd/MM/yyyy',
   }
 }
@@ -35,7 +35,7 @@ export class UsuarioValidatorUpdate {
   public schema = schema.create({
     nome: schema.string.optional({ trim: true }),
     email: schema.string.optional({ trim: true }, [rules.email()]),
-    senha: schema.string.optional({ trim: true }),
+    senha: schema.string.optional({ trim: true },[rules.minLength(8)]),
     token_usuario: schema.string.optional({ trim: true }),
     telefone: schema.string.optional({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
     data_nascimento: schema.date.optional({ format: 'yyyy-MM-dd' }),
@@ -50,9 +50,9 @@ export class UsuarioValidatorUpdate {
     'minLength': 'Insira {{options.minLength}} digitos em {{field}}',
     'maxLength': 'Insira {{options.maxLength}} digitos em {{field}}',
     'string': 'O campo {{field}} deve ser uma string',
-    'boolean': 'O campo {{field}} deve ser um boleano',
+    'boolean': 'O campo {{field}} deve ser um booleano',
     'enum': 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
-    'email': 'Insira um email valido',
+    'email': 'Insira um email válido',
     'date.format': 'Insira uma data no formato dd/MM/yyyy',
   }
 }
