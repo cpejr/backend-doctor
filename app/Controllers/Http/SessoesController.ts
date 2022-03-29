@@ -14,13 +14,14 @@ export default class SessoesController {
     }
 
     // Generate token
-    const token = await auth.use('api').generate(usuario, {
+    const novoToken = await auth.use('api').generate(usuario, {
       expiresIn: '30mins'
     })
 
-    const user = token.user
+    const userId = novoToken.user.id
+    const token = novoToken.token
     
-    return response.status(200).json({user,token})
+    return response.status(200).json({userId, token})
     //return token
   }
 }
