@@ -17,6 +17,10 @@ export default class SessoesController {
     const token = await auth.use('api').generate(usuario, {
       expiresIn: '30mins'
     })
-    return token
+
+    const user = token.user
+    
+    return response.status(200).json({user,token})
+    //return token
   }
 }
