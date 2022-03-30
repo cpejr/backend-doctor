@@ -31,9 +31,8 @@ export default class UsuariosController {
     const usuario = await Usuario.findBy('id', id)
 
     return usuario
+
   }
-
-
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(UsuarioValidatorStore)

@@ -5,6 +5,7 @@ Route.get('/', async () => {
 })
 
 Route.get('/enderecos', 'EnderecosController.index')
+Route.get('/enderecos/:id', 'EnderecosController.indexById')
 Route.post('/enderecos', 'EnderecosController.store')
 Route.put('/enderecos/:id', 'EnderecosController.update')
 Route.delete('/enderecos/:id', 'EnderecosController.destroy')
