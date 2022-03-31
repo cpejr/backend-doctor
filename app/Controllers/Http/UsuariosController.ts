@@ -30,6 +30,8 @@ export default class UsuariosController {
 
     const nome = validateData.nome
     const email = validateData.email
+    const senha = validateData.senha
+    const token_usuario = validateData.token_usuario
     const telefone = validateData.telefone
     const data_nascimento = new Date(validateData.data_nascimento.toISODate())
     const convenio = validateData.convenio
@@ -43,6 +45,8 @@ export default class UsuariosController {
     const usuario = await Usuario.create({
       nome,
       email,
+      senha,
+      token_usuario,
       telefone,
       data_nascimento,
       convenio,

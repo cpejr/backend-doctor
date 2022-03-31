@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
 import Endereco from './Endereco'
 import Consultorio from './Consultorio'
-import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany, beforeSave} from '@ioc:Adonis/Lucid/Orm'
 import Receita from './Receita'
+import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class Usuario extends BaseModel {
   @column({ isPrimary: true })
@@ -13,6 +14,12 @@ export default class Usuario extends BaseModel {
 
   @column()
   public email: string
+
+  @column({ serializeAs: null })
+  public senha: string
+
+  @column()
+  public token_usuario?: string
 
   @column()
   public telefone: string
@@ -61,4 +68,11 @@ export default class Usuario extends BaseModel {
     foreignKey: 'id_usuario'
   })
   public receita: HasMany<typeof Receita>
+
+  @beforeSave()
+  public static async hashPassword (usuario: Usuario) {
+    if (usuario.$dirty.senha) {
+      usuario.senha = await Hash.make(usuario.senha)
+    }
+  }
 }
