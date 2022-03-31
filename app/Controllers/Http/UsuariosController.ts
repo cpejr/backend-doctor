@@ -25,10 +25,10 @@ export default class UsuariosController {
     return usuarios
   }
 
-  public async indexById({ request }: HttpContextContract) {
-    const id = request.param('id')
-    if (!id) return
-    const usuario = await Usuario.findBy('id', id)
+  public async indexByEmail({ request }: HttpContextContract) {
+    const email = request.param('email')
+    if (!email) return
+    const usuario = await Usuario.findBy('email', email)
 
     return usuario
 

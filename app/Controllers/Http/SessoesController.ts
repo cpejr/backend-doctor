@@ -18,10 +18,9 @@ export default class SessoesController {
       expiresIn: '30mins'
     })
 
-    const userId = novoToken.user.id
     const token = novoToken.token
-    
-    return response.status(200).json({userId, token})
+
+    return response.status(200).json({email, token})
     //return token
   }
 }
