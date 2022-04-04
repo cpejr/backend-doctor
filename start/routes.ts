@@ -5,6 +5,7 @@ Route.get('/', async () => {
 })
 
 Route.get('/enderecos', 'EnderecosController.index')
+Route.get('/enderecos/:id', 'EnderecosController.indexById')
 Route.post('/enderecos', 'EnderecosController.store')
 Route.put('/enderecos/:id', 'EnderecosController.update')
 Route.delete('/enderecos/:id', 'EnderecosController.destroy')
@@ -60,6 +61,7 @@ Route.put('/indicacaos/:id', 'IndicacaosController.update')
 Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
 
 Route.get('/usuarios', 'UsuariosController.index')
+Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')

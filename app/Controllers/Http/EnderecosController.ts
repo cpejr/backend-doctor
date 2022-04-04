@@ -23,6 +23,15 @@ export default class EnderecosController {
     return enderecos
   }
 
+  public async indexById({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+    const endereco = await Endereco.findBy('id', id)
+
+    return endereco
+
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(EnderecoValidatorStore)
 

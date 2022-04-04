@@ -25,6 +25,15 @@ export default class UsuariosController {
     return usuarios
   }
 
+  public async indexByEmail({ request }: HttpContextContract) {
+    const email = request.param('email')
+    if (!email) return
+    const usuario = await Usuario.findBy('email', email)
+
+    return usuario
+
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(UsuarioValidatorStore)
 
