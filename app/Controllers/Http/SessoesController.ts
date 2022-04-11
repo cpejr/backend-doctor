@@ -23,4 +23,13 @@ export default class SessoesController {
     return response.status(200).json({email, token})
     //return token
   }
+  public async verificarSenha({request,response}:HttpContextContract) {
+    const email = request.input('email')
+    const senha = request.input('senha')
+    const usuario = await Usuario.query().where('email', email).firstOrFail()
+
+    if (!(await Hash.verify(usuario.senha, senha))) {
+      return response.badRequest('Credenciais Inválidas')
+    } else {return true}
+  }
 }
