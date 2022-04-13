@@ -1,9 +1,14 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-
+import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuid } from 'uuid'
 export default class Home extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:Home){
+    model.id = uuid()
+  }
 
   @column()
   public video: string

@@ -1,11 +1,16 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Usuario from './Usuario'
-
+import { v4 as uuid } from 'uuid'
 
 export default class Receita extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:Receita){
+    model.id = uuid()
+  }
 
   @column()
   public titulo: string
@@ -14,7 +19,7 @@ export default class Receita extends BaseModel {
   public descricao: string
 
   @column()
-  public id_usuario: number
+  public id_usuario: string
 
   @belongsTo(() => Usuario, {
     localKey:'id_usuario'

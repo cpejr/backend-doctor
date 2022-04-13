@@ -5,13 +5,13 @@ export default class Mensagems extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.string('mensagem').notNullable()
       table.datetime('data_envio').notNullable()
       table.string('media_url').nullable()
       table.boolean('foi_enviado').notNullable()
       table.boolean('foi_visualizado').notNullable()
-      table.integer('id_conversa').unsigned().references('id').inTable('conversas')
+      table.string('id_conversa').references('id').inTable('conversas')
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

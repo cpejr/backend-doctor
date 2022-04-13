@@ -1,10 +1,15 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import Conversa from './Conversa'
-
+import { v4 as uuid } from 'uuid'
 export default class Mensagem extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:Mensagem){
+    model.id = uuid()
+  }
 
   @column()
   public mensagem: string
@@ -22,7 +27,7 @@ export default class Mensagem extends BaseModel {
   public foi_visualizado: boolean
 
   @column()
-  public id_conversa: number
+  public id_conversa: string
 
   @belongsTo(() => Conversa, {
     localKey: 'id_conversa'

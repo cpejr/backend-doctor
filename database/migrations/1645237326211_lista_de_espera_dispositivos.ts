@@ -5,11 +5,11 @@ export default class ListaDeEsperaDispositivos extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.integer('posicao').notNullable()
       table.boolean('esta_disponivel').notNullable()
-      table.integer('id_usuario').unsigned().references('id').inTable('usuarios')
-      table.integer('id_dispositivo').unsigned().references('id').inTable('dispositivos')
+      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_dispositivo').references('id').inTable('dispositivos')
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

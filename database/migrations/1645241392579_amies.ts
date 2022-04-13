@@ -5,7 +5,7 @@ export default class Amies extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.string('imagem_um').notNullable()
       table.string('texto').notNullable()
       table.string('imagem_dois').notNullable()

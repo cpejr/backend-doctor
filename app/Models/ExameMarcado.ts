@@ -1,15 +1,20 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import Usuario from './Usuario'
 import Exame from './Exame'
 import Consultorio from './Consultorio'
 import Dispositivo from './Dispositivo'
-
+import { v4 as uuid } from 'uuid'
 export default class ExameMarcado extends BaseModel {
   public static table = 'exame_marcados'
 
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:ExameMarcado){
+    model.id = uuid()
+  }
 
   @column()
   public data_hora: DateTime
@@ -33,16 +38,16 @@ export default class ExameMarcado extends BaseModel {
   public esta_disponivel: boolean
 
   @column()
-  public id_usuario: number
+  public id_usuario: string
 
   @column()
-  public id_exame: number
+  public id_exame: string
 
   @column()
-  public id_consultorio: number
+  public id_consultorio: string
 
   @column()
-  public id_dispositivo: number
+  public id_dispositivo: string
 
   @belongsTo(() => Usuario, {
     localKey: 'id_usuario'
