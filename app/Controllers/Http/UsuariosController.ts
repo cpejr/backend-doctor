@@ -81,8 +81,8 @@ export default class UsuariosController {
     const usuario = await Usuario.findOrFail(id)
     usuario.merge(limpaCamposNulosDeObjeto(validateData))
     await usuario.save()
-
     return usuario
+    
   }
 
   public async destroy({ request }: HttpContextContract) {
