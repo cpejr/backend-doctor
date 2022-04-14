@@ -11,6 +11,7 @@ export default class UsuariosController {
       id: request.param('id'),
       nome: request.param('nome'),
       email: request.param('email'),
+      cpf: request.param('cpf'),
       telefone: request.param('telefone'),
       data_nascimento: request.param('data_nascimento'),
       convenio: request.param('convenio'),
@@ -40,6 +41,7 @@ export default class UsuariosController {
     const nome = validateData.nome
     const email = validateData.email
     const senha = validateData.senha
+    const cpf = validateData.cpf
     const token_usuario = validateData.token_usuario
     const telefone = validateData.telefone
     const data_nascimento = new Date(validateData.data_nascimento.toISODate())
@@ -55,6 +57,7 @@ export default class UsuariosController {
       nome,
       email,
       senha,
+      cpf,
       token_usuario,
       telefone,
       data_nascimento,
