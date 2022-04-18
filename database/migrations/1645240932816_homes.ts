@@ -5,7 +5,7 @@ export default class Homes extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.string('video').notNullable()
       table.string('titulo_um').notNullable()
       table.string('texto_um').notNullable()

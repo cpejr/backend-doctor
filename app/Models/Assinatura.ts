@@ -1,9 +1,14 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-
+import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuid } from 'uuid'
 export default class Assinatura extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:Assinatura){
+    model.id = uuid()
+  }
 
   @column()
   public doc_assinatura: string

@@ -1,11 +1,16 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import Usuario from './Usuario'
 import Formulario from './Formulario'
-
+import { v4 as uuid } from 'uuid'
 export default class FormularioPaciente extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:FormularioPaciente){
+    model.id = uuid()
+  }
 
   @column()
   public respostas: JSON
@@ -20,7 +25,7 @@ export default class FormularioPaciente extends BaseModel {
   public status: boolean
 
   @column()
-  public id_usuario: number
+  public id_usuario: string
 
   @belongsTo(() => Usuario, {
     localKey:'id_usuario'
@@ -28,7 +33,7 @@ export default class FormularioPaciente extends BaseModel {
   public usuario: BelongsTo<typeof Usuario>
 
   @column()
-  public id_formulario: number
+  public id_formulario: string
 
   @belongsTo(() => Formulario, {
     localKey:'id_formulario'

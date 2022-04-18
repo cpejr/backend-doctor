@@ -5,10 +5,11 @@ export default class Usuarios extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.string('nome').notNullable()
       table.string('email').notNullable()
       table.string('senha').notNullable()
+      table.string('cpf').notNullable()
       table.string('token_usuario').nullable()
       table.string('telefone', 11).notNullable()
       table.date('data_nascimento').notNullable()
@@ -17,12 +18,9 @@ export default class Usuarios extends BaseSchema {
       table.boolean('aprovado').nullable()
       table.string('avatar_url').nullable()
       table.string('codigo').nullable()
-      table.integer('id_endereco').unsigned().references('id').inTable('enderecos')
-      table.integer('id_consultorio').unsigned().references('id').inTable('consultorios').nullable()
+      table.string('id_endereco').references('id').inTable('enderecos')
+      table.string('id_consultorio').references('id').inTable('consultorios').nullable()
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })

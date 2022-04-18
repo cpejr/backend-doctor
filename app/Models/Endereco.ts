@@ -1,10 +1,15 @@
 import { DateTime } from 'luxon'
 import Consultorio from './Consultorio'
-import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
-
+import { BaseModel, beforeCreate, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuid } from 'uuid'
 export default class Endereco extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:Endereco){
+    model.id = uuid()
+  }
 
   @column()
   public cep: string

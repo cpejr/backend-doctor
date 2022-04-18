@@ -5,7 +5,7 @@ export default class Comentarios extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.string('comentario').notNullable()
 
       table.timestamp('data_criacao', { useTz: true })

@@ -5,7 +5,7 @@ export default class ExameMarcados extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.string('id').primary()
       table.datetime('data_hora').notNullable()
       table.string('descricao').nullable()
       table.datetime('data_envio').nullable()
@@ -13,10 +13,10 @@ export default class ExameMarcados extends BaseSchema {
       table.datetime('data_pagamento').nullable()
       table.boolean('esta_atrasado').nullable()
       table.boolean('esta_disponivel').nullable()
-      table.integer('id_usuario').unsigned().references('id').inTable('usuarios')
-      table.integer('id_exame').unsigned().references('id').inTable('exames')
-      table.integer('id_consultorio').unsigned().references('id').inTable('consultorios')
-      table.integer('id_dispositivo').unsigned().references('id').inTable('dispositivos').nullable()
+      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_exame').references('id').inTable('exames')
+      table.string('id_consultorio').references('id').inTable('consultorios')
+      table.string('id_dispositivo').references('id').inTable('dispositivos').nullable()
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

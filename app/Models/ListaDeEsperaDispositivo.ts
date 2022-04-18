@@ -1,11 +1,16 @@
 import { DateTime } from 'luxon'
 import Usuario from './Usuario'
 import Dispositivo from './Dispositivo'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
-
+import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuid } from 'uuid'
 export default class ListaDeEsperaDispositivo extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:ListaDeEsperaDispositivo){
+    model.id = uuid()
+  }
 
   @column()
   public posicao: number
@@ -14,7 +19,7 @@ export default class ListaDeEsperaDispositivo extends BaseModel {
   public esta_disponivel: boolean
 
   @column()
-  public id_usuario: number
+  public id_usuario: string
 
   @belongsTo(() => Usuario, {
     localKey:'id_usuario'
@@ -22,7 +27,7 @@ export default class ListaDeEsperaDispositivo extends BaseModel {
   public usuario: BelongsTo<typeof Usuario>
 
   @column()
-  public id_dispositivo: number
+  public id_dispositivo: string
 
   @belongsTo(() => Dispositivo, {
     localKey:'id_dispositivo'

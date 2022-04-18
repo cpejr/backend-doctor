@@ -1,19 +1,27 @@
 import { DateTime } from 'luxon'
 import Endereco from './Endereco'
 import Consultorio from './Consultorio'
-import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany, beforeSave} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany, beforeSave, beforeCreate} from '@ioc:Adonis/Lucid/Orm'
 import Receita from './Receita'
 import Hash from '@ioc:Adonis/Core/Hash'
-
+import { v4 as uuid } from 'uuid'
 export default class Usuario extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
+
+  @beforeCreate()
+  public static async createUUID (model:Usuario){
+    model.id = uuid()
+  }
 
   @column()
   public nome: string
 
   @column()
   public email: string
+
+  @column()
+  public cpf: string
 
   @column({ serializeAs: null })
   public senha: string
@@ -43,10 +51,10 @@ export default class Usuario extends BaseModel {
   public codigo: string
 
   @column()
-  public id_endereco: number
+  public id_endereco: string
 
   @column()
-  public id_consultorio: number
+  public id_consultorio: string
 
   @belongsTo(() => Endereco, {
     localKey: 'id_endereco'
