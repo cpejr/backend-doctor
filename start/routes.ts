@@ -112,3 +112,4 @@ Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
 Route.post('/login', 'SessoesController.login')
+Route.post('/verificar', 'SessoesController.verificarSenha')

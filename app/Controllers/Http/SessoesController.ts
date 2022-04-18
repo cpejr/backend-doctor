@@ -15,12 +15,22 @@ export default class SessoesController {
 
     // Generate token
     const novoToken = await auth.use('api').generate(usuario, {
-      expiresIn: '30mins'
+      expiresIn: '30mins',
     })
 
     const token = novoToken.token
 
-    return response.status(200).json({email, token})
-    //return token
+    return response.status(200).json({ email, token })
+  }
+  public async verificarSenha({ request, response }: HttpContextContract) {
+    const email = request.input('email')
+    const senha = request.input('senha')
+    const usuario = await Usuario.query().where('email', email).firstOrFail()
+
+    if (!(await Hash.verify(usuario.senha, senha))) {
+      return response.badRequest('Credenciais Inválidas')
+    } else {
+      return true
+    }
   }
 }
