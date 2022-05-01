@@ -8,7 +8,9 @@ export default class Endereco extends BaseModel {
 
   @beforeCreate()
   public static async createUUID (model:Endereco){
-    model.id = uuid()
+    if (!model.$dirty.id) {
+      model.id = uuid()
+    }
   }
 
   @column()

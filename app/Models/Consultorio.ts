@@ -9,7 +9,9 @@ export default class Consultorio extends BaseModel {
 
   @beforeCreate()
   public static async createUUID (model:Consultorio){
-    model.id = uuid()
+    if (!model.$dirty.id) {
+      model.id = uuid()
+    }
   }
 
   @column()
