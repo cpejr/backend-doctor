@@ -27,6 +27,24 @@ export default class ExameMarcadosController {
     return examesMarcados
   }
 
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const id_usuario = request.param('id_usuario')
+    if (!id_usuario) return
+
+    const examesMarcados = await ExameMarcado.query().where("id_usuario", id_usuario)
+
+    return examesMarcados
+  }
+
+  public async indexByIdExame({ request }: HttpContextContract) {
+    const id_exame = request.param('id_exame')
+    if (!id_exame) return
+
+    const examesMarcados = await ExameMarcado.query().where("id_exame", id_exame)
+
+    return examesMarcados
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ExameMarcadoValidatorStore)
 

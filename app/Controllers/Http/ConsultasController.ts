@@ -24,7 +24,7 @@ export default class ConsultasController {
     const id_usuario = request.param('id_usuario')
     if (!id_usuario) return
 
-    const consultas = await Consulta.all(id_usuario)
+    const consultas = await Consulta.query().where("id_usuario", id_usuario)
 
     return consultas
   }

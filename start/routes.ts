@@ -108,6 +108,8 @@ Route.put('/amies/:id', 'AmiesController.update')
 Route.delete('/amies/:id', 'AmiesController.destroy')
 
 Route.get('/exame_marcados', 'ExamesMarcadosController.index')
+Route.get('/exame_marcados/:id_usuario', 'ExamesMarcadosController.indexByIdUsuario')
+Route.get('/exame_marcados/:id_exame', 'ExamesMarcadosController.indexByIdExame')
 Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
