@@ -16,6 +16,15 @@ export default class ExamesController {
     return exames
   }
 
+  public async indexById({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const exame = await Exame.query().where("id", id)
+
+    return exame
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ExameValidatorStore)
 
