@@ -1,7 +1,16 @@
 import { DateTime } from 'luxon'
 import Endereco from './Endereco'
 import Consultorio from './Consultorio'
-import { BaseModel, column, belongsTo, BelongsTo, hasMany, HasMany, beforeSave, beforeCreate} from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  column,
+  belongsTo,
+  BelongsTo,
+  hasMany,
+  HasMany,
+  beforeSave,
+  beforeCreate,
+} from '@ioc:Adonis/Lucid/Orm'
 import Receita from './Receita'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { v4 as uuid } from 'uuid'
@@ -10,8 +19,10 @@ export default class Usuario extends BaseModel {
   public id: string
 
   @beforeCreate()
-  public static async createUUID (model:Usuario){
-    model.id = uuid()
+  public static async createUUID(model: Usuario) {
+    if (!model.$dirty.id) {
+      model.id = uuid()
+    }
   }
 
   @column()
@@ -57,12 +68,12 @@ export default class Usuario extends BaseModel {
   public id_consultorio: string
 
   @belongsTo(() => Endereco, {
-    localKey: 'id_endereco'
+    localKey: 'id_endereco',
   })
   public endereco: BelongsTo<typeof Endereco>
 
   @belongsTo(() => Consultorio, {
-    localKey: 'id_consultorio'
+    localKey: 'id_consultorio',
   })
   public consultorio: BelongsTo<typeof Consultorio>
 
@@ -73,12 +84,12 @@ export default class Usuario extends BaseModel {
   public data_atualizacao: DateTime
 
   @hasMany(() => Receita, {
-    foreignKey: 'id_usuario'
+    foreignKey: 'id_usuario',
   })
   public receita: HasMany<typeof Receita>
 
   @beforeSave()
-  public static async hashPassword (usuario: Usuario) {
+  public static async hashPassword(usuario: Usuario) {
     if (usuario.$dirty.senha) {
       usuario.senha = await Hash.make(usuario.senha)
     }
