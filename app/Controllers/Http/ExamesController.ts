@@ -20,8 +20,7 @@ export default class ExamesController {
     const id = request.param('id')
     if (!id) return
 
-    const exame = await Exame.query().where("id", id)
-
+    const exame = await Exame.query().where('id', id)
     return exame
   }
 

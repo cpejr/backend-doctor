@@ -1,9 +1,13 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { hasOne } from '@ioc:Adonis/Lucid/Orm'
 import ExamesMarcadosDTO from 'App/DTO/ExamesMarcadosDTO'
 import ExameMarcado from 'App/Models/ExameMarcado'
 import ExamesMarcadosRepository from 'App/Repositories/ExamesMarcadosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { ExameMarcadoValidatorStore, ExameMarcadoValidatorUpdate} from 'App/Validators/ExameMarcadoValidator'
+import {
+  ExameMarcadoValidatorStore,
+  ExameMarcadoValidatorUpdate,
+} from 'App/Validators/ExameMarcadoValidator'
 
 export default class ExameMarcadosController {
   public async index({ request }: HttpContextContract) {
@@ -28,19 +32,11 @@ export default class ExameMarcadosController {
   }
 
   public async indexByIdUsuario({ request }: HttpContextContract) {
-    const id_usuario = request.param('id_usuario')
-    if (!id_usuario) return
+    const exameMarcadoData = {
+      id_usuario: request.param('id_usuario'),
+    } as ExamesMarcadosDTO
 
-    const examesMarcados = await ExameMarcado.query().where("id_usuario", id_usuario)
-
-    return examesMarcados
-  }
-
-  public async indexByIdExame({ request }: HttpContextContract) {
-    const id_exame = request.param('id_exame')
-    if (!id_exame) return
-
-    const examesMarcados = await ExameMarcado.query().where("id_exame", id_exame)
+    const examesMarcados = await ExamesMarcadosRepository.find(exameMarcadoData)
 
     return examesMarcados
   }
