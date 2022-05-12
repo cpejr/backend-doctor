@@ -19,6 +19,15 @@ export default class ConsultasController {
     const consultas = await ConsultasRepository.find(limpaCamposNulosDeObjeto(consultaData))
     return consultas
   }
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const consultasData = {
+      id_usuario: request.param('id'),
+    } as ConsultasDTO
+
+    const consultas = await ConsultasRepository.find(consultasData)
+
+    return consultas
+  }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ConsultaValidatorStore)
