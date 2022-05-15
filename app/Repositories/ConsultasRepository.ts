@@ -8,7 +8,7 @@ export default class ConsultasRepository {
       .where(params)
       .join('usuarios', 'usuarios.id', '=', 'consultas.id_usuario')
       .select('consultas.*')
-      .select('usuarios.nome')
+      .select('usuarios.nome', "usuarios.telefone")
 
     return result
   }
