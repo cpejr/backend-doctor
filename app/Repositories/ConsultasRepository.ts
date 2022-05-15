@@ -3,7 +3,12 @@ import ConsultasDTO from 'App/DTO/ConsultasDTO'
 
 export default class ConsultasRepository {
   public static async find(params: ConsultasDTO) {
-    const result = await Database.query().from('consultas').where(params)
+    const result = await Database.query()
+      .from('consultas')
+      .where(params)
+      .join('usuarios', 'usuarios.id', '=', 'consultas.id_usuario')
+      .select('consultas.*')
+      .select('usuarios.nome')
 
     return result
   }

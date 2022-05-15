@@ -21,10 +21,11 @@ export default class ConsultasController {
   }
 
   public async indexByIdUsuario({ request }: HttpContextContract) {
-    const id_usuario = request.param('id_usuario')
-    if (!id_usuario) return
+    const consultaData = {
+      id_usuario: request.param('id_usuario'),
+    } as ConsultasDTO
 
-    const consultas = await Consulta.query().where("id_usuario", id_usuario)
+    const consultas = await ConsultasRepository.find(consultaData)
 
     return consultas
   }

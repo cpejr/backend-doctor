@@ -8,6 +8,8 @@ export default class ExamesMarcadosRepository {
       .join('exames', 'exames.id', '=', 'exame_marcados.id_exame')
       .select("exame_marcados.*")
       .select("exames.titulo")
+      .join('usuarios', 'usuarios.id', '=', 'exame_marcados.id_usuario')
+      .select("usuarios.nome")
 
     return result
   }
