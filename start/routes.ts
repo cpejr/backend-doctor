@@ -16,6 +16,7 @@ Route.put('/formularios/:id', 'FormulariosController.update')
 Route.delete('/formularios/:id', 'FormulariosController.destroy')
 
 Route.get('/exames', 'ExamesController.index')
+Route.get('/exames/:id', 'ExamesController.indexById')
 Route.post('/exames', 'ExamesController.store')
 Route.put('/exames/:id', 'ExamesController.update')
 Route.delete('/exames/:id', 'ExamesController.destroy')
@@ -99,6 +100,8 @@ Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destr
 
 Route.get('/consultas', 'ConsultasController.index')
 Route.get('/usuarioconsultas/:id', 'ConsultasController.indexByIdUsuario')
+Route.get('/consultas/:id_usuario', 'ConsultasController.indexByIdUsuario')
+
 Route.post('/consultas', 'ConsultasController.store')
 Route.put('/consultas/:id', 'ConsultasController.update')
 Route.delete('/consultas/:id', 'ConsultasController.destroy')
@@ -109,6 +112,7 @@ Route.put('/amies/:id', 'AmiesController.update')
 Route.delete('/amies/:id', 'AmiesController.destroy')
 
 Route.get('/exame_marcados', 'ExamesMarcadosController.index')
+Route.get('/exame_marcados/:id_usuario', 'ExamesMarcadosController.indexByIdUsuario')
 Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')

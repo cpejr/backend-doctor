@@ -29,6 +29,16 @@ export default class ConsultasController {
     return consultas
   }
 
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const consultaData = {
+      id_usuario: request.param('id_usuario'),
+    } as ConsultasDTO
+
+    const consultas = await ConsultasRepository.find(consultaData)
+
+    return consultas
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ConsultaValidatorStore)
 
