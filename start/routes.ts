@@ -52,6 +52,7 @@ Route.put('/sobremims/:id', 'SobreMimsController.update')
 Route.delete('/sobremims/:id', 'SobreMimsController.destroy')
 
 Route.get('/consultorios', 'ConsultoriosController.index')
+Route.get('/consultorios/:id', 'ConsultoriosController.indexByIdConsultorio')
 Route.post('/consultorios', 'ConsultoriosController.store')
 Route.put('/consultorios/:id', 'ConsultoriosController.update')
 Route.delete('/consultorios/:id', 'ConsultoriosController.destroy')
@@ -98,7 +99,9 @@ Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
 Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destroy')
 
 Route.get('/consultas', 'ConsultasController.index')
+Route.get('/usuarioconsultas/:id', 'ConsultasController.indexByIdUsuario')
 Route.get('/consultas/:id_usuario', 'ConsultasController.indexByIdUsuario')
+
 Route.post('/consultas', 'ConsultasController.store')
 Route.put('/consultas/:id', 'ConsultasController.update')
 Route.delete('/consultas/:id', 'ConsultasController.destroy')

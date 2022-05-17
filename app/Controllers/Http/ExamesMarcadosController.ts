@@ -41,6 +41,7 @@ export default class ExameMarcadosController {
     return examesMarcados
   }
 
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ExameMarcadoValidatorStore)
 

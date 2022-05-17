@@ -15,6 +15,13 @@ export default class ConsultoriosController {
     const consultorios = await ConsultoriosRepository.find(limpaCamposNulosDeObjeto(consultorioData))
     return consultorios
   }
+  public async indexByIdConsultorio({ request }: HttpContextContract) {
+    const id = request.param('id')
+    const consultorio = await Consultorio.findBy('id', id)
+
+    return consultorio
+
+  }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ConsultorioValidatorStore)
