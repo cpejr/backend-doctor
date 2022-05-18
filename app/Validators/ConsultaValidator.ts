@@ -6,7 +6,7 @@ export class ConsultaValidatorStore {
 
   public schema = schema.create({
     data_hora: schema.date({
-      format: 'dd/MM/yyyy HH:mm:ss'
+      format: 'yyyy-MM-dd HH:mm:ss'
     }),
     duracao_em_minutos: schema.number([
       rules.unsigned()]),
