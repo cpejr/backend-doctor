@@ -24,6 +24,10 @@ export default class Consulta extends BaseModel {
   @column()
   public avaliacao: number
 
+  
+  @column()
+  public tipo: string
+
   @column()
   public id_usuario: string
 

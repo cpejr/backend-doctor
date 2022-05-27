@@ -9,10 +9,10 @@ export default class Consultas extends BaseSchema {
       table.datetime('data_hora').notNullable()
       table.integer('duracao_em_minutos').notNullable()
       table.string('descricao').nullable()
+      table.string('tipo').notNullable()
       table.integer('avaliacao').nullable()
-      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.string('id_consultorio').references('id').inTable('consultorios')
-
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })
