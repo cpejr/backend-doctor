@@ -46,7 +46,7 @@ export class UsuarioValidatorUpdate {
     convenio: schema.string.optional({ trim: true }),
     nome_cuidador: schema.string.optional({ trim: true }),
     telefone_cuidador: schema.string.optional({ trim: true }),
-    tipo: schema.enum.optional(['MASTER', 'SECRETARIA', 'PACIENTE']),
+    tipo: schema.enum.optional(['MASTER', 'SECRETARIA(O)', 'PACIENTE']),
     aprovado: schema.boolean.optional(),
     avatar_url: schema.string.optional({ trim: true }),
     codigo: schema.string.optional({ trim: true }),
@@ -57,7 +57,7 @@ export class UsuarioValidatorUpdate {
     'maxLength': 'Insira {{options.maxLength}} digitos em {{field}}',
     'string': 'O campo {{field}} deve ser uma string',
     'boolean': 'O campo {{field}} deve ser um booleano',
-    'enum': 'O campo {{field}} deve ser MASTER, SECRETARIA ou PACIENTE',
+    'enum': 'O campo {{field}} deve ser MASTER, SECRETARIA(O) ou PACIENTE',
     'email': 'Insira um email válido',
     'date.format': 'Insira uma data no formato dd/MM/yyyy',
   }
