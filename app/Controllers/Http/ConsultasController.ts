@@ -12,20 +12,12 @@ export default class ConsultasController {
       data_hora: request.param('data_hora'),
       duracao_em_minutos: request.param('duracao_em_minutos'),
       descricao: request.param('descricao'),
+      tipo: request.param('tipo'),
       avaliacao: request.param('avaliacao'),
       id_usuario: request.param('id_usuario'),
       id_consultorio: request.param('id_consultorio'),
     } as ConsultasDTO
     const consultas = await ConsultasRepository.find(limpaCamposNulosDeObjeto(consultaData))
-    return consultas
-  }
-  public async indexByIdUsuario({ request }: HttpContextContract) {
-    const consultasData = {
-      id_usuario: request.param('id'),
-    } as ConsultasDTO
-
-    const consultas = await ConsultasRepository.find(consultasData)
-
     return consultas
   }
 
@@ -45,6 +37,7 @@ export default class ConsultasController {
     const data_hora = validateData.data_hora
     const duracao_em_minutos = validateData.duracao_em_minutos
     const descricao = validateData.descricao
+    const tipo = validateData.tipo
     const avaliacao = validateData.avaliacao
     const id_usuario = request.input('id_usuario')
     const id_consultorio = request.input('id_consultorio')
@@ -53,6 +46,7 @@ export default class ConsultasController {
       data_hora,
       duracao_em_minutos,
       descricao,
+      tipo,
       avaliacao,
       id_usuario,
       id_consultorio,
