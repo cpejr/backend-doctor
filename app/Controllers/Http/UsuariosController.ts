@@ -16,6 +16,8 @@ export default class UsuariosController {
       data_nascimento: request.param('data_nascimento'),
       convenio: request.param('convenio'),
       tipo: request.param('tipo'),
+      nome_cuidador: request.param('nome_cuidador'),
+      telefone_cuidador: request.param('telefone_cuidador'),
       aprovado: request.param('aprovado'),
       avatar_url: request.param('avatar_url'),
       codigo: request.param('codigo'),
@@ -46,6 +48,8 @@ export default class UsuariosController {
     const telefone = validateData.telefone
     const data_nascimento = new Date(validateData.data_nascimento.toISODate())
     const convenio = validateData.convenio
+    const nome_cuidador = validateData.nome_cuidador
+    const telefone_cuidador = validateData.telefone_cuidador
     const tipo = validateData.tipo
     const aprovado = validateData.aprovado
     const avatar_url = validateData.avatar_url
@@ -62,9 +66,11 @@ export default class UsuariosController {
       telefone,
       data_nascimento,
       convenio,
-      tipo,
+      nome_cuidador,
+      telefone_cuidador,
       aprovado,
       avatar_url,
+      tipo,
       codigo,
       id_consultorio,
       id_endereco,
