@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, BelongsTo, beforeCreate} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import Usuario from './Usuario'
 import Consultorio from './Consultorio'
 import { v4 as uuid } from 'uuid'
@@ -8,7 +8,7 @@ export default class Consulta extends BaseModel {
   public id: string
 
   @beforeCreate()
-  public static async createUUID (model:Consulta){
+  public static async createUUID(model: Consulta) {
     model.id = uuid()
   }
 
@@ -25,18 +25,21 @@ export default class Consulta extends BaseModel {
   public avaliacao: number
 
   @column()
+  public tipo: string
+
+  @column()
   public id_usuario: string
 
   @column()
   public id_consultorio: string
 
   @belongsTo(() => Usuario, {
-    localKey: 'id_usuario'
+    localKey: 'id_usuario',
   })
   public usuario: BelongsTo<typeof Usuario>
 
   @belongsTo(() => Consultorio, {
-    localKey: 'id_consultorio'
+    localKey: 'id_consultorio',
   })
   public consultorio: BelongsTo<typeof Consultorio>
 
