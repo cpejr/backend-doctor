@@ -28,7 +28,7 @@ export class ConsultaValidatorUpdate {
 
   public schema = schema.create({
     data_hora: schema.date.optional({
-      format: 'dd/MM/yyyy HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     tipo: schema.string.optional({ trim: true }),
     duracao_em_minutos: schema.number.optional([rules.unsigned()]),
