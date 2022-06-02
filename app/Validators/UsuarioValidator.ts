@@ -11,7 +11,7 @@ export class UsuarioValidatorStore {
     cpf: schema.string({ trim: true }),
     token_usuario: schema.string.optional({ trim: true }),
     telefone: schema.string({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
-    data_nascimento: schema.date({ format: 'dd/MM/yyyy' }),
+    data_nascimento: schema.date({ format: 'yyyy-MM-dd' }),
     convenio: schema.string.optional({ trim: true }),
     nome_cuidador: schema.string.optional({ trim: true }),
     telefone_cuidador: schema.string.optional({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
