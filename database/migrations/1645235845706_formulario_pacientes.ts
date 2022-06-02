@@ -10,7 +10,7 @@ export default class FormularioPacientes extends BaseSchema {
       table.string('midia_url').nullable()
       table.string('word').nullable()
       table.boolean('status').notNullable()
-      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.string('id_formulario').references('id').inTable('formularios')
 
       table.timestamp('data_criacao', { useTz: true })

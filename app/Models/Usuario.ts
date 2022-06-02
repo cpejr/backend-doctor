@@ -50,6 +50,12 @@ export default class Usuario extends BaseModel {
   public convenio: string
 
   @column()
+  public nome_cuidador: string
+
+  @column()
+  public telefone_cuidador: string
+
+  @column()
   public tipo: string
 
   @column()

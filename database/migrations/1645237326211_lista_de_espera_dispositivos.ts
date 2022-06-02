@@ -8,7 +8,7 @@ export default class ListaDeEsperaDispositivos extends BaseSchema {
       table.string('id').primary()
       table.integer('posicao').notNullable()
       table.boolean('esta_disponivel').notNullable()
-      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.string('id_dispositivo').references('id').inTable('dispositivos')
 
       table.timestamp('data_criacao', { useTz: true })

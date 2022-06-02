@@ -5,6 +5,8 @@ export default interface UsuariosDTO {
   telefone?: string
   data_nascimento?: Date
   convenio?: string
+  nome_cuidador?: string
+  telefone_cuidador?: string
   tipo?: string
   aprovado?: boolean
   avatar_url?: string

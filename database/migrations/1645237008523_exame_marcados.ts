@@ -13,7 +13,7 @@ export default class ExameMarcados extends BaseSchema {
       table.datetime('data_pagamento').nullable()
       table.boolean('esta_atrasado').nullable()
       table.boolean('esta_disponivel').nullable()
-      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.string('id_exame').references('id').inTable('exames')
       table.string('id_consultorio').references('id').inTable('consultorios')
       table.string('id_dispositivo').references('id').inTable('dispositivos').nullable()
