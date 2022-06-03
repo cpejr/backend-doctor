@@ -29,7 +29,7 @@ export class UsuarioValidatorStore {
     'boolean': 'O campo {{field}} deve ser um booleano',
     'enum': 'O campo {{field}} deve ser MASTER, SECRETARIA(O) ou PACIENTE',
     'email': 'Insira um email válido',
-    'date.format': 'Insira uma data no formato dd/MM/yyyy',
+    'date.format': 'Insira uma data no formato yyyy-MM-dd',
   }
 }
 export class UsuarioValidatorUpdate {
@@ -59,6 +59,6 @@ export class UsuarioValidatorUpdate {
     'boolean': 'O campo {{field}} deve ser um booleano',
     'enum': 'O campo {{field}} deve ser MASTER, SECRETARIA(O) ou PACIENTE',
     'email': 'Insira um email válido',
-    'date.format': 'Insira uma data no formato dd/MM/yyyy',
+    'date.format': 'Insira uma data no formato yyyy-MM-dd',
   }
 }
