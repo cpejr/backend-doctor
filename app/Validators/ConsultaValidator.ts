@@ -19,7 +19,7 @@ export class ConsultaValidatorStore {
     'avaliacao.range': 'Insira valores entre 1 e 3 em avaliacao',
     'string': 'O campo {{field}} deve ser uma string',
     'number': 'O campo {{field}} deve ser um inteiro',
-    'date': 'A data_hora deve ser do formato dd/MM/yyyy HH:mm:ss',
+    'date': 'A data_hora deve ser do formato yyyy-MM-dd HH:mm:ss',
     'unsigned': 'A duracao_em_minutos deve ser um numero positivo',
   }
 }
@@ -40,7 +40,7 @@ export class ConsultaValidatorUpdate {
     'avaliacao.range': 'Insira valores entre 1 e 3 em avaliacao',
     'string': 'O campo {{field}} deve ser uma string',
     'number': 'O campo {{field}} deve ser um inteiro',
-    'date': 'A data_hora deve ser do formato dd/MM/yyyy HH:mm:ss',
+    'date': 'A data_hora deve ser do formato yyyy-MM-dd HH:mm:ss',
     'unsigned': 'A duracao_em_minutos deve ser um numero positivo',
   }
 }
