@@ -94,6 +94,7 @@ Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')
+Route.get('/formularios_pacientes/:id_usuario', 'FormulariosPacientesController.indexByIdUsuario')
 Route.post('/formularios_pacientes', 'FormulariosPacientesController.store')
 Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
 Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destroy')

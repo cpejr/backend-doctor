@@ -25,6 +25,16 @@ export default class FormulariosPacientesController {
     return formulariosPacientes
   }
 
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const exameMarcadoData = {
+      id_usuario: request.param('id_usuario'),
+    } as FormulariosPacientesDTO
+
+    const examesMarcados = await FormulariosPacientesRepository.find(exameMarcadoData)
+
+    return examesMarcados
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(FormularioPacienteValidatorStore)
 
