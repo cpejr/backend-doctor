@@ -11,6 +11,7 @@ Route.put('/enderecos/:id', 'EnderecosController.update')
 Route.delete('/enderecos/:id', 'EnderecosController.destroy')
 
 Route.get('/formularios', 'FormulariosController.index')
+Route.get('/formularios/:id', 'FormulariosController.indexById')
 Route.post('/formularios', 'FormulariosController.store')
 Route.put('/formularios/:id', 'FormulariosController.update')
 Route.delete('/formularios/:id', 'FormulariosController.destroy')
