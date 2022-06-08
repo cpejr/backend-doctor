@@ -29,8 +29,7 @@ export default class UsuarioSeeder extends BaseSeeder {
         telefone: '31982921336',
         tipo: 'MASTER',
         avatar_url: '',
-        id_endereco: 'uuid-endereco-1',
-        id_consultorio: 'uuid-consultorio-1',
+        id_endereco: 'b94961b7-7bbd-473f-9374-5adae1698d96',
       },
       {
         nome: 'Marcia Rocha',
