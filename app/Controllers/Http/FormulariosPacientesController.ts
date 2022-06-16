@@ -32,6 +32,13 @@ export default class FormulariosPacientesController {
 
     return usuario
   }
+  public async indexByUsuario({ request }: HttpContextContract) {
+    const id_usuario = request.param('id_usuario')
+    if (!id_usuario) return
+    const usuario = await FormularioPaciente.findBy('id_usuario', id_usuario)
+
+    return usuario
+  }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(FormularioPacienteValidatorStore)
