@@ -9,7 +9,7 @@ export default class FormulariosPacientesRepository {
       .join('formularios', 'formularios.id', '=', 'formulario_pacientes.id_formulario')
       .join('usuarios', 'usuarios.id', '=', 'formulario_pacientes.id_usuario')
       .select('formulario_pacientes.*')
-      .select('formularios.perguntas')
+      .select('formularios.perguntas','formularios.titulo', 'formularios.urgencia', 'formularios.tipo')
       .select('usuarios.email')
     return result
   }
