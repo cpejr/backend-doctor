@@ -6,11 +6,14 @@ export default class FormulariosPacientesRepository {
     const result = await Database.query()
       .from('formulario_pacientes')
       .where(params)
-      .join('formularios', 'formularios.id', '=', 'formulario_pacientes.id_formulario')
-      .join('usuarios', 'usuarios.id', '=', 'formulario_pacientes.id_usuario')
       .select('formulario_pacientes.*')
-      .select('formularios.perguntas','formularios.titulo', 'formularios.urgencia', 'formularios.tipo')
-      .select('usuarios.email')
+      .join('formularios', 'formularios.id', '=', 'formulario_pacientes.id_formulario')
+      .select(
+        'formularios.perguntas',
+        'formularios.titulo',
+        'formularios.urgencia',
+        'formularios.tipo'
+      )
     return result
   }
 }
