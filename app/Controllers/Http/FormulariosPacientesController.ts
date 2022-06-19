@@ -25,6 +25,22 @@ export default class FormulariosPacientesController {
     return formulariosPacientes
   }
 
+  public async indexById({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+    const formularioEspecifico = await FormularioPaciente.findBy('id', id)
+
+    return formularioEspecifico
+  }
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const formularioData = {
+      id_usuario: request.param('id_usuario'),
+    } as FormulariosPacientesDTO
+
+    const formularioEspecifico = await FormulariosPacientesRepository.find(formularioData)
+    return formularioEspecifico
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(FormularioPacienteValidatorStore)
 

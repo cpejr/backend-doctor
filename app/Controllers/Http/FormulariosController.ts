@@ -22,6 +22,23 @@ export default class FormulariosController {
     return formularios
   }
 
+  public async indexById({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+    const usuario = await Formulario.findBy('id', id)
+
+    return usuario
+  }
+
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const id_usuario = request.param('id_usuario')
+    if (!id_usuario) return
+    const formularioEspecifico = await Formulario.findBy('id_usuario', id_usuario)
+
+    return formularioEspecifico
+  }
+
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(FormularioValidatorStore)
 
