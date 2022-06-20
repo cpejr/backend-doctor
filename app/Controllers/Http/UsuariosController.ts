@@ -34,7 +34,6 @@ export default class UsuariosController {
     const usuario = await Usuario.findBy('email', email)
 
     return usuario
-
   }
 
   public async store({ request }: HttpContextContract) {
@@ -88,7 +87,7 @@ export default class UsuariosController {
     usuario.merge(limpaCamposNulosDeObjeto(validateData))
     await usuario.save()
     return usuario
-    
+
   }
 
   public async destroy({ request }: HttpContextContract) {
