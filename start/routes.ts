@@ -105,6 +105,8 @@ Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destr
 Route.get('/consultas', 'ConsultasController.index')
 Route.get('/usuarioconsultas/:id', 'ConsultasController.indexByIdUsuario')
 Route.get('/consultas/:id_usuario', 'ConsultasController.indexByIdUsuario')
+Route.get('/consultas-id/:id', 'ConsultasController.indexById')
+
 
 Route.post('/consultas', 'ConsultasController.store')
 Route.put('/consultas/:id', 'ConsultasController.update')
