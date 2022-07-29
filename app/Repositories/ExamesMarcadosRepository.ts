@@ -9,7 +9,7 @@ export default class ExamesMarcadosRepository {
       .select("exame_marcados.*")
       .select("exames.titulo")
       .join('usuarios', 'usuarios.id', '=', 'exame_marcados.id_usuario')
-      .select("usuarios.nome", "usuarios.telefone","usuarios.avatar_url")
+      .select("usuarios.nome", "usuarios.telefone", "usuarios.avatar_url", "usuarios.email", "usuarios.codigo")
 
     return result
   }
