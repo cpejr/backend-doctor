@@ -8,7 +8,7 @@ export default class FormulariosPacientesRepository {
       .where(params)
       .join('usuarios', 'usuarios.id', '=', 'formulario_pacientes.id_usuario')
       .select('formulario_pacientes.*')
-      .select('usuarios.email')
+      .select('usuarios.email', 'usuarios.nome')
       .join('formularios', 'formularios.id', '=', 'formulario_pacientes.id_formulario')
       .select(
         'formularios.titulo',
