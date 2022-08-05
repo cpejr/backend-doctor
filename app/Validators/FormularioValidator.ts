@@ -8,7 +8,6 @@ export class FormularioValidatorStore {
     titulo: schema.string({ trim: true }),
     tipo: schema.string({ trim: true }),
     finalidade: schema.string({ trim: true }),
-    perguntas: schema.object().anyMembers(),
     urgencia: schema.number([rules.range(1, 3)]),
   })
 
