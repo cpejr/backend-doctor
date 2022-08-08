@@ -4,6 +4,9 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+Route.post('/arquivo', 'ArquivosController.store')
+
+
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
 Route.post('/enderecos', 'EnderecosController.store')
