@@ -49,7 +49,7 @@ export class UsuarioValidatorUpdate {
     tipo: schema.enum.optional(['MASTER', 'SECRETARIA(O)', 'PACIENTE']),
     aprovado: schema.boolean.optional(),
     avatar_url: schema.string.optional({ trim: true }),
-    codigo: schema.string.optional({ trim: true }),
+    codigo: schema.string.nullableAndOptional({ trim: true }),
   })
 
   public messages = {
