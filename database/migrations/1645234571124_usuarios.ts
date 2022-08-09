@@ -20,8 +20,8 @@ export default class Usuarios extends BaseSchema {
       table.boolean('aprovado').nullable()
       table.string('avatar_url').nullable()
       table.string('codigo').nullable()
-      table.string('id_endereco').references('id').inTable('enderecos')
-      table.string('id_consultorio').references('id').inTable('consultorios').nullable()
+      table.string('id_endereco').references('id').inTable('enderecos').onDelete('CASCADE')
+      table.string('id_consultorio').references('id').inTable('consultorios').nullable().onDelete('CASCADE')
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

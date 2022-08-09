@@ -11,7 +11,7 @@ export default class Mensagems extends BaseSchema {
       table.string('media_url').nullable()
       table.boolean('foi_enviado').notNullable()
       table.boolean('foi_visualizado').notNullable()
-      table.string('id_conversa').references('id').inTable('conversas')
+      table.string('id_conversa').references('id').inTable('conversas').onDelete('CASCADE')
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
