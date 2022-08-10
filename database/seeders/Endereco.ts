@@ -47,6 +47,16 @@ export default class EnderecoSeeder extends BaseSeeder {
         rua: 'Rua Piauí',
         numero: 150
       },
+      {
+        id: "1696fc70-0ddf-4aee-8263-69979f0c3ea0",
+        cep: '30130130',
+        pais: 'Brasil',
+        estado: 'GO',
+        cidade: 'Goiânia',
+        bairro: 'Setor Bueno',
+        rua: 'Rua T-4',
+        numero: 32
+      },
     ])
   }
 }

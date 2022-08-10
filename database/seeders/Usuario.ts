@@ -17,8 +17,7 @@ export default class UsuarioSeeder extends BaseSeeder {
         convenio: 'Unimed',
         nome_cuidador: 'Adrianus Babaca Vieira',
         telefone_cuidador: '19994546785',
-        id_endereco: 'uuid-endereco-1',
-        id_consultorio: 'uuid-consultorio-1',
+        id_endereco: 'eb501944-4d84-4766-94b8-2c8e68badb91',
       },
       {
         nome: 'Guilherme Marques',
@@ -29,7 +28,7 @@ export default class UsuarioSeeder extends BaseSeeder {
         telefone: '31982921336',
         tipo: 'MASTER',
         avatar_url: '',
-        id_endereco: 'b94961b7-7bbd-473f-9374-5adae1698d96',
+        id_endereco: 'b94961b7-7bbd-473f-9374-5adae1698d96'
       },
       {
         nome: 'Marcia Rocha',
@@ -40,8 +39,7 @@ export default class UsuarioSeeder extends BaseSeeder {
         telefone: '31982921336',
         tipo: 'SECRETARIA(O)',
         avatar_url: '',
-        id_endereco: 'uuid-endereco-1',
-        id_consultorio: 'uuid-consultorio-1',
+        id_endereco: '1696fc70-0ddf-4aee-8263-69979f0c3ea0',
       },
     ])
   }
