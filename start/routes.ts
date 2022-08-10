@@ -79,6 +79,7 @@ Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
 
 Route.get('/receitas', 'ReceitasController.index')
+Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')

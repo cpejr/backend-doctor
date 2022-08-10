@@ -17,6 +17,25 @@ export default class ReceitasController {
     return receitas
   }
 
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const receitasData = {
+      id_usuario: request.param('id_usuario'),
+    } as ReceitasDTO
+
+    const receitas = await ReceitasRepository.find(receitasData)
+
+    return receitas
+  }
+
+  public async indexById({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const receitas = await Receita.findOrFail(id)
+
+    return receitas
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ReceitaValidatorStore)
 
