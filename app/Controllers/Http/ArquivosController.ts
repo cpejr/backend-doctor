@@ -1,30 +1,43 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Arquivo from 'App/Models/Arquivo'
 import Drive from '@ioc:Adonis/Core/Drive'
-import { FileSystemCredentials, Request, S3 } from 'aws-sdk'
+import { AppStream, FileSystemCredentials, Request, S3 } from 'aws-sdk'
 import Schema from '@ioc:Adonis/Lucid/Schema'
-import { Application } from '@adonisjs/core/build/standalone'
+import { Application, Response } from '@adonisjs/core/build/standalone'
 
 export default class ArquivosController {
   public async index({}: HttpContextContract) {}
 
-  public async store({ request }: HttpContextContract) {
-    // const postData = await request.validate({
-    //   const schema: schema.create({
-    //     banner: schema
-    //   })
-    // })
-    // const files = request.file('opa')
-    // console.log(files)
+  public async store({ request, response }: HttpContextContract) {
+    console.log('entrou1')
+    request.multipart.onFile('image', {}, async (file) => {
+        console.log('entrou2')
+        try {
+          const tipo_conteudo = file.headers['content-type']
+          const ACL = 'public-read'
+          const nome = JSON.stringify(file.filename)
+          const chave = `${(Math.random() * 100).toString(32)}-${nome}`
+          const s3file = AppStream.apply(file)
 
-    // request.multipart.onFile('imagem', {}, async (part) => {
+          const url = await Drive.put(chave, s3file, {
+            tipo_conteudo,
+            ACL,
+          })
 
-    // })
-
-    // await request.multipart.process()
-
-
-
+          await Arquivo.create({
+            nome,
+            chave,
+            url,
+            tipo_conteudo,
+          })
+        } catch (error) {
+          return response.status(error.status).send({
+            message: 'Não foi possível enviar o arquivo!',
+            error_message: error.message,
+          })
+        }
+      })
+      .process()
   }
 
   public async update({}: HttpContextContract) {}

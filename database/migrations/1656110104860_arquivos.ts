@@ -7,14 +7,14 @@ export default class Arquivos extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.string('name')
-      table.string('key')
+      table.string('nome')
+      table.string('chave')
       table.string('url')
-      table.string('content-type')
+      table.string('tipo_conteudo')
 
 
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('data_criacao', { useTz: true })
+      table.timestamp('data_atualizacao', { useTz: true })
     })
   }
 
