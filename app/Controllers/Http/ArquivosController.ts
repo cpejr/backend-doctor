@@ -1,16 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Arquivo from 'App/Models/Arquivo'
 import Drive from '@ioc:Adonis/Core/Drive'
-import { AppStream, FileSystemCredentials, Request, S3 } from 'aws-sdk'
-import Schema from '@ioc:Adonis/Lucid/Schema'
-import { Application, Response } from '@adonisjs/core/build/standalone'
+
+
 
 export default class ArquivosController {
   public async index({}: HttpContextContract) {}
 
   public async store({ request, response }: HttpContextContract) {
+    console.log("🚀 ~ file: ArquivosController.ts ~ line 11 ~ ArquivosController ~ store ~ request", request)
     console.log('entrou1')
-    request.multipart.onFile('imagem', {}, async (file) => {
+
+    request.multipart.onFile('imagem', {}, async file => {
         console.log('entrou2')
         try {
           const tipo_conteudo = file.headers['content-type']
@@ -36,8 +37,7 @@ export default class ArquivosController {
             error_message: error.message,
           })
         }
-      })
-      .process()
+      }).process()
   }
 
   public async update({}: HttpContextContract) {}
