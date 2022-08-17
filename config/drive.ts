@@ -28,8 +28,7 @@ const driveConfig: DriveConfig = {
   | the `DRIVE_DISK` environment variable.
   |
   */
-  disk: 's3',
-
+  disk: Env.get('DRIVE_DISK'),
 
   disks: {
     /*
@@ -99,10 +98,10 @@ const driveConfig: DriveConfig = {
       visibility: 'public',
       key: Env.get('S3_KEY'),
       secret: Env.get('S3_SECRET'),
-      bucket: Env.get('S3_BUCKET'),
       region: Env.get('S3_REGION'),
-      endpoint: Env.get('S3_ENDPOINT'),
-    }
+      bucket: Env.get('S3_BUCKET'),
+      endpoint: Env.get('S3_ENDPOINT')
+    },
 
     /*
     |--------------------------------------------------------------------------
