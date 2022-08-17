@@ -15,7 +15,6 @@ export default class ArquivosController {
     //   })
     // })
     // const files = request.file('opa')
-    // console.log(files)
 
     // request.multipart.onFile('imagem', {}, async (part) => {
 
