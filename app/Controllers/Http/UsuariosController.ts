@@ -39,13 +39,14 @@ export default class UsuariosController {
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(UsuarioValidatorStore)
 
+
     const nome = validateData.nome
     const email = validateData.email
     const senha = validateData.senha
     const cpf = validateData.cpf
     const token_usuario = validateData.token_usuario
     const telefone = validateData.telefone
-    const data_nascimento = new Date(validateData.data_nascimento.toISODate())
+    const data_nascimento = new Date(validateData.data_nascimento.toISODate());
     const convenio = validateData.convenio
     const nome_cuidador = validateData.nome_cuidador
     const telefone_cuidador = validateData.telefone_cuidador
@@ -55,6 +56,9 @@ export default class UsuariosController {
     const codigo = validateData.codigo
     const id_endereco = request.input('id_endereco')
     const id_consultorio = request.input('id_consultorio')
+
+    data_nascimento.setHours(data_nascimento.getHours() + 3); // ajusta a data para o horário de Brasília
+
 
     const usuario = await Usuario.create({
       nome,
