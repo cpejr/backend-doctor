@@ -1,17 +1,17 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { beforeCreate } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
 
 export default class Arquivo extends BaseModel {
+  @column({ isPrimary: true })
+  public id: string
+
   @beforeCreate()
   public static async createUUID(model: Arquivo) {
     if (!model.$dirty.id) {
       model.id = uuid()
     }
   }
-  @column({ isPrimary: true })
-  public id: string
 
   @column({ isPrimary: true })
   public nome: string

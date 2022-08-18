@@ -5,7 +5,9 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 export default class ArquivosController {
-  public async index({}: HttpContextContract) {}
+  public async index({request}: HttpContextContract) {
+
+  }
 
   public async store({ request, response }: HttpContextContract) {
     request.multipart
@@ -22,7 +24,6 @@ export default class ArquivosController {
             tipo_conteudo,
             ACL,
           })
-
 
           await Arquivo.create({
             nome,
