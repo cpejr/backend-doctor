@@ -5,7 +5,7 @@ Route.get('/', async () => {
 })
 
 Route.post('/arquivo', 'ArquivosController.store')
-
+Route.get('/arquivo/:url', 'ArquivosController.indexByUrl')
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
@@ -100,8 +100,14 @@ Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')
 Route.get('/formularios_pacientes/:id', 'FormulariosPacientesController.indexById')
-Route.get('/formularios_pacientes_usuario/:id_usuario', 'FormulariosPacientesController.indexByIdUsuario')
-Route.get('/formularios_pacientes_formularios/:id_formulario', 'FormulariosPacientesController.indexByIdFormulario')
+Route.get(
+  '/formularios_pacientes_usuario/:id_usuario',
+  'FormulariosPacientesController.indexByIdUsuario'
+)
+Route.get(
+  '/formularios_pacientes_formularios/:id_formulario',
+  'FormulariosPacientesController.indexByIdFormulario'
+)
 Route.post('/formularios_pacientes', 'FormulariosPacientesController.store')
 Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
 Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destroy')
@@ -110,7 +116,6 @@ Route.get('/consultas', 'ConsultasController.index')
 Route.get('/usuarioconsultas/:id', 'ConsultasController.indexByIdUsuario')
 Route.get('/consultas/:id_usuario', 'ConsultasController.indexByIdUsuario')
 Route.get('/consultas-id/:id', 'ConsultasController.indexById')
-
 
 Route.post('/consultas', 'ConsultasController.store')
 Route.put('/consultas/:id', 'ConsultasController.update')
