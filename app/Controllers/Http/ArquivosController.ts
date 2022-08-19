@@ -9,7 +9,6 @@ export default class ArquivosController {
     try {
       const url = request.param('url')
       const arquivo = await Arquivo.findByOrFail('url', url)
-      const exists = await Drive.exists(arquivo.chave)
 
       response.header('Content-Type', arquivo.tipo_conteudo)
       const stream = await Drive.getStream(arquivo.chave)
@@ -51,11 +50,6 @@ export default class ArquivosController {
     try {
       const url = request.param('url')
       const arquivo = await Arquivo.findByOrFail('url', url)
-      const exists = await Drive.exists(arquivo.chave)
-      console.log(
-        '🚀 ~ file: ArquivosController.ts ~ line 56 ~ ArquivosController ~ destroy ~ exists',
-        exists
-      )
 
       await Drive.delete(arquivo.chave)
       await arquivo.delete()
