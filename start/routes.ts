@@ -6,6 +6,7 @@ Route.get('/', async () => {
 
 Route.post('/arquivo', 'ArquivosController.store')
 Route.get('/arquivo/:url', 'ArquivosController.indexByUrl')
+Route.delete('/arquivo/:url', 'ArquivosController.destroy')
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')

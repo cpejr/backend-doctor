@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Arquivo from 'App/Models/Arquivo'
 import Drive from '@ioc:Adonis/Core/Drive'
 import { v4 as uuid } from 'uuid'
+import { Response } from 'aws-sdk'
 
 export default class ArquivosController {
   public async indexByUrl({ request, response }: HttpContextContract) {
@@ -9,18 +10,12 @@ export default class ArquivosController {
       const url = request.param('url')
       const arquivo = await Arquivo.findByOrFail('url', url)
       const exists = await Drive.exists(arquivo.chave)
-      console.log(
-        '🚀 ~ file: ArquivosController.ts ~ line 12 ~ ArquivosController ~ indexByUrl ~ exists',
-        exists
-      )
 
       response.header('Content-Type', arquivo.tipo_conteudo)
       const stream = await Drive.getStream(arquivo.chave)
       return stream.pipe(response.response)
-
-
     } catch (error) {
-      console.log(error)
+      return 'Falha ao pegar o arquivo!'
     }
   }
 
@@ -52,5 +47,22 @@ export default class ArquivosController {
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request }: HttpContextContract) {
+    try {
+      const url = request.param('url')
+      const arquivo = await Arquivo.findByOrFail('url', url)
+      const exists = await Drive.exists(arquivo.chave)
+      console.log(
+        '🚀 ~ file: ArquivosController.ts ~ line 56 ~ ArquivosController ~ destroy ~ exists',
+        exists
+      )
+
+      await Drive.delete(arquivo.chave)
+      await arquivo.delete()
+
+      return 'Arquivo deletado com sucesso!'
+    } catch (error) {
+      return 'Falha ao apagar o arquivo!'
+    }
+  }
 }
