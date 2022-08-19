@@ -11,11 +11,12 @@ export default class ConsultasController {
       id: request.param('id'),
       data_hora: request.param('data_hora'),
       duracao_em_minutos: request.param('duracao_em_minutos'),
-      descricao: request.param('descricao'),
+      descricao: request.param('descricao').nullable(),
       tipo: request.param('tipo'),
       avaliacao: request.param('avaliacao'),
       id_usuario: request.param('id_usuario'),
       id_consultorio: request.param('id_consultorio'),
+
     } as ConsultasDTO
     const consultas = await ConsultasRepository.find(limpaCamposNulosDeObjeto(consultaData))
     return consultas
