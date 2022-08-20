@@ -14,7 +14,7 @@ export default class ExameMarcadosController {
     const exameMarcadoData = {
       id: request.param('id'),
       data_hora: request.param('data_hora'),
-      descricao: request.param('descricao').nullable(),
+      descricao: request.param('descricao'),
       data_envio: request.param('data_envio'),
       data_devolucao: request.param('data_devolucao'),
       data_pagamento: request.param('data_pagamento'),
