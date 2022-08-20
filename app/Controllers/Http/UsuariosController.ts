@@ -36,6 +36,15 @@ export default class UsuariosController {
     return usuario
   }
 
+  public async indexById({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+		//o preload carrega todos as informacoes dos exames marcados daquele exame
+    const usuario = await Usuario.query().where('id', id).preload("receita")
+    return usuario
+  }
+
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(UsuarioValidatorStore)
 
