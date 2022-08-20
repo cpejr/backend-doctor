@@ -10,7 +10,7 @@ export default class ReceitasController {
     const receitaData = {
       id: request.param('id'),
       titulo: request.param('titulo'),
-      descricao: request.param('descricao'),
+      descricao: request.param('descricao').nullable(),
       id_usuario: request.param('id_usuario'),
     } as ReceitasDTO
     const receitas = await ReceitasRepository.find(limpaCamposNulosDeObjeto(receitaData))
