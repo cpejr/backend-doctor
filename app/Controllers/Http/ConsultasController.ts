@@ -16,6 +16,7 @@ export default class ConsultasController {
       avaliacao: request.param('avaliacao'),
       id_usuario: request.param('id_usuario'),
       id_consultorio: request.param('id_consultorio'),
+
     } as ConsultasDTO
     const consultas = await ConsultasRepository.find(limpaCamposNulosDeObjeto(consultaData))
     return consultas

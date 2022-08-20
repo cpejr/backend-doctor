@@ -5,7 +5,8 @@ Route.get('/', async () => {
 })
 
 Route.post('/arquivo', 'ArquivosController.store')
-
+Route.get('/arquivo/:url', 'ArquivosController.indexByUrl')
+Route.delete('/arquivo/:url', 'ArquivosController.destroy')
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
@@ -69,6 +70,7 @@ Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
 
 Route.get('/usuarios', 'UsuariosController.index')
 Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
+Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
@@ -79,6 +81,7 @@ Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
 
 Route.get('/receitas', 'ReceitasController.index')
+Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
@@ -100,8 +103,14 @@ Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')
 Route.get('/formularios_pacientes/:id', 'FormulariosPacientesController.indexById')
-Route.get('/formularios_pacientes_usuario/:id_usuario', 'FormulariosPacientesController.indexByIdUsuario')
-Route.get('/formularios_pacientes_formularios/:id_formulario', 'FormulariosPacientesController.indexByIdFormulario')
+Route.get(
+  '/formularios_pacientes_usuario/:id_usuario',
+  'FormulariosPacientesController.indexByIdUsuario'
+)
+Route.get(
+  '/formularios_pacientes_formularios/:id_formulario',
+  'FormulariosPacientesController.indexByIdFormulario'
+)
 Route.post('/formularios_pacientes', 'FormulariosPacientesController.store')
 Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
 Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destroy')
@@ -110,7 +119,6 @@ Route.get('/consultas', 'ConsultasController.index')
 Route.get('/usuarioconsultas/:id', 'ConsultasController.indexByIdUsuario')
 Route.get('/consultas/:id_usuario', 'ConsultasController.indexByIdUsuario')
 Route.get('/consultas-id/:id', 'ConsultasController.indexById')
-
 
 Route.post('/consultas', 'ConsultasController.store')
 Route.put('/consultas/:id', 'ConsultasController.update')
