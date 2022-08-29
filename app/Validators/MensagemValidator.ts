@@ -5,10 +5,7 @@ export class MensagemValidatorStore {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    mensagem: schema.string({ trim: true }),
-    data_envio: schema.date({
-      format: 'dd/MM/yyyy HH:mm:ss',
-    }),
+    conteudo: schema.string({ trim: true }),
     media_url: schema.string({ trim: true }),
     foi_enviado: schema.boolean(),
     foi_visualizado: schema.boolean(),
@@ -25,10 +22,7 @@ export class MensagemValidatorUpdate {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    mensagem: schema.string.optional({ trim: true }),
-    data_envio: schema.date.optional({
-      format: 'dd/MM/yyyy HH:mm:ss',
-    }),
+    conteudo: schema.string.optional({ trim: true }),
     media_url: schema.string.optional({ trim: true }),
     foi_enviado: schema.boolean.optional(),
     foi_visualizado: schema.boolean.optional(),

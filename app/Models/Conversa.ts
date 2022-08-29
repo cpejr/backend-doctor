@@ -13,20 +13,20 @@ export default class Conversa extends BaseModel {
   }
 
   @column()
-  public id_remetente: string
+  public id_usuario1: string
 
   @column()
-  public id_destinatario: string
+  public id_usuario2: string
 
   @belongsTo(() => Usuario, {
-    localKey: 'id_remetente'
+    localKey: 'id_usuario1'
   })
-  public id_usuario_remetente: BelongsTo<typeof Usuario>
+  public id_usuario_1: BelongsTo<typeof Usuario>
 
   @belongsTo(() => Usuario, {
-    localKey: 'id_destinatario'
+    localKey: 'id_usuario2'
   })
-  public id_usuario_destinatario: BelongsTo<typeof Usuario>
+  public id_usuario_2: BelongsTo<typeof Usuario>
 
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime

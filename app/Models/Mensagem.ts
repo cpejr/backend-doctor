@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import Conversa from './Conversa'
 import { v4 as uuid } from 'uuid'
+import Usuario from './Usuario'
 export default class Mensagem extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -12,10 +13,7 @@ export default class Mensagem extends BaseModel {
   }
 
   @column()
-  public mensagem: string
-
-  @column()
-  public data_envio: DateTime
+  public conteudo: string
 
   @column()
   public media_url: string
@@ -29,10 +27,18 @@ export default class Mensagem extends BaseModel {
   @column()
   public id_conversa: string
 
+  @column()
+  public id_usuario: string
+
   @belongsTo(() => Conversa, {
     localKey: 'id_conversa'
   })
   public conversa: BelongsTo<typeof Conversa>
+
+  @belongsTo(() => Usuario, {
+    localKey: 'id_usuario'
+  })
+  public usuario: BelongsTo<typeof Usuario>
 
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime

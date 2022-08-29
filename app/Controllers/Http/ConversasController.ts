@@ -8,20 +8,20 @@ export default class ConversasController {
   public async index({ request }: HttpContextContract) {
     const conversaData = {
       id: request.param('id'),
-      id_remetente: request.param('id_remetente'),
-      id_destinatario: request.param('id_destinatario'),
+      id_remetente: request.param('id_usuario1'),
+      id_destinatario: request.param('id_usuario2'),
     } as ConversasDTO
     const conversas = await ConversasRepository.find(limpaCamposNulosDeObjeto(conversaData))
     return conversas
   }
 
   public async store({ request }: HttpContextContract) {
-    const id_remetente = request.input('id_remetente')
-    const id_destinatario = request.input('id_destinatario')
+    const id_usuario1 = request.input('id_usuario1')
+    const id_usuario2 = request.input('id_usuario2')
 
     const conversa = await Conversa.create({
-      id_remetente,
-      id_destinatario,
+      id_usuario1,
+      id_usuario2,
     })
     return conversa
   }
@@ -32,8 +32,8 @@ export default class ConversasController {
 
     const conversaData = {
       id,
-      id_remetente: request.input('id_remetente'),
-      id_destinatario: request.input('id_destinatario'),
+      id_usuario1: request.input('id_usuario1'),
+      id_usuario2: request.input('id_usuario2'),
     } as ConversasDTO
 
     const conversa = await Conversa.findOrFail(id)
