@@ -72,6 +72,7 @@ Route.get('/usuarios', 'UsuariosController.index')
 Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
 Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
+Route.post('/alterar_senha/:email', 'UsuariosController.AlteracaoDeSenha')
 Route.put('/usuarios/:id', 'UsuariosController.update')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 

@@ -4,6 +4,7 @@ import UsuariosDTO from 'App/DTO/UsuariosDTO'
 import UsuariosRepository from 'App/Repositories/UsuariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { UsuarioValidatorStore, UsuarioValidatorUpdate } from 'App/Validators/UsuarioValidator'
+import Mail from '@ioc:Adonis/Addons/Mail'
 
 export default class UsuariosController {
   public async index({ request }: HttpContextContract) {
@@ -89,6 +90,23 @@ export default class UsuariosController {
     })
     return usuario
   }
+
+  public async AlteracaoDeSenha ({ request }: HttpContextContract) {
+    const email = request.param('email')
+    const usuario = await Usuario.findBy('email', email)
+    console.log(usuario.nome);
+    await Mail.send((message) => {
+      message
+        .from('thoshioonuki2022@gmail.com')
+        .to('thoshio@consisti.com')
+        .subject('Welcome Onboard!')
+        .htmlView('emails/alterar_senha', {
+          user: { fullName: 'batata' },
+          url: 'https://your-app.com/verification-url',
+        })
+    })
+  }
+  
 
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
