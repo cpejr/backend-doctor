@@ -9,10 +9,8 @@ export default class ArquivosController {
     try {
       const url = request.param('url')
       const arquivo = await Arquivo.findByOrFail('url', url)
-
-      response.header('Content-Type', arquivo.tipo_conteudo)
-      const stream = await Drive.getStream(arquivo.chave)
-      return stream.pipe(response.response)
+      const urlRes = await Drive.getUrl(arquivo.chave)
+      return urlRes
     } catch (error) {
       return 'Falha ao pegar o arquivo!'
     }
@@ -29,8 +27,8 @@ export default class ArquivosController {
         const s3file = JSON.stringify(file)
 
         await Drive.put(chave, s3file, {
-          tipo_conteudo,
-          ACL,
+          contentType:tipo_conteudo,
+          visibility: ACL,
         })
 
         await Arquivo.create({
