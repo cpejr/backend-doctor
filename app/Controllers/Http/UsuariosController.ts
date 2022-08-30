@@ -94,14 +94,13 @@ export default class UsuariosController {
   public async AlteracaoDeSenha ({ request }: HttpContextContract) {
     const email = request.param('email')
     const usuario = await Usuario.findBy('email', email)
-    console.log(usuario.nome);
     await Mail.send((message) => {
       message
         .from('thoshioonuki2022@gmail.com')
-        .to('thoshio@consisti.com')
-        .subject('Welcome Onboard!')
+        .to( usuario.email )
+        .subject('Alteração de senha do DoctorApp')
         .htmlView('emails/alterar_senha', {
-          user: { fullName: 'batata' },
+          user: { fullName: usuario.nome },
           url: 'https://your-app.com/verification-url',
         })
     })
