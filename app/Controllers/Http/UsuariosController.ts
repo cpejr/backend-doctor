@@ -91,20 +91,25 @@ export default class UsuariosController {
     return usuario
   }
 
-  public async AlteracaoDeSenha ({ request }: HttpContextContract) {
-    const email = request.param('email')
-    const usuario = await Usuario.findBy('email', email)
-    await Mail.send((message) => {
-      message
-        .from('thoshioonuki2022@gmail.com')
-        .to( usuario.email )
-        .subject('Alteração de senha do DoctorApp')
-        .htmlView('emails/alterar_senha', {
-          user: { fullName: usuario.nome },
-          url: 'https://your-app.com/verification-url',
-        })
-    })
-  }
+  // public async AlteracaoDeSenha ({ request }: HttpContextContract) {
+  //   const email = request.param('email')
+  //   const novoToken = await auth.use('api').generate(usuario, {
+  //     expiresIn: '120mins',
+  //   })
+  //   const token = novoToken.token
+  //   const usuario = await Usuario.findBy('email', email)
+  //   const urlExclusiva = `https://http://localhost:3000/alterarsenha?token=${token}`;
+  //   await Mail.send((message) => {
+  //     message
+  //       .from('thoshioonuki2022@gmail.com')
+  //       .to( usuario.email )
+  //       .subject('Alteração de senha do DoctorApp')
+  //       .htmlView('emails/alterar_senha', {
+  //         user: { fullName: usuario.nome },
+  //         url: urlExclusiva,
+  //       })
+  //   })
+  // }
   
 
   public async update({ request }: HttpContextContract) {
