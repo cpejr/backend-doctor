@@ -122,9 +122,10 @@ export default class UsuariosController {
     return usuario
   }
 
-  public async AlteracaoDeSenha ({ request, auth }: HttpContextContract) {
+  public async alteracaoDeSenha ({ request, auth }: HttpContextContract) {
     const email = request.param('email')
     const usuario = await Usuario.query().where('email', email).firstOrFail()
+
     const novoToken = await auth.use('api').generate(usuario, {
       expiresIn: 7200,
     })

@@ -74,6 +74,7 @@ Route.get('/usuarios_token/:token_usuario', 'UsuariosController.indexByToken')
 Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
 Route.get('/imagem_carrossels', 'ImagensCarrosselController.index')
@@ -138,4 +139,3 @@ Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
 Route.post('/login', 'SessoesController.login')
 Route.post('/verificar', 'SessoesController.verificarSenha')
-Route.put('/alterar_senha/:email', 'UsuariosController.AlteracaoDeSenha')
