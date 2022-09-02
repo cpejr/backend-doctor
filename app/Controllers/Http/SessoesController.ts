@@ -37,25 +37,4 @@ export default class SessoesController {
     }
   }
 
-  public async AlteracaoDeSenha ({ request, auth }: HttpContextContract) {
-    const email = request.param('email')
-    const usuario = await Usuario.findBy('email', email)
-    const novoToken = await auth.use('api').generate(usuario, {
-      expiresIn: '120mins',
-    })
-    const token = novoToken.token
-    const seguranca = "fc43c2dd-cf6c-4807-825e-3c9e7ba41b19e19637d2-5a44-463c-bae5-6709e7e53448"
-    const urlExclusiva = `http://localhost:3000/${seguranca}/alterarsenha?token=${token}`;
-    
-    await Mail.send((message) => {
-      message
-        .from('thoshioonuki2022@gmail.com')
-        .to( usuario.email )
-        .subject('Alteração de senha do DoctorApp')
-        .htmlView('emails/alterar_senha', {
-          user: { fullName: usuario.nome },
-          url: urlExclusiva,
-        })
-    })
-  }
 }
