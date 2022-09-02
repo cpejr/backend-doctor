@@ -6,11 +6,11 @@ import { Response } from 'aws-sdk'
 import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class ArquivosController {
-  public async indexByUrl({ request, response }: HttpContextContract) {
+  public async indexByChave({ request, response }: HttpContextContract) {
     try {
-      const url = request.param('url')
-      const arquivo = await Arquivo.findByOrFail('url', url)
-      const urlRes = await Drive.getUrl(arquivo.chave)
+      const chave = request.param('chave')
+      const arquivo = await Arquivo.findByOrFail('chave', chave)
+      const urlRes = await Drive.get(arquivo.chave)
       return urlRes
     } catch (error) {
       return 'Falha ao pegar o arquivo!'
@@ -18,12 +18,11 @@ export default class ArquivosController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const url = uuid()
     const image = request.input('file')
-    console.log(image)
-    const tipo_conteudo = "image/jpeg"
+ 
+    const tipo_conteudo = "text"
     const ACL = 'public-read'
-    const nome = "abobrinha"
+    const nome = "minionss"
     const chave = `${(Math.random() * 100).toString()}-${nome}`
 
 
@@ -32,38 +31,23 @@ export default class ArquivosController {
       visibility: ACL,
     })
 
-    // request.multipart
-    //   .onFile('imagem', {}, async (file) => {
-    //     const tipo_conteudo = file.headers['content-type']
-    //     const ACL = 'public-read'
-    //     const nome = file.filename.toString()
-    //     const chave = `${(Math.random() * 100).toString()}-${file.filename.toString()}`
 
-    //     console.log(file)
+        await Arquivo.create({
+          nome,
+          chave,
+          tipo_conteudo,
+        })
+   
 
-    //     await Drive.putStream(chave, file, {
-    //       contentType: tipo_conteudo,
-    //       visibility: ACL,
-    //     })
-
-    //     await Arquivo.create({
-    //       nome,
-    //       chave,
-    //       url,
-    //       tipo_conteudo,
-    //     })
-    //   })
-    //   .process()
-
-    return url
+    return chave;
   }
 
   public async update({}: HttpContextContract) {}
 
   public async destroy({ request }: HttpContextContract) {
     try {
-      const url = request.param('url')
-      const arquivo = await Arquivo.findByOrFail('url', url)
+      const chave = request.param('chave')
+      const arquivo = await Arquivo.findByOrFail('chave', chave)
 
       await Drive.delete(arquivo.chave)
       await arquivo.delete()

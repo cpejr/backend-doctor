@@ -8,8 +8,8 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
-Route.get('/arquivo/:url', 'ArquivosController.indexByUrl')
-Route.delete('/arquivo/:url', 'ArquivosController.destroy')
+Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
+Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
