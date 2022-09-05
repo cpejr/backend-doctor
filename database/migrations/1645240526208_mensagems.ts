@@ -8,7 +8,6 @@ export default class Mensagems extends BaseSchema {
       table.string('id').primary()
       table.string('conteudo').notNullable()
       table.string('media_url').nullable()
-      table.boolean('foi_enviado').nullable()
       table.boolean('foi_visualizado').notNullable()
       table.string('id_conversa').references('id').inTable('conversas').onDelete('CASCADE')
       table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')

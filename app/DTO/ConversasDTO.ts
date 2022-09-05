@@ -1,5 +1,6 @@
 export default interface ConversasDTO {
   id?: number
-  id_usuario1?: string
-  id_usuario2?: string
+  id_criador?: string
+  id_receptor?: string
+  ativada?: boolean
 }

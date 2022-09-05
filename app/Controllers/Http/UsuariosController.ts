@@ -44,7 +44,6 @@ export default class UsuariosController {
     return usuario
   }
 
-
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(UsuarioValidatorStore)
 
@@ -97,7 +96,7 @@ export default class UsuariosController {
     const validateData = await request.validate(UsuarioValidatorUpdate)
 
     const usuario = await Usuario.findOrFail(id)
-    
+
     usuario.merge(limpaCamposNulosDeObjeto(validateData))
     await usuario.save()
     return usuario

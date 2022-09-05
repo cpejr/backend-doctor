@@ -5,9 +5,10 @@ export class MensagemValidatorStore {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
+    id_usuario: schema.string({ trim: true }),
+    id_conversa: schema.string({ trim: true }),
     conteudo: schema.string({ trim: true }),
     media_url: schema.string({ trim: true }),
-    foi_enviado: schema.boolean(),
     foi_visualizado: schema.boolean(),
   })
 
@@ -22,15 +23,14 @@ export class MensagemValidatorUpdate {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    conteudo: schema.string.optional({ trim: true }),
-    media_url: schema.string.optional({ trim: true }),
-    foi_enviado: schema.boolean.optional(),
+    // conteudo: schema.string.optional({ trim: true }),
+    // media_url: schema.string.optional({ trim: true }),
     foi_visualizado: schema.boolean.optional(),
   })
 
   public messages = {
-    string: 'O campo {{field}} deve ser uma string',
+    // string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser uma boleano',
-    date: 'A data_envio deve ser do formato dd/MM/yyyy HH:mm:ss',
+    // date: 'A data_envio deve ser do formato dd/MM/yyyy HH:mm:ss',
   }
 }

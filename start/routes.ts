@@ -1,3 +1,4 @@
+import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
@@ -92,13 +93,17 @@ Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosControl
 Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy')
 
 Route.get('/conversas', 'ConversasController.index')
+Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioId')
 Route.post('/conversas', 'ConversasController.store')
 Route.put('/conversas/:id', 'ConversasController.update')
+Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
 Route.delete('/conversas/:id', 'ConversasController.destroy')
 
 Route.get('/mensagems', 'MensagemsController.index')
+Route.get('/mensagems/:id_conversa/conversa/:id_usuario', 'MensagemsController.indexByConversaId')
 Route.post('/mensagems', 'MensagemsController.store')
 Route.put('/mensagems/:id', 'MensagemsController.update')
+Route.put('/mensagems/:id_conversa/visualizadas/:id_usuario', 'MensagemsController.updateVisualizadasPorConversaId')
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')

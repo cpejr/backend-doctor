@@ -19,9 +19,6 @@ export default class Mensagem extends BaseModel {
   public media_url: string
 
   @column()
-  public foi_enviado: boolean
-
-  @column()
   public foi_visualizado: boolean
 
   @column()
@@ -31,12 +28,12 @@ export default class Mensagem extends BaseModel {
   public id_usuario: string
 
   @belongsTo(() => Conversa, {
-    localKey: 'id_conversa'
+    foreignKey: 'id_conversa',
   })
   public conversa: BelongsTo<typeof Conversa>
 
   @belongsTo(() => Usuario, {
-    localKey: 'id_usuario'
+    foreignKey: 'id_usuario',
   })
   public usuario: BelongsTo<typeof Usuario>
 
