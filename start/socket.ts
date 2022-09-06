@@ -23,7 +23,7 @@ Ws.io.on('connection', (socket) => {
   })
 
   socket.on("disconnect", () => {
-    (Conversa.query().where({id_criador: socket["room"], ativada: false}).delete())
+    (Conversa.query().where({ id_criador: socket["room"], ativada: false }).delete())
       .then((res) => {
         console.log(`Excluiu-se ${res} conversa(s) inativa(s).`)
       })

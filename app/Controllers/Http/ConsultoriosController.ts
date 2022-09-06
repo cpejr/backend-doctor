@@ -20,7 +20,6 @@ export default class ConsultoriosController {
     const consultorio = await Consultorio.findBy('id', id)
 
     return consultorio
-
   }
 
   public async store({ request }: HttpContextContract) {
