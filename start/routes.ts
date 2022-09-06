@@ -1,12 +1,15 @@
 import Route from '@ioc:Adonis/Core/Route'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/arquivo', 'ArquivosController.store')
-Route.get('/arquivo/:url', 'ArquivosController.indexByUrl')
-Route.delete('/arquivo/:url', 'ArquivosController.destroy')
+Route.post('/arquivo', async (ctx) => {
+  return new ArquivosController().store(ctx)
+})
+Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
+Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
