@@ -4,6 +4,7 @@ import UsuariosDTO from 'App/DTO/UsuariosDTO'
 import UsuariosRepository from 'App/Repositories/UsuariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { UsuarioValidatorStore, UsuarioValidatorUpdate } from 'App/Validators/UsuarioValidator'
+import Mail from '@ioc:Adonis/Addons/Mail'
 
 export default class UsuariosController {
   public async index({ request }: HttpContextContract) {
@@ -41,6 +42,13 @@ export default class UsuariosController {
     if (!id) return
 		//o preload carrega todos as informacoes dos exames marcados daquele exame
     const usuario = await Usuario.query().where('id', id).preload("receita")
+    return usuario
+  }
+
+  public async indexByToken({ request }: HttpContextContract) {
+    const token_usuario = request.param('token_usuario')
+    if (!token_usuario) return
+    const usuario = await Usuario.findBy('token_usuario', token_usuario)
     return usuario
   }
 
@@ -97,7 +105,7 @@ export default class UsuariosController {
     const validateData = await request.validate(UsuarioValidatorUpdate)
 
     const usuario = await Usuario.findOrFail(id)
-    
+
     usuario.merge(limpaCamposNulosDeObjeto(validateData))
     await usuario.save()
     return usuario
@@ -113,4 +121,32 @@ export default class UsuariosController {
 
     return usuario
   }
+
+  public async alteracaoDeSenha ({ request, auth }: HttpContextContract) {
+    const email = request.param('email')
+    const usuario = await Usuario.query().where('email', email).firstOrFail()
+
+    const novoToken = await auth.use('api').generate(usuario, {
+      expiresIn: 7200,
+    })
+    const token = novoToken.token
+
+    usuario.$attributes.token_usuario = token;
+    await usuario.save();
+
+    const seguranca = "fc43c2dd-cf6c-4807-825e-3c9e7ba41b19e19637d2-5a44-463c-bae5-6709e7e53448"
+    const urlExclusiva = `http://localhost:3000/${seguranca}/alterarsenha?token=${token}`;
+    
+    await Mail.send((message) => {
+      message
+        .from('thoshioonuki2022@gmail.com')
+        .to( usuario.email )
+        .subject('Alteração de senha do DoctorApp')
+        .htmlView('emails/alterar_senha', {
+          user: { fullName: usuario.nome },
+          url: urlExclusiva,
+        })
+    })
+  }
+
 }
