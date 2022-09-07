@@ -39,25 +39,28 @@ export default class ConversasController {
           .as('mensagensNaoVistas')
       })
 
-  const conversas = data
-    .map((conversa) => {
-      const ultima_mensagem = conversa.mensagem[0]?.toObject();
-      if (ultima_mensagem) {
-        delete ultima_mensagem.$extras
-        ultima_mensagem['pertenceAoUsuarioAtual'] = ultima_mensagem.id_usuario === id_usuario
-      }
+    const conversas = data
+      .map((conversa) => {
+        const ultima_mensagem = conversa.mensagem[0]?.toObject()
+        if (ultima_mensagem) {
+          delete ultima_mensagem.$extras
+          ultima_mensagem['pertenceAoUsuarioAtual'] = ultima_mensagem.id_usuario === id_usuario
+        }
+        return {
+          id: conversa.id,
+          data_criacao: conversa.data_criacao,
+          conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador,
+          ativada: conversa.ativada,
+          ultima_mensagem,
+          mensagensNaoVistas: +conversa.$extras.mensagensNaoVistas,
+        }
+      })
+      .sort((c1, c2) => {
+        const date1 = !c1.ultima_mensagem ? c1.data_criacao : c1.ultima_mensagem.data_criacao
+        const date2 = !c2.ultima_mensagem ? c2.data_criacao : c2.ultima_mensagem.data_criacao
 
-      return {
-        id: conversa.id,
-        conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador,
-        ativada: conversa.ativada,
-        ultima_mensagem,
-        mensagensNaoVistas: +conversa.$extras.mensagensNaoVistas,
-      }
-    })
-    .sort((c1, c2) =>
-      c2.ultima_mensagem.data_criacao.diff(c1.ultima_mensagem.data_criacao
-    ))
+        return date2.diff(date1)
+      })
 
     return conversas
   }
@@ -95,7 +98,7 @@ export default class ConversasController {
     if (!id) return
 
     const conversa = await Conversa.query().where({ id, ativada: false }).update({
-      ativada: true
+      ativada: true,
     })
 
     return conversa
@@ -115,7 +118,9 @@ export default class ConversasController {
     const id_usuario = request.param('id_usuario')
     if (!id_usuario) return
 
-    const conversa = await Conversa.query().where({ id_criador: id_usuario, ativada: false }).delete()
+    const conversa = await Conversa.query()
+      .where({ id_criador: id_usuario, ativada: false })
+      .delete()
     return conversa
   }
 }
