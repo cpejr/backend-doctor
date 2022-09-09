@@ -3,28 +3,29 @@ import Ws from 'App/Services/Ws'
 
 Ws.boot()
 
-
 Ws.io.on('connection', (socket) => {
+  socket.on('adicionarUsuario', (usuarioId) => {
+    if (socket['room']) return
 
-  socket.on("adicionarUsuario", (usuarioId) => {
-    if (socket["room"]) return
-
-    socket["room"] = usuarioId
+    socket['room'] = usuarioId
     socket.join(usuarioId)
 
     console.log(`Socket ${socket.id} connected to room ${usuarioId}.`)
   })
 
-  socket.on("enviarMensagem", ({ novaMensagem, receptorId}) => {
-    socket.to(receptorId).emit("mensagemRecebida", novaMensagem)
+  socket.on('enviarMensagem', ({ novaMensagem, receptorId }) => {
+    socket.to(receptorId).emit('mensagemRecebida', novaMensagem)
   })
 
-  socket.on("enviarConversa", ({ novaConversa, receptorId }) => {
-    socket.to(receptorId).emit("conversaRecebida", novaConversa)
+  socket.on('enviarConversa', ({ novaConversa, receptorId }) => {
+    socket.to(receptorId).emit('conversaRecebida', novaConversa)
   })
 
-  socket.on("disconnect", () => {
-    (Conversa.query().where({ id_criador: socket["room"], ativada: false }).delete())
+  socket.on('disconnect', () => {
+    // Excluir conversas inativas quando o usuário desconectar
+    Conversa.query()
+      .where({ id_criador: socket['room'], ativada: false })
+      .delete()
       .then((res) => {
         console.log(`Excluiu-se ${res} conversa(s) inativa(s).`)
       })
@@ -32,7 +33,7 @@ Ws.io.on('connection', (socket) => {
         console.error(err)
       })
       .finally(() => {
-        socket.leave(socket["room"])
+        socket.leave(socket['room'])
         console.log(`Socket com id ${socket.id} saiu da sessão.`)
       })
   })
