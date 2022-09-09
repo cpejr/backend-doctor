@@ -1,13 +1,16 @@
 import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/arquivo', 'ArquivosController.store')
-Route.get('/arquivo/:url', 'ArquivosController.indexByUrl')
-Route.delete('/arquivo/:url', 'ArquivosController.destroy')
+Route.post('/arquivo', async (ctx) => {
+  return new ArquivosController().store(ctx)
+})
+Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
+Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
@@ -71,9 +74,11 @@ Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
 
 Route.get('/usuarios', 'UsuariosController.index')
 Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
+Route.get('/usuarios_token/:token_usuario', 'UsuariosController.indexByToken')
 Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
 Route.get('/imagem_carrossels', 'ImagensCarrosselController.index')

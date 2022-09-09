@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Usuario from 'App/Models/Usuario'
 import Hash from '@ioc:Adonis/Core/Hash'
+import Mail from '@ioc:Adonis/Addons/Mail'
 
 export default class SessoesController {
   public async login({ request, auth, response }: HttpContextContract) {
@@ -36,4 +37,5 @@ export default class SessoesController {
       return true
     }
   }
+
 }
