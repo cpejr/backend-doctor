@@ -69,11 +69,19 @@ export default class ConversasController {
     const id_criador = request.input('id_criador')
     const id_receptor = request.input('id_receptor')
 
-    const conversa = await Conversa.create({
+    const conversaExistente = await Conversa.query().where({
+      id_criador: id_receptor,
+      id_receptor: id_criador,
+    })
+
+    if (conversaExistente.length) return conversaExistente[0]
+
+    const novaConversa = await Conversa.create({
       id_criador,
       id_receptor,
     })
-    return conversa
+    console.log(novaConversa)
+    return novaConversa
   }
 
   public async update({ request }: HttpContextContract) {

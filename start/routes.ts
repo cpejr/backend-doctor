@@ -103,12 +103,16 @@ Route.post('/conversas', 'ConversasController.store')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
 Route.delete('/conversas/:id', 'ConversasController.destroy')
+Route.delete('/conversas/:id_usuario/usuario', 'ConversasController.destroyByUsuarioId')
 
 Route.get('/mensagems', 'MensagemsController.index')
 Route.get('/mensagems/:id_conversa/conversa/:id_usuario', 'MensagemsController.indexByConversaId')
 Route.post('/mensagems', 'MensagemsController.store')
 Route.put('/mensagems/:id', 'MensagemsController.update')
-Route.put('/mensagems/:id_conversa/visualizadas/:id_usuario', 'MensagemsController.updateVisualizadasPorConversaId')
+Route.put(
+  '/mensagems/:id_conversa/visualizadas/:id_usuario',
+  'MensagemsController.updateVisualizadasPorConversaId'
+)
 Route.delete('/mensagems/:id', 'MensagemsController.destroy')
 
 Route.get('/formularios_pacientes', 'FormulariosPacientesController.index')
