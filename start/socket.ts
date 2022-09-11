@@ -1,4 +1,3 @@
-import Conversa from 'App/Models/Conversa'
 import Ws from 'App/Services/Ws'
 
 Ws.boot()
@@ -19,22 +18,5 @@ Ws.io.on('connection', (socket) => {
 
   socket.on('enviarConversa', ({ novaConversa, receptorId }) => {
     socket.to(receptorId).emit('conversaRecebida', novaConversa)
-  })
-
-  socket.on('disconnect', () => {
-    // Excluir conversas inativas quando o usuário desconectar
-    Conversa.query()
-      .where({ id_criador: socket['room'], ativada: false })
-      .delete()
-      .then((res) => {
-        console.log(`Excluiu-se ${res} conversa(s) inativa(s).`)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-      .finally(() => {
-        socket.leave(socket['room'])
-        console.log(`Socket com id ${socket.id} saiu da sessão.`)
-      })
   })
 })
