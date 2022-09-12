@@ -9,7 +9,6 @@ Ws.io.on('connection', (socket) => {
     socket['room'] = usuarioId
     socket.join(usuarioId)
 
-    console.log(`Socket ${socket.id} connected to room ${usuarioId}.`)
   })
 
   socket.on('enviarMensagem', ({ novaMensagem, receptorId }) => {

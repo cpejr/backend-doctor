@@ -23,14 +23,10 @@ export class MensagemValidatorUpdate {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    // conteudo: schema.string.optional({ trim: true }),
-    // media_url: schema.string.optional({ trim: true }),
     foi_visualizado: schema.boolean.optional(),
   })
 
   public messages = {
-    // string: 'O campo {{field}} deve ser uma string',
     boolean: 'O campo {{field}} deve ser uma boleano',
-    // date: 'A data_envio deve ser do formato dd/MM/yyyy HH:mm:ss',
   }
 }

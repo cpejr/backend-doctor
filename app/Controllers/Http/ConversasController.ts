@@ -80,7 +80,6 @@ export default class ConversasController {
       id_criador,
       id_receptor,
     })
-    console.log(novaConversa)
     return novaConversa
   }
 
