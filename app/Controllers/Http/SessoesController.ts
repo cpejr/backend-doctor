@@ -22,8 +22,9 @@ export default class SessoesController {
     const token = novoToken.token
 
     const tipo = usuario.tipo
+    const id = usuario.id
 
-    return response.status(200).json({ email, token, tipo })
+    return response.status(200).json({ id, email, token, tipo })
   }
   public async verificarSenha({ request, response }: HttpContextContract) {
     const email = request.input('email')
