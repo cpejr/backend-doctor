@@ -13,20 +13,28 @@ export default class Conversa extends BaseModel {
   }
 
   @column()
-  public id_remetente: string
+  public id_criador: string
 
   @column()
-  public id_destinatario: string
+  public id_receptor: string
+
+  @column()
+  public ativada: boolean
+
+  @hasMany(() => Mensagem, {
+    foreignKey: 'id_conversa'
+  })
+  public mensagem: HasMany<typeof Mensagem>
 
   @belongsTo(() => Usuario, {
-    localKey: 'id_remetente'
+    foreignKey: 'id_criador'
   })
-  public id_usuario_remetente: BelongsTo<typeof Usuario>
+  public criador: BelongsTo<typeof Usuario>
 
   @belongsTo(() => Usuario, {
-    localKey: 'id_destinatario'
+    foreignKey: 'id_receptor'
   })
-  public id_usuario_destinatario: BelongsTo<typeof Usuario>
+  public receptor: BelongsTo<typeof Usuario>
 
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime
@@ -34,8 +42,4 @@ export default class Conversa extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public data_atualizacao: DateTime
 
-  @hasMany(() => Mensagem, {
-    foreignKey: 'id_conversa'
-  })
-  public mensagem: HasMany<typeof Mensagem>
 }
