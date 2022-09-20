@@ -9,6 +9,7 @@ export class FormularioPacienteValidatorStore {
     midia_url: schema.string.optional({ trim: true }),
     word: schema.string.optional({ trim: true }),
     status: schema.boolean(),
+    notificacao_ativa: schema.boolean(),
   })
 
   public messages = {
@@ -26,6 +27,7 @@ export class FormularioPacienteValidatorUpdate {
     midia_url: schema.string.optional({ trim: true }),
     word: schema.string.optional({ trim: true }),
     status: schema.boolean.optional(),
+    notificacao_ativa: schema.boolean.optional(),
   })
 
   public messages = {
