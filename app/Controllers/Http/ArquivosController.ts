@@ -17,8 +17,8 @@ export default class ArquivosController {
     }
   }
 
-  public async store({ request }: HttpContextContract) {
-    const image = request.input('file')
+  public async store(image) {
+    
 
     const tipo_conteudo = "text"
     const ACL = 'public-read'
@@ -59,4 +59,3 @@ export default class ArquivosController {
   }
 }
 
-module.exports(ArquivosController)
