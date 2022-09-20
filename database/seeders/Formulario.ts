@@ -13,11 +13,19 @@ export default class FormularioSeeder extends BaseSeeder {
           "type": "object",
           "properties": {
             "newInput1": {
-              "title": "qual sua urgencia nesse exato instante paciente?",
-              "type": "string"
+              "title": "Data da internação:",
+              "type": "date"
             },
             "newInput2": {
-              "title": "qual sua urgencia nesse exato instante?",
+              "title": "Nome do Hospital:",
+              "type": "string"
+            },
+            "newInput3": {
+              "title": "Médico assistente no hospital:",
+              "type": "string"
+            },
+            "newInput4": {
+              "title": "Telefone de contato do hospital:",
               "type": "string"
             }
           },
