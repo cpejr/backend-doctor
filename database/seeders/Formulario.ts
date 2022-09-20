@@ -6,6 +6,7 @@ export default class FormularioSeeder extends BaseSeeder {
   public async run () {
     await Formulario.create(
       {
+        "id": "046975f7-d7d0-4635-a9d9-25efbe65d7b7",
         "titulo": "formulario solar",
         "tipo": "urgencia_formulario",
         "finalidade": "aaa",
