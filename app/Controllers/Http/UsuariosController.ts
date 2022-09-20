@@ -6,9 +6,7 @@ import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { UsuarioValidatorStore, UsuarioValidatorUpdate } from 'App/Validators/UsuarioValidator'
 import Mail from '@ioc:Adonis/Addons/Mail'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
-import Arquivo from 'App/Controllers/Http/ArquivosController'
 export default class UsuariosController {
-
   public async index({ request }: HttpContextContract) {
     const usuarioData = {
       id: request.param('id'),
@@ -151,12 +149,10 @@ export default class UsuariosController {
     if (!id) return
     const usuario = await Usuario.findOrFail(id)
 
-
-    const arquivoscontroller:ArquivosController = new ArquivosController();
+    const arquivoscontroller: ArquivosController = new ArquivosController()
     const file = request.input('file')
     const res = await arquivoscontroller.store(file)
     usuario.$attributes.avatar_url = res
     await usuario.save()
   }
 }
-

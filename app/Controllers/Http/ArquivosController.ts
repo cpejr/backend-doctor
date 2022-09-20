@@ -18,28 +18,23 @@ export default class ArquivosController {
   }
 
   public async store(image) {
-    
-
-    const tipo_conteudo = "text"
+    const tipo_conteudo = 'text'
     const ACL = 'public-read'
-    const nome = "minionss"
+    const nome = 'minionss'
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-
 
     await Drive.put(chave, image, {
       contentType: tipo_conteudo,
       visibility: ACL,
     })
 
+    await Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo,
+    })
 
-        await Arquivo.create({
-          nome,
-          chave,
-          tipo_conteudo,
-        })
-
-
-    return chave;
+    return chave
   }
 
   public async update({}: HttpContextContract) {}
@@ -58,4 +53,3 @@ export default class ArquivosController {
     }
   }
 }
-
