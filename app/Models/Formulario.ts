@@ -1,13 +1,16 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
+import { typeName } from 'aws-sdk/clients/customerprofiles'
 export default class Formulario extends BaseModel {
   @column({ isPrimary: true })
   public id: string
 
   @beforeCreate()
   public static async createUUID (model:Formulario){
-    model.id = uuid()
+    if (!model.$dirty.id) {
+      model.id = uuid()
+    }
   }
 
   @column()
