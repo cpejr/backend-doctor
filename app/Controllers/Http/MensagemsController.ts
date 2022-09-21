@@ -9,36 +9,58 @@ export default class MensagemsController {
   public async index({ request }: HttpContextContract) {
     const mensagemData = {
       id: request.param('id'),
-      mensagem: request.param('mensagem'),
-      data_envio: request.param('data_envio'),
+      conteudo: request.param('conteudo'),
       media_url: request.param('media_url'),
-      foi_enviado: request.param('foi_enviado'),
       foi_visualizado: request.param('foi_visualizado'),
       id_conversa: request.param('id_conversa'),
+      id_usuario: request.param('id_usuario')
     } as MensagemsDTO
     const mensagem = await MensagemsRepository.find(limpaCamposNulosDeObjeto(mensagemData))
     return mensagem
   }
 
+  public async indexByConversaId({ request }: HttpContextContract) {
+    const { id_usuario, id_conversa } = request.params();
+    if (!id_conversa || !id_usuario) return
+
+    const data = await Mensagem.query()
+      .where({ id_conversa })
+      .orderBy('data_criacao', 'asc')
+
+    const mensagens = data?.map((messagem) => {
+      const pertenceAoUsuarioAtual = messagem.id_usuario === id_usuario
+
+      return {
+        id: messagem.id,
+        id_usuario: messagem.id_usuario,
+        conteudo: messagem.conteudo,
+        data_criacao: messagem.data_criacao,
+        foi_visualizado: messagem.foi_visualizado,
+        pertenceAoUsuarioAtual
+      }
+    })
+
+    return mensagens
+  }
+
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(MensagemValidatorStore)
 
-    const mensagem = validateData.mensagem
-    const data_envio = validateData.data_envio
+    const conteudo = validateData.conteudo
     const media_url = validateData.media_url
-    const foi_enviado = validateData.foi_enviado
     const foi_visualizado = validateData.foi_visualizado
     const id_conversa = request.input('id_conversa')
+    const id_usuario = request.input('id_usuario')
 
-    const mensagens = await Mensagem.create({
-      mensagem,
-      data_envio,
+
+    const mensagem = await Mensagem.create({
+      conteudo,
       media_url,
-      foi_enviado,
       foi_visualizado,
       id_conversa,
+      id_usuario
     })
-    return mensagens
+    return mensagem
   }
 
   public async update({ request }: HttpContextContract) {
@@ -52,6 +74,34 @@ export default class MensagemsController {
     await mensagens.save()
 
     return mensagens
+  }
+
+  public async updateVizualizada({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+    const mensagensAtualizadas = await Mensagem.query()
+      .where('id', id)
+      .update({
+        foi_visualizado: true
+      })
+
+    return mensagensAtualizadas
+  }
+
+  public async updateVisualizadasPorConversaId({ request }: HttpContextContract) {
+    const { id_conversa, id_usuario } = request.params()
+    if (!id_conversa || !id_usuario) return
+    const mensagensAtualizadas = await Mensagem.query()
+      .where('id_conversa', id_conversa)
+      .whereNot({
+        id_usuario,
+        foi_visualizado: true
+      })
+      .update({
+        foi_visualizado: true
+      })
+
+    return mensagensAtualizadas
   }
 
   public async destroy({ request }: HttpContextContract) {

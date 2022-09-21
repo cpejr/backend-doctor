@@ -14,6 +14,8 @@ import {
 import Receita from './Receita'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { v4 as uuid } from 'uuid'
+import Mensagem from './Mensagem'
+import Conversa from './Conversa'
 export default class Usuario extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -93,6 +95,21 @@ export default class Usuario extends BaseModel {
     foreignKey: 'id_usuario',
   })
   public receita: HasMany<typeof Receita>
+
+  @hasMany(() => Conversa, {
+    foreignKey: 'id_criador',
+  })
+  public conversas_criadas: HasMany<typeof Conversa>
+
+  @hasMany(() => Conversa, {
+    foreignKey: 'id_receptor',
+  })
+  public conversas_recebidas: HasMany<typeof Conversa>
+
+  @hasMany(() => Mensagem, {
+    foreignKey: 'id_usuario',
+  })
+  public mensagem: HasMany<typeof Mensagem>
 
   @beforeSave()
   public static async hashPassword(usuario: Usuario) {
