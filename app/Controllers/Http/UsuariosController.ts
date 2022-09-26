@@ -155,4 +155,18 @@ export default class UsuariosController {
     usuario.$attributes.avatar_url = res
     await usuario.save()
   }
+
+  public async deleteImagem({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const arquivoscontroller: ArquivosController = new ArquivosController();
+    const file = request.input('file')
+    await arquivoscontroller.destroy(file)
+
+    const usuario = await Usuario.findOrFail(id)
+    usuario.$attributes.avatar_url = null
+    await usuario.save()
+  }
+
 }
