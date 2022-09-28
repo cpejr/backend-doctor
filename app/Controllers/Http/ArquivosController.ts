@@ -42,7 +42,6 @@ export default class ArquivosController {
   public async destroy(chave) {
     try {
 
-      console.log("chegou");
       await Drive.delete(chave);
 
       return 'Arquivo deletado com sucesso!'
