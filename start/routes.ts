@@ -79,7 +79,7 @@ Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
 Route.post('/usuariosimagem/:id', 'UsuariosController.updateImagem')
-Route.put('/usuariosimagem/:id', 'UsuariosController.deleteImagem')
+Route.put('/usuariosdeletarimagem/:id', 'UsuariosController.deleteImagem')
 Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
