@@ -160,13 +160,15 @@ export default class UsuariosController {
     const id = request.param('id')
     if (!id) return
 
+    console.log(id);
+
     const arquivoscontroller: ArquivosController = new ArquivosController();
     const file = request.input('file')
-    await arquivoscontroller.destroy(file)
+    await arquivoscontroller.destroy(file);
 
     const usuario = await Usuario.findOrFail(id)
-    usuario.$attributes.avatar_url = null
-    await usuario.save()
+    usuario.$attributes.avatar_url = null;
+    await usuario.save();
   }
 
 }
