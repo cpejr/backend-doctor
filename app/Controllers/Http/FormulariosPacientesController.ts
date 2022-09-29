@@ -16,6 +16,7 @@ export default class FormulariosPacientesController {
       midia_url: request.param('midia_url'),
       word: request.param('word'),
       status: request.param('status'),
+      notificacao_ativa: request.param('notificacao_ativa'),
       id_usuario: request.param('id_usuario'),
       id_formulario: request.param('id_formulario'),
     } as FormulariosPacientesDTO
@@ -56,6 +57,7 @@ export default class FormulariosPacientesController {
     const midia_url = validateData.midia_url
     const word = validateData.word
     const status = validateData.status
+    const notificacao_ativa = validateData.notificacao_ativa
     const id_usuario = request.input('id_usuario')
     const id_formulario = request.input('id_formulario')
 
@@ -64,6 +66,7 @@ export default class FormulariosPacientesController {
       midia_url,
       word,
       status,
+      notificacao_ativa,
       id_usuario,
       id_formulario,
     })

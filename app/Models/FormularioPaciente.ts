@@ -25,6 +25,9 @@ export default class FormularioPaciente extends BaseModel {
   public status: boolean
 
   @column()
+  public notificacao_ativa: boolean
+
+  @column()
   public id_usuario: string
 
   @belongsTo(() => Usuario, {
