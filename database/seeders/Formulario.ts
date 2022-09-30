@@ -5,9 +5,8 @@ const perguntas: any = {
   type: 'object',
   properties: {
     newInput1: {
-      title: "Data da internação:",
+      title: "Data da internação (no formato DD/MM/AAAA):",
       type: "string",
-      format: "date"
     },
     newInput2: {
       title: "Nome do Hospital:",
@@ -19,6 +18,10 @@ const perguntas: any = {
     },
     newInput4: {
       title: "Telefone de contato do hospital:",
+      type: "string"
+    },
+    newInput5: {
+      title: "Faça uma breve descrição do acontecimento:",
       type: "string"
     }
   },
@@ -36,9 +39,9 @@ export default class FormularioSeeder extends BaseSeeder {
     await Formulario.create(
       {
         id: "046975f7-d7d0-4635-a9d9-25efbe65d7b7",
-        titulo: 'formulario de urgência',
+        titulo: 'Formulario de Urgência',
         tipo: 'urgencia_formulario',
-        finalidade: 'aaa',
+        finalidade: 'auxiliar no diagnóstico de pacientes em situação de emergência',
         perguntas: perguntas,
         urgencia: 3
     },
