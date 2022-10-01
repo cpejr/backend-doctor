@@ -17,7 +17,7 @@ const perguntas: any = {
       type: "string"
     },
     newInput4: {
-      title: "Telefone de contato do hospital no formato (xx)xxxxx-xxxx",
+      title: "Telefone de contato do hospital no formato (xx) xxxxx-xxxx",
       type: "string"
     },
     newInput5: {
