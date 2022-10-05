@@ -19,8 +19,8 @@ export default class DispositivosController {
   }
   public async indexByIdDispositivo({ request }: HttpContextContract) {
     const id = request.param('id')
-    const dispositivo = await Dispositivo.findBy('id', id)
-
+    const dispositivo = await Dispositivo.query().where('id', id)
+    
     return dispositivo
   }
 
