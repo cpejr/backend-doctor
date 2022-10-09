@@ -11,6 +11,7 @@ export default class ConsultoriosController {
       id: request.param('id'),
       nome: request.param('nome'),
       id_endereco: request.param('id_endereco'),
+      tipo: request.param('tipo'),
     } as ConsultoriosDTO
     const consultorios = await ConsultoriosRepository.find(limpaCamposNulosDeObjeto(consultorioData))
     return consultorios
@@ -27,10 +28,12 @@ export default class ConsultoriosController {
 
     const nome = validateData.nome
     const id_endereco = request.input('id_endereco')
+    const tipo = validateData.tipo
 
     const consultorio = await Consultorio.create({
       nome,
-      id_endereco
+      id_endereco,
+      tipo,
     })
     return consultorio
   }
