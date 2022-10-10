@@ -74,6 +74,7 @@ Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
 
 Route.get('/usuarios', 'UsuariosController.index')
 Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
+Route.get('/usuarios_id/:id', 'UsuariosController.indexByIdUsuario')
 Route.get('/usuarios_token/:token_usuario', 'UsuariosController.indexByToken')
 Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
