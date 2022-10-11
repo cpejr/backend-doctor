@@ -9,6 +9,7 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
