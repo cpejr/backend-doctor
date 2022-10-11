@@ -78,11 +78,19 @@ export default class ArquivosController {
         Drive.putStream(chave, res, {
           contentType: tipo_conteudo,
           visibility: ACL,
-        })
+        });
+
+        Arquivo.create({
+          nome,
+          chave,
+          tipo_conteudo,
+        });
+
       }
     });
 
   }
+
 
   public async update({ }: HttpContextContract) { }
 
