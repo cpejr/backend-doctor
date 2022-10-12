@@ -65,7 +65,7 @@ export default class ReceitasController {
     receita.$attributes.pdf_url = res;
 
     await receita.save();
-    
+
     return receita;
   }
 
@@ -86,7 +86,14 @@ export default class ReceitasController {
     const id = request.param('id')
     if (!id) return
 
+
+    const arquivoscontroller: ArquivosController = new ArquivosController();
+
+
+    
     const receita = await Receita.findOrFail(id)
+
+    await arquivoscontroller.destroy(receita.pdf_url); 
     await receita.delete()
 
     return receita

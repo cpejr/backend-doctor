@@ -91,9 +91,8 @@ export default class ArquivosController {
 
   public async update({ }: HttpContextContract) { }
 
-  public async destroy({ request }: HttpContextContract) {
+  public async destroy(chave) {
     try {
-      const chave = request.param('chave')
       const arquivo = await Arquivo.findByOrFail('chave', chave)
 
       await Drive.delete(arquivo.chave)
