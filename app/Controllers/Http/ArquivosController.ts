@@ -86,6 +86,8 @@ export default class ArquivosController {
           tipo_conteudo,
         });
 
+        return chave;
+
       }
     });
 
