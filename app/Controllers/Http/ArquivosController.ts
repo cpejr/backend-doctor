@@ -45,12 +45,7 @@ export default class ArquivosController {
   }
 
 
-  public async storePdf({ request }: HttpContextContract) {
-
-    const nomePaciente = request.input('nome');
-    const dataNascimento = request.input('data');
-    const tituloReceita = request.input('titulo');
-    const descricao = request.input('descricao');
+  public async storePdf(nomePaciente, dataNascimento, tituloReceita, descricao) {
 
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
       return 0;
@@ -73,6 +68,7 @@ export default class ArquivosController {
     await pdf.create(conteudoPdf, {}).toStream((err, res) => {
       if (err) {
         console.log(err);
+        return false;
       }
       else {
         Drive.putStream(chave, res, {
@@ -86,11 +82,10 @@ export default class ArquivosController {
           tipo_conteudo,
         });
 
-        return chave;
-
       }
     });
 
+  return chave;
   }
 
 
