@@ -11,6 +11,7 @@ export default class ReceitasController {
       id: request.param('id'),
       titulo: request.param('titulo'),
       descricao: request.param('descricao'),
+      pdf_url: request.param('pdf_url'),
       id_usuario: request.param('id_usuario'),
     } as ReceitasDTO
     const receitas = await ReceitasRepository.find(limpaCamposNulosDeObjeto(receitaData))
@@ -41,11 +42,13 @@ export default class ReceitasController {
 
     const titulo = validateData.titulo
     const descricao = validateData.descricao
+    const pdf_url = validateData.pdf_url
     const id_usuario = request.input('id_usuario')
 
     const receita = await Receita.create({
       titulo,
       descricao,
+      pdf_url,
       id_usuario,
     })
     return receita

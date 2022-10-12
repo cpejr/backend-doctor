@@ -11,6 +11,9 @@ export class ReceitaValidatorStore {
     descricao: schema.string({
       trim: true,
     }),
+    pdf_url: schema.string.optional({
+       trim: true 
+    }),
   })
 
   public messages = {
