@@ -19,20 +19,16 @@ export default class ArquivosController {
     }
   }
 
-  public async store({ request }: HttpContextContract) {
-    const image = request.input('file')
-
-    const tipo_conteudo = "text"
+  public async store(image) {
+    const tipo_conteudo = 'text'
     const ACL = 'public-read'
-    const nome = "minionss"
+    const nome = 'doctor-app-image'
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-
 
     await Drive.put(chave, image, {
       contentType: tipo_conteudo,
       visibility: ACL,
     })
-
 
     await Arquivo.create({
       nome,
@@ -40,10 +36,8 @@ export default class ArquivosController {
       tipo_conteudo,
     })
 
-
-    return chave;
+    return chave
   }
-
 
   public async storePdf(nomePaciente, dataNascimento, tituloReceita, descricao) {
 
@@ -94,8 +88,7 @@ export default class ArquivosController {
     try {
       const arquivo = await Arquivo.findByOrFail('chave', chave)
 
-      await Drive.delete(arquivo.chave)
-      await arquivo.delete()
+      await Drive.delete(chave);
 
       return 'Arquivo deletado com sucesso!'
     } catch (error) {
