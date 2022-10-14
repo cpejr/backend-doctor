@@ -4,6 +4,7 @@ import Receita from 'App/Models/Receita'
 import ReceitasRepository from 'App/Repositories/ReceitasRepostory'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { ReceitaValidatorStore, ReceitaValidatorUpdate } from 'App/Validators/ReceitaValidator'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 export default class ReceitasController {
   public async index({ request }: HttpContextContract) {
@@ -11,6 +12,7 @@ export default class ReceitasController {
       id: request.param('id'),
       titulo: request.param('titulo'),
       descricao: request.param('descricao'),
+      pdf_url: request.param('pdf_url'),
       id_usuario: request.param('id_usuario'),
     } as ReceitasDTO
     const receitas = await ReceitasRepository.find(limpaCamposNulosDeObjeto(receitaData))
@@ -39,16 +41,32 @@ export default class ReceitasController {
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(ReceitaValidatorStore)
 
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+
+    const nomePaciente = request.input('nome');
+    const dataNascimento = request.input('data');
+
     const titulo = validateData.titulo
     const descricao = validateData.descricao
-    const id_usuario = request.input('id_usuario')
+
+    const id_usuario = request.input('id_usuario');
+
+
+    const res = await arquivoscontroller.storePdf(nomePaciente,dataNascimento,titulo, descricao);
+
 
     const receita = await Receita.create({
       titulo,
       descricao,
       id_usuario,
-    })
-    return receita
+      
+    });
+
+    receita.$attributes.pdf_url = res;
+
+    await receita.save();
+
+    return receita;
   }
 
   public async update({ request }: HttpContextContract) {
@@ -68,7 +86,14 @@ export default class ReceitasController {
     const id = request.param('id')
     if (!id) return
 
+
+    const arquivoscontroller: ArquivosController = new ArquivosController();
+
+
+    
     const receita = await Receita.findOrFail(id)
+
+    await arquivoscontroller.destroy(receita.pdf_url); 
     await receita.delete()
 
     return receita

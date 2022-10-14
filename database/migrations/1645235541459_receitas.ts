@@ -8,6 +8,7 @@ export default class Receitas extends BaseSchema {
       table.string('id').primary()
       table.string('titulo').notNullable()
       table.string('descricao').notNullable()
+      table.string('pdf_url').nullable()
       table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
