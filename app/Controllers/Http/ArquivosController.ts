@@ -20,7 +20,7 @@ export default class ArquivosController {
   public async store(image) {
     const tipo_conteudo = 'text'
     const ACL = 'public-read'
-    const nome = 'minionss'
+    const nome = 'doctor-app-image'
     const chave = `${(Math.random() * 100).toString()}-${nome}`
 
     await Drive.put(chave, image, {
