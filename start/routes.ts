@@ -38,6 +38,7 @@ Route.put('/assinaturas/:id', 'AssinaturasController.update')
 Route.delete('/assinaturas/:id', 'AssinaturasController.destroy')
 
 Route.get('/dispositivos', 'DispositivosController.index')
+Route.get('/dispositivos/:id', 'DispositivosController.indexByIdDispositivo')
 Route.post('/dispositivos', 'DispositivosController.store')
 Route.put('/dispositivos/:id', 'DispositivosController.update')
 Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
