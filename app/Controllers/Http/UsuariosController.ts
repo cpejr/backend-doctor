@@ -5,7 +5,7 @@ import UsuariosRepository from 'App/Repositories/UsuariosRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { UsuarioValidatorStore, UsuarioValidatorUpdate } from 'App/Validators/UsuarioValidator'
 import Mail from '@ioc:Adonis/Addons/Mail'
-
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 export default class UsuariosController {
   public async index({ request }: HttpContextContract) {
     const usuarioData = {
@@ -143,4 +143,33 @@ export default class UsuariosController {
         })
     })
   }
+
+  public async updateImagem({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const usuario = await Usuario.findOrFail(id)
+
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    const file = request.input('file')
+    const res = await arquivoscontroller.store(file)
+    usuario.$attributes.avatar_url = res
+    await usuario.save()
+  }
+
+  public async deleteImagem({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    
+
+    const arquivoscontroller: ArquivosController = new ArquivosController();
+    const file = request.input('file');
+    await arquivoscontroller.destroy(file);
+
+    const usuario = await Usuario.findOrFail(id)
+    usuario.$attributes.avatar_url = null;
+    await usuario.save();
+  }
+
 }
