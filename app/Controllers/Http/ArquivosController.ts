@@ -67,7 +67,6 @@ export default class ArquivosController {
     const chave = `${(Math.random() * 100).toString()}-${nome}`
     await pdf.create(conteudoPdf, {}).toStream((err, res) => {
       if (err) {
-        console.log(err);
         return false;
       }
       else {
