@@ -89,6 +89,7 @@ export default class ArquivosController {
       const arquivo = await Arquivo.findByOrFail('chave', chave)
 
       await Drive.delete(chave);
+      await arquivo.delete()
 
       return 'Arquivo deletado com sucesso!'
     } catch (error) {

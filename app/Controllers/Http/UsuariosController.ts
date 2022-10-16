@@ -152,12 +152,18 @@ export default class UsuariosController {
   }
 
   public async updateImagem({ request }: HttpContextContract) {
+
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    
     const id = request.param('id')
     if (!id) return
 
-    const usuario = await Usuario.findOrFail(id)
+    const usuario = await Usuario.findOrFail(id);
+    if(usuario.avatar_url != undefined && usuario.avatar_url != null && usuario.avatar_url != ""){
+      const chave = usuario.avatar_url
+      await arquivoscontroller.destroy(chave);
+    }
 
-    const arquivoscontroller: ArquivosController = new ArquivosController()
     const file = request.input('file')
     const res = await arquivoscontroller.store(file)
     usuario.$attributes.avatar_url = res
