@@ -19,6 +19,9 @@ export default class Receita extends BaseModel {
   public descricao: string
 
   @column()
+  public pdf_url: string
+
+  @column()
   public id_usuario: string
 
   @belongsTo(() => Usuario, {

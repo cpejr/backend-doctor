@@ -54,7 +54,7 @@ export default class ExameMarcadosController {
     const esta_disponivel = validateData.esta_disponivel
     const id_usuario = request.input('id_usuario')
     const id_exame = request.input('id_exame')
-    const id_consultorio = request.input('id_uconsultorio')
+    const id_consultorio = request.input('id_consultorio')
     const id_dispositivo = request.input('id_dispositivo')
 
     const exameMarcado = await ExameMarcado.create({
