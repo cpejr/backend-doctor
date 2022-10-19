@@ -48,7 +48,7 @@ export class UsuarioValidatorUpdate {
     telefone_cuidador: schema.string.optional({ trim: true }, [rules.minLength(11), rules.maxLength(11)]),
     tipo: schema.enum.optional(['MASTER', 'SECRETARIA(O)', 'PACIENTE']),
     aprovado: schema.boolean.optional(),
-    avatar_url: schema.string.optional({ trim: true }),
+    avatar_url: schema.string.nullableAndOptional({ trim: true }),
     codigo: schema.string.nullableAndOptional({ trim: true }),
   })
 
