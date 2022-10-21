@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { Response } from 'aws-sdk'
 import { schema } from '@ioc:Adonis/Core/Validator'
 import pdf from 'html-pdf'
+import fs from "fs";
 
 export default class ArquivosController {
 
@@ -14,6 +15,17 @@ export default class ArquivosController {
       const arquivo = await Arquivo.findByOrFail('chave', chave)
       const urlRes = await Drive.get(arquivo.chave)
       return urlRes
+    } catch (error) {
+      return 'Falha ao pegar o arquivo!'
+    }
+  }
+
+  public async indexPDF({ request, response }: HttpContextContract) {
+    try {
+      const chave = request.param('chave')
+      const arquivo = await Arquivo.findByOrFail('chave', chave)
+      const urlRes = await Drive.getStream(arquivo.chave)
+      return urlRes;
     } catch (error) {
       return 'Falha ao pegar o arquivo!'
     }
@@ -59,22 +71,21 @@ export default class ArquivosController {
     const ACL = 'public-read'
     const nome = "PDF"
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-    await pdf.create(conteudoPdf, {}).toStream((err, res) => {
+    await pdf.create(conteudoPdf, {}).toFile((err, res) => {
       if (err) {
         return false;
       }
       else {
-        Drive.putStream(chave, res, {
+        let arquivo64 = fs.readFileSync(res.filename, {encoding: "base64"});
+        Drive.put(chave, arquivo64, {
           contentType: tipo_conteudo,
           visibility: ACL,
         });
-
         Arquivo.create({
           nome,
           chave,
           tipo_conteudo,
         });
-
       }
     });
 

@@ -11,6 +11,7 @@ Route.post('/arquivo', async (ctx) => {
 })
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
+Route.get('/arquivopdf/:chave', 'ArquivosController.indexPDF')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
 Route.get('/enderecos', 'EnderecosController.index')
