@@ -13,10 +13,15 @@ export default class SessoesController {
     if (!(await Hash.verify(usuario.senha, senha))) {
       return response.badRequest('Credenciais Inválidas')
     }
+    const hoje = new Date();
+    const tempoExpiracaoToken = hoje;
+    const minutos = tempoExpiracaoToken.getMinutes();
+    tempoExpiracaoToken.setHours(minutos + 5);
 
+    
     // Generate token
     const novoToken = await auth.use('api').generate(usuario, {
-      expiresIn: '30mins',
+      expires_at: tempoExpiracaoToken,
     })
 
     const token = novoToken.token
