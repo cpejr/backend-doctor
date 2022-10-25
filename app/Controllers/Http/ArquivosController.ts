@@ -20,17 +20,6 @@ export default class ArquivosController {
     }
   }
 
-  public async indexPDF({ request, response }: HttpContextContract) {
-    try {
-      const chave = request.param('chave')
-      const arquivo = await Arquivo.findByOrFail('chave', chave)
-      const urlRes = await Drive.getStream(arquivo.chave)
-      return urlRes;
-    } catch (error) {
-      return 'Falha ao pegar o arquivo!'
-    }
-  }
-
   public async store(image) {
     const tipo_conteudo = 'text'
     const ACL = 'public-read'
