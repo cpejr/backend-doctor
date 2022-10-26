@@ -32,9 +32,7 @@ export default class SessoesController {
         await tokens[i].delete();
       }
     }
-
-    /* console.log(tokens[15].$attributes.expiresAt < hoje); */
-
+    
     const token = novoToken.token
 
     const tipo = usuario.tipo
