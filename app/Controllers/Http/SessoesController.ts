@@ -16,8 +16,8 @@ export default class SessoesController {
     }
     const hoje = new Date();
     const tempoExpiracaoToken = hoje;
-    const minutos = tempoExpiracaoToken.getMinutes();
-    tempoExpiracaoToken.setMinutes(minutos + 30);
+    const horas = tempoExpiracaoToken.getHours();
+    tempoExpiracaoToken.setHours(horas + 8);
 
     
     // Generate token
