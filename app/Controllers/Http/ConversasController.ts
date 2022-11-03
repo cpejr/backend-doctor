@@ -9,6 +9,7 @@ export default class ConversasController {
       id: request.param('id'),
       id_criador: request.param('id_criador'),
       id_receptor: request.param('id_receptor'),
+      tipo: request.param('tipo'),
     } as ConversasDTO
     const conversas = await ConversasRepository.find(limpaCamposNulosDeObjeto(conversaData))
     return conversas
@@ -17,6 +18,7 @@ export default class ConversasController {
   public async indexByUsuarioId({ request }: HttpContextContract) {
     const id_usuario = request.param('id_usuario')
     if (!id_usuario) return
+
 
     const data = await Conversa.query()
       .where('id_criador', id_usuario)
@@ -48,6 +50,7 @@ export default class ConversasController {
         }
         return {
           id: conversa.id,
+          tipo: conversa.tipo,
           data_criacao: conversa.data_criacao,
           conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador,
           ativada: conversa.ativada,
@@ -68,6 +71,7 @@ export default class ConversasController {
   public async store({ request }: HttpContextContract) {
     const id_criador = request.input('id_criador')
     const id_receptor = request.input('id_receptor')
+    const tipo = request.input('tipo')
 
     const conversaExistente = await Conversa.query().where({
       id_criador: id_receptor,
@@ -79,6 +83,7 @@ export default class ConversasController {
     const novaConversa = await Conversa.create({
       id_criador,
       id_receptor,
+      tipo
     })
     return novaConversa
   }
@@ -91,6 +96,7 @@ export default class ConversasController {
       id,
       id_criador: request.input('id_criador'),
       id_receptor: request.input('id_receptor'),
+      tipo: request.input('tipo'),
     } as ConversasDTO
 
     const conversa = await Conversa.findOrFail(id)

@@ -19,6 +19,9 @@ export default class Conversa extends BaseModel {
   public id_receptor: string
 
   @column()
+  public tipo: string
+
+  @column()
   public ativada: boolean
 
   @hasMany(() => Mensagem, {
