@@ -1,4 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Env from '@ioc:Adonis/Core/Env'
+import Usuario from 'App/Models/Usuario'
+import Mail from '@ioc:Adonis/Addons/Mail'
+import { mensagemComunicado } from 'Config/whatsApp'
 import FormularioPaciente from 'App/Models/FormularioPaciente'
 import FormulariosPacientesDTO from 'App/DTO/FormulariosPacientesDTO'
 import FormulariosPacientesRepository from 'App/Repositories/FormulariosPacientesRepository'
@@ -7,6 +11,7 @@ import {
   FormularioPacienteValidatorStore,
   FormularioPacienteValidatorUpdate,
 } from 'App/Validators/FormularioPacienteValidator'
+
 
 export default class FormulariosPacientesController {
   public async index({ request }: HttpContextContract) {
@@ -78,8 +83,26 @@ export default class FormulariosPacientesController {
     if (!id) return
 
     const validateData = await request.validate(FormularioPacienteValidatorUpdate)
+    const { status, notificacao_ativa } = validateData;
 
     const formularioPaciente = await FormularioPaciente.findOrFail(id)
+    if (status || notificacao_ativa) {
+      const usuario = await Usuario.findOrFail(formularioPaciente.id_usuario)
+
+      const mensagem = mensagemComunicado(usuario.nome);
+      const email = Mail.send((message) => {
+        message
+          .from(Env.get("EMAIL_USER"))
+          .to(usuario.email)
+          .subject('Comunicado preenchido')
+          .htmlView('emails/formulario_emergencia', {
+            nome_paciente: usuario.nome,
+            url: Env.get("URL"),
+          })
+      })
+      await Promise.all([mensagem, email])
+    }
+
     formularioPaciente.merge(limpaCamposNulosDeObjeto(validateData))
     await formularioPaciente.save()
 

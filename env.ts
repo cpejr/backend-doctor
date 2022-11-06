@@ -21,6 +21,7 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local','s3'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
+  URL: Env.schema.string(),
 
   PG_HOST: Env.schema.string({ format: 'host' }),
   PG_PORT: Env.schema.number(),
@@ -33,4 +34,17 @@ export default Env.rules({
   S3_BUCKET: Env.schema.string(),
   S3_REGION: Env.schema.string(),
   S3_ENDPOINT: Env.schema.string.optional(),
+
+  SMTP_HOST: Env.schema.string(),
+  SMTP_PORT: Env.schema.number(),
+  SMTP_USERNAME: Env.schema.string(),
+  SMTP_PASSWORD: Env.schema.string(),
+
+  WHATSAPP_API_URL: Env.schema.string(),
+  WHATSAPP_TOKEN: Env.schema.string(),
+  WHATSAPP_PHONE_ID: Env.schema.string(),
+  WHATSAPP_FORMULARIO_TEMPLATE_NAME: Env.schema.string(),
+  WHATSAPP_FORMULARIO_NUMERO_ENVIO: Env.schema.string(),
+
+  EMAIL_USER: Env.schema.string()
 })
