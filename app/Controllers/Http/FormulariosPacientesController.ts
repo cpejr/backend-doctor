@@ -92,12 +92,12 @@ export default class FormulariosPacientesController {
       const mensagem = mensagemComunicado(usuario.nome);
       const email = Mail.send((message) => {
         message
-          .from(Env.get("EMAIL_USER"))
+          .from(Env.get("SENDER_EMAIL"))
           .to(usuario.email)
           .subject('Comunicado preenchido')
           .htmlView('emails/formulario_emergencia', {
             nome_paciente: usuario.nome,
-            url: Env.get("URL"),
+            url: Env.get("SYSTEM_URL"),
           })
       })
       await Promise.all([mensagem, email])

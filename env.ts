@@ -21,7 +21,7 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local','s3'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
-  URL: Env.schema.string(),
+  SYSTEM_URL: Env.schema.string(),
 
   PG_HOST: Env.schema.string({ format: 'host' }),
   PG_PORT: Env.schema.number(),
@@ -42,9 +42,9 @@ export default Env.rules({
 
   WHATSAPP_API_URL: Env.schema.string(),
   WHATSAPP_TOKEN: Env.schema.string(),
-  WHATSAPP_PHONE_ID: Env.schema.string(),
+  WHATSAPP_SENDER_PHONE_ID: Env.schema.string(),
   WHATSAPP_FORMULARIO_TEMPLATE_NAME: Env.schema.string(),
-  WHATSAPP_FORMULARIO_NUMERO_ENVIO: Env.schema.string(),
+  WHATSAPP_FORMULARIO_RECEIVER_NUM: Env.schema.string(),
 
-  EMAIL_USER: Env.schema.string()
+  SENDER_EMAIL: Env.schema.string()
 })

@@ -9,12 +9,12 @@ const whatsappApi = axios.create({
   }
 });
 
-export const mensagemComunicado = (nome_paciente: String) =>{
-  const PHONE_ID = Env.get("WHATSAPP_PHONE_ID")
+export const mensagemComunicado = (nome_paciente: String) => {
+  const PHONE_ID = Env.get("WHATSAPP_SENDER_PHONE_ID")
   return whatsappApi.post(`${PHONE_ID}/messages`, {
     messaging_product: "whatsapp",
     type: "template",
-    to: Env.get("WHATSAPP_FORMULARIO_NUMERO_ENVIO"),
+    to: Env.get("WHATSAPP_FORMULARIO_RECEIVER_NUM"),
     template: {
       name: Env.get("WHATSAPP_FORMULARIO_TEMPLATE_NAME"),
       language: { code: "pt_BR" },
