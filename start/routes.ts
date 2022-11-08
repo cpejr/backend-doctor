@@ -105,6 +105,7 @@ Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosCont
 Route.get('/conversas', 'ConversasController.index')
 Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioId')
 Route.post('/conversas', 'ConversasController.store')
+Route.post('/conversas_whatsapp/:id_usuario', 'ConversasController.enviarMensagemConfirmarPagamento')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
 Route.delete('/conversas/:id', 'ConversasController.destroy')
