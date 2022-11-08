@@ -10,6 +10,7 @@ export default class Conversas extends BaseSchema {
       table.string('id_receptor').references('id').inTable('usuarios').onDelete('CASCADE')
       table.enu('tipo',['EXAME']).nullable()
       table.boolean('ativada').defaultTo(false).notNullable()
+      table.boolean('finalizada').defaultTo(false).notNullable()
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

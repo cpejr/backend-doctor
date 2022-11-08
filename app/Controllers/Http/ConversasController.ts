@@ -57,6 +57,7 @@ export default class ConversasController {
           data_criacao: conversa.data_criacao,
           conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador,
           ativada: conversa.ativada,
+          finalizada: conversa.finalizada,
           ultima_mensagem,
           mensagensNaoVistas: +conversa.$extras.mensagensNaoVistas,
         }
@@ -94,7 +95,6 @@ export default class ConversasController {
 
   public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract){
     const id_criador = request.param('id_usuario');
-    console.log(id_criador);
     const usuario = await Usuario.findOrFail(id_criador);
     const mensagem = mensagemPagamento(usuario.nome);
     await Promise.all([mensagem]);
@@ -124,6 +124,17 @@ export default class ConversasController {
 
     const conversa = await Conversa.query().where({ id, ativada: false }).update({
       ativada: true,
+    })
+
+    return conversa
+  }
+
+  public async updateFinalizada({ request }: HttpContextContract) {
+    const id = request.param('id')
+    if (!id) return
+
+    const conversa = await Conversa.query().where({ id, finalizada: false }).update({
+      finalizada: true,
     })
 
     return conversa

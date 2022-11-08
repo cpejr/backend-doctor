@@ -24,6 +24,9 @@ export default class Conversa extends BaseModel {
   @column()
   public ativada: boolean
 
+  @column()
+  public finalizada: boolean
+
   @hasMany(() => Mensagem, {
     foreignKey: 'id_conversa'
   })
