@@ -7,7 +7,7 @@ export default class Receitas extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
       table.string('titulo').notNullable()
-      table.string('descricao').notNullable()
+      table.string('descricao', 10000).notNullable()
       table.string('pdf_url').nullable()
       table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.timestamp('data_criacao', { useTz: true })
