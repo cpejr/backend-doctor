@@ -35,12 +35,10 @@ const conteudoPdf = ({ nomePaciente, dataNascimento, tituloReceita, descricao })
         margin-top: 50px;
 
 ">
-    <p style="padding-left: 1.5cm; font-size:22px">Nome do paciente: ${nomePaciente}</p>
-    <p style="padding-left: 1.5cm; font-size:22px">Data de nascimento: ${dataNascimento}</p>
-    <p style=" font-size:34px; text-align: center;">  ${tituloReceita} </p>
-    <aside>
-      <pre style="padding-left: 1.5cm; margin-right: 1.5cm; font-size:20px; ">${descricao}</pre>
-    </aside>
+    <p style="padding-left: 1.5cm; font-size:22px;font-family:calibri">Nome do paciente: ${nomePaciente}</p>
+    <p style="padding-left: 1.5cm; font-size:22px;font-family:calibri">Data de nascimento: ${dataNascimento}</p>
+    <p style=" font-size:34px; text-align: center;font-family:calibri">${tituloReceita} </p>
+    <pre style="padding-left: 1.5cm; margin-right: 1.5cm; font-size:20px; font-family:calibri">${descricao}</pre>
 </div>
 <img
     style="
