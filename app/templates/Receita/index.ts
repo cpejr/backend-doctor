@@ -1,31 +1,31 @@
-import fs from "fs"
+import fs from 'fs'
 
+const base64Prefixo = 'data:image/png;base64,'
+const logo = `${base64Prefixo}${fs.readFileSync('app/assets/imgs/logoPDF.png').toString('base64')}`
+const footer = `${base64Prefixo}${fs
+  .readFileSync('app/assets/imgs/footerPDF.png')
+  .toString('base64')}`
 
+const conteudoPdf = ({ nomePaciente, dataNascimento, tituloReceita, descricao }) => `
 
-const base64Prefixo = "data:image/png;base64,";
-const logo = `${base64Prefixo}${ fs.readFileSync("app/assets/imgs/logoPDF.png").toString("base64")}`;
-const footer = `${base64Prefixo}${ fs.readFileSync("app/assets/imgs/footerPDF.png").toString("base64")}`;
-
-const conteudoPdf = ({nomePaciente, dataNascimento, tituloReceita, descricao}) => `
-
-<div 
-    style="    
+<div
+    style="
         width: 265mm;
         height: 357mm;
     ">
 
-    <img  
+    <img
         style="
             width: 360px;
             position: absolute;
             top: 10px;
             margin-top: 10px;
             left: 8.6cm;
-            
-        "   
-        
+
+        "
+
         src="${logo}"
-    />    
+    />
 </div>
 <div
     style="
@@ -38,9 +38,11 @@ const conteudoPdf = ({nomePaciente, dataNascimento, tituloReceita, descricao}) =
     <p style="padding-left: 1.5cm; font-size:22px">Nome do paciente: ${nomePaciente}</p>
     <p style="padding-left: 1.5cm; font-size:22px">Data de nascimento: ${dataNascimento}</p>
     <p style=" font-size:34px; text-align: center;">  ${tituloReceita} </p>
-    <p style="padding-left: 1.5cm; margin-right: 1.5cm; font-size:20px; "> ${descricao} </p>                        
+    <aside>
+      <pre style="padding-left: 1.5cm; margin-right: 1.5cm; font-size:20px; ">${descricao}</pre>
+    </aside>
 </div>
-<img 
+<img
     style="
         width: 265mm;
         position: absolute;
@@ -51,4 +53,4 @@ const conteudoPdf = ({nomePaciente, dataNascimento, tituloReceita, descricao}) =
 </div>
 `
 
-export default conteudoPdf;
+export default conteudoPdf
