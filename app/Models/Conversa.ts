@@ -19,7 +19,13 @@ export default class Conversa extends BaseModel {
   public id_receptor: string
 
   @column()
+  public tipo: string
+
+  @column()
   public ativada: boolean
+
+  @column()
+  public finalizada: boolean
 
   @hasMany(() => Mensagem, {
     foreignKey: 'id_conversa'
