@@ -12,7 +12,6 @@ import {
   FormularioPacienteValidatorUpdate,
 } from 'App/Validators/FormularioPacienteValidator'
 
-
 export default class FormulariosPacientesController {
   public async index({ request }: HttpContextContract) {
     const formularioPacienteData = {
@@ -83,21 +82,21 @@ export default class FormulariosPacientesController {
     if (!id) return
 
     const validateData = await request.validate(FormularioPacienteValidatorUpdate)
-    const { status, notificacao_ativa } = validateData;
+    const { status, notificacao_ativa } = validateData
 
     const formularioPaciente = await FormularioPaciente.findOrFail(id)
     if (status || notificacao_ativa) {
       const usuario = await Usuario.findOrFail(formularioPaciente.id_usuario)
 
-      const mensagem = mensagemComunicado(usuario.nome);
+      const mensagem = mensagemComunicado(usuario.nome)
       const email = Mail.send((message) => {
         message
-          .from(Env.get("SENDER_EMAIL"))
-          .to(usuario.email)
+          .from(Env.get('SENDER_EMAIL'))
+          .to(Env.get('RECEIVER_EMAIL'))
           .subject('Comunicado preenchido')
           .htmlView('emails/formulario_emergencia', {
             nome_paciente: usuario.nome,
-            url: Env.get("SYSTEM_URL"),
+            url: Env.get('SYSTEM_URL'),
           })
       })
       await Promise.all([mensagem, email])
