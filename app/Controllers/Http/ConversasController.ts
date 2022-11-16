@@ -79,8 +79,7 @@ export default class ConversasController {
 
     const conversaExistente = await Conversa.query().where({
       id_criador: id_receptor,
-      id_receptor: id_criador,
-      tipo: tipo,
+      id_receptor: id_criador
     })
 
     if (conversaExistente.length) return conversaExistente[0]
