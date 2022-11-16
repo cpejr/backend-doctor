@@ -7,7 +7,7 @@ export default class Amies extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
       table.string('imagem_um').notNullable()
-      table.string('texto').notNullable()
+      table.string('texto', 10000).notNullable()
       table.string('imagem_dois').notNullable()
 
       table.timestamp('data_criacao', { useTz: true })
