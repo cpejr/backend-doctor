@@ -6,7 +6,7 @@ export default class MedicosIndicados extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
-      table.string('id_indicacao').references('id').inTable('indicacaos').onDelete('CASCADE').notNullable()
+      table.string('id_indicacao_especifica').references('id').inTable('indicacao_especificas').onDelete('CASCADE').notNullable()
       table.string('nome')
       table.string('telefone', 11)
       table.string('local_atendimento')
