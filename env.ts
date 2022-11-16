@@ -44,6 +44,7 @@ export default Env.rules({
   WHATSAPP_TOKEN: Env.schema.string(),
   WHATSAPP_SENDER_PHONE_ID: Env.schema.string(),
   WHATSAPP_FORMULARIO_TEMPLATE_NAME: Env.schema.string(),
+  WHATSAPP_PAGAMENTO_EXAME_TEMPLATE_NAME: Env.schema.string(),
   WHATSAPP_FORMULARIO_RECEIVER_NUM: Env.schema.string(),
 
   SENDER_EMAIL: Env.schema.string(),
