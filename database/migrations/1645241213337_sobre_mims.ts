@@ -8,10 +8,10 @@ export default class SobreMims extends BaseSchema {
       table.string('id').primary()
       table.string('imagem_um').notNullable()
       table.string('titulo_um').notNullable()
-      table.string('texto_um').notNullable()
+      table.string('texto_um', 10000).notNullable()
       table.string('imagem_dois').notNullable()
       table.string('titulo_dois').notNullable()
-      table.string('texto_dois').notNullable()
+      table.string('texto_dois', 10000).notNullable()
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
