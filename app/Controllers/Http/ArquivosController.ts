@@ -51,7 +51,7 @@ export default class ArquivosController {
     const ACL = 'public-read'
     const nome = "PDF"
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-    await pdf.create(pdfReceita({nomePaciente, dataNascimento, tituloReceita, descricao}), {}).toStream((err, res) => {
+    await pdf.create(pdfReceita({nomePaciente, dataNascimento, tituloReceita, descricao}), {}).toFile((err, res) => {
       if (err) {
         return false;
       }
