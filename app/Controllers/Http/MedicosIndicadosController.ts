@@ -9,10 +9,10 @@ export default class MedicosIndicadosController {
 
 public async index({ request }: HttpContextContract) {
     const indicacaoMedico = {    
-        id_indicacao: request.input('id_indicacao'),
-        nome: request.input('nome'),
-        telefone: request.input('password'),
-        local_atendimento: request.input('local_atedimento'),
+        id_indicacao_especifica: request.param('id_indicacao_especifica'),
+        nome: request.param('nome'),
+        telefone: request.param('telefone'),
+        local_atendimento: request.param('local_atedimento'),
     } as MedicosIndicadoDTO
 
     const medicos_indicados = await MedicosIndicadoRepository.find(indicacaoMedico)
@@ -22,7 +22,7 @@ public async index({ request }: HttpContextContract) {
 
 public async indexByIdIndicacao({ request }: HttpContextContract) {
     const consultaData = {
-      id_indicacao: request.param('id_indicacao'),
+      id_indicacao_especifica: request.param('id_indicacao_especifica'),
     } as MedicosIndicadoDTO
 
     const consultas = MedicosIndicadoRepository.find(consultaData)
@@ -33,14 +33,14 @@ public async indexByIdIndicacao({ request }: HttpContextContract) {
 public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(MedicosIndicadoValidatorStore)
 
-    const id_indicacao = validateData.id_indicacao
+    const id_indicacao_especifica = validateData.id_indicacao_especifica
     const nome =  validateData.nome
     const telefone = validateData.telefone
     const local_atendimento = validateData.local_atendimento
 
 
     const medicos_indicados = await MedicosIndicado.create({
-        id_indicacao,
+        id_indicacao_especifica,
         nome,
         telefone,
         local_atendimento

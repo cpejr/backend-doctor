@@ -13,7 +13,7 @@ export default class MedicosIndicado extends BaseModel {
   }
 
   @column()
-  public id_indicacao: string
+  public id_indicacao_especifica: string
 
   @column()
   public nome: string

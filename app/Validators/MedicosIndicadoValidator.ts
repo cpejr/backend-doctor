@@ -5,10 +5,11 @@ export class MedicosIndicadoValidatorStore {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
+    id_indicacao_especifica: schema.string({ trim: true }),
     nome: schema.string.optional({ trim: true }),
     telefone: schema.string.optional({ trim: true }),
     local_atendimento: schema.string({ trim: true }),
-    id_indicacao: schema.string({ trim: true }),
+    
 
   })
 
@@ -23,15 +24,16 @@ export class MedicosIndicadoValidatorStore {
 
 }
 
+
 export class MedicosIndicadoValidatorUpdate {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
+    id_indicacao_especifica: schema.string.optional({ trim: true }),
     nome: schema.string.optional({ trim: true }),
     telefone: schema.string.optional({ trim: true }),
     local_atendimento: schema.string.optional({ trim: true }),
-    id_indicacao: schema.string.optional({ trim: true }),
-
+    
   })
 
   public messages = {
