@@ -6,7 +6,7 @@ export class IndicacaoEspecificaValidatorStore {
 
   public schema = schema.create({
     titulo: schema.string({ trim: true }),
-    texto: schema.string({ trim: true }),
+    texto: schema.string.optional({ trim: true }),
   })
 
   public messages = {
