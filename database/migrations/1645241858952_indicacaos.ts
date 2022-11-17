@@ -6,7 +6,7 @@ export default class Indicacaos extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
-      table.string('texto').notNullable()
+      table.string('texto')
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

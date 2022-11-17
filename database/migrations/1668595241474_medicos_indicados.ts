@@ -8,7 +8,7 @@ export default class MedicosIndicados extends BaseSchema {
       table.string('id').primary()
       table.string('id_indicacao_especifica').references('id').inTable('indicacao_especificas').onDelete('CASCADE').notNullable()
       table.string('nome')
-      table.string('telefone', 11)
+      table.string('telefone')
       table.string('local_atendimento')
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
