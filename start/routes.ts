@@ -158,3 +158,9 @@ Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
 Route.post('/login', 'SessoesController.login')
 Route.post('/verificar', 'SessoesController.verificarSenha')
+
+Route.get('/medicos_indicados', 'MedicosIndicadosController.index')
+Route.get('/medicos_indicados/:id_indicacao_especifica', 'MedicosIndicadosController.indexByIdIndicacao')
+Route.post('/medicos_indicados', 'MedicosIndicadosController.store')
+Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
+Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
