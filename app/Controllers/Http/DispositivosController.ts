@@ -17,6 +17,12 @@ export default class DispositivosController {
     )
     return dispositivos
   }
+  public async indexByIdDispositivo({ request }: HttpContextContract) {
+    const id = request.param('id')
+    const dispositivo = await Dispositivo.query().where('id', id)
+    
+    return dispositivo
+  }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(DispositivoValidatorStore)

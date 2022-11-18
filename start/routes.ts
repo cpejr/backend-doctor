@@ -9,6 +9,7 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
@@ -37,6 +38,7 @@ Route.put('/assinaturas/:id', 'AssinaturasController.update')
 Route.delete('/assinaturas/:id', 'AssinaturasController.destroy')
 
 Route.get('/dispositivos', 'DispositivosController.index')
+Route.get('/dispositivos/:id', 'DispositivosController.indexByIdDispositivo')
 Route.post('/dispositivos', 'DispositivosController.store')
 Route.put('/dispositivos/:id', 'DispositivosController.update')
 Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
@@ -74,10 +76,13 @@ Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
 
 Route.get('/usuarios', 'UsuariosController.index')
 Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
+Route.get('/usuarios_id/:id', 'UsuariosController.indexByIdUsuario')
 Route.get('/usuarios_token/:token_usuario', 'UsuariosController.indexByToken')
 Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.post('/usuariosimagem/:id', 'UsuariosController.updateImagem')
+Route.put('/usuariosdeletarimagem/:id', 'UsuariosController.deleteImagem')
 Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
@@ -100,8 +105,10 @@ Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosCont
 Route.get('/conversas', 'ConversasController.index')
 Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioId')
 Route.post('/conversas', 'ConversasController.store')
+Route.post('/conversas_whatsapp/:id_usuario', 'ConversasController.enviarMensagemConfirmarPagamento')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
+Route.put('/conversas/finalizacao/:id', 'ConversasController.updateFinalizada')
 Route.delete('/conversas/:id', 'ConversasController.destroy')
 Route.delete('/conversas/:id_usuario/usuario', 'ConversasController.destroyByUsuarioId')
 
