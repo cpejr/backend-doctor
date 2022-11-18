@@ -8,6 +8,7 @@ export default class Consultorios extends BaseSchema {
       table.string('id').primary()
       table.string('nome').notNullable()
       table.string('id_endereco').references('id').inTable('enderecos').onDelete('CASCADE')
+      table.enu('tipo', ['CONSULTA', 'EXAME']).notNullable()
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })

@@ -22,7 +22,7 @@ export default class IndexSeeder extends BaseSeeder {
     await this.runSeeder(await import('../FormularioExameActigrafia'))
     
     // await this.runSeeder(await import('../Consulta'))
-    // await this.runSeeder(await import('../Exame'))
+    await this.runSeeder(await import('../Exame'))
     // await this.runSeeder(await import('../ExameMarcado'))
   }
 }
