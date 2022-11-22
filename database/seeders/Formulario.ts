@@ -1,39 +1,39 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import Formulario from 'App/Models/Formulario'
 
-const perguntasUrgencia: any = {
-  type: 'object',
-  properties: {
-    newInput1: {
-      title: "Data da internação (no formato DD/MM/AAAA):",
-      type: "string",
-    },
-    newInput2: {
-      title: "Nome do Hospital:",
-      type: "string"
-    },
-    newInput3: {
-      title: "Médico assistente no hospital:",
-      type: "string"
-    },
-    newInput4: {
-      title: "Telefone de contato do hospital no formato (xx) xxxxx-xxxx",
-      type: "string"
-    },
-    newInput5: {
-      title: "Faça uma breve descrição do acontecimento:",
-      type: "string"
-    }
-  },
-  dependencies: {},
-  required: []
-}
+// const perguntasUrgencia: any = {
+//   type: 'object',
+//   properties: {
+//     newInput1: {
+//       title: "Data da internação (no formato DD/MM/AAAA):",
+//       type: "string",
+//     },
+//     newInput2: {
+//       title: "Nome do Hospital:",
+//       type: "string"
+//     },
+//     newInput3: {
+//       title: "Médico assistente no hospital:",
+//       type: "string"
+//     },
+//     newInput4: {
+//       title: "Telefone de contato do hospital no formato (xx) xxxxx-xxxx",
+//       type: "string"
+//     },
+//     newInput5: {
+//       title: "Faça uma breve descrição do acontecimento:",
+//       type: "string"
+//     }
+//   },
+//   dependencies: {},
+//   required: []
+// }
 
 const perguntasActigrafia: any = {
   type: 'object',
   properties: {
     newInput1: {
-      title: "Sentado lendo um livro:",
+      title: "Mesmo que não tenha feito/passado por alguma dessas situações ultimamente, tente imaginar como é que elas o afetariam na sua sonolência:\n\nUse a escala que se segue para escolher a resposta:\n\n-Nenhuma probabilidade de pegar no sono,\n-Pequena probabilidade de pegar no sono,\n-Moderada probabilidade de pegar no sono,\n-Forte probabilidade de pegar no sono.\n\nSentado lendo um livro:",
       type: "string",
       enum: ["Nenhuma", "Pequena", "Moderada", "Forte"],
     },
@@ -180,14 +180,14 @@ export default class FormularioSeeder extends BaseSeeder {
   public static developmentOnly = true
   public async run () {
     await Formulario.createMany([
-      {
-        id: "046975f7-d7d0-4635-a9d9-25efbe65d7b7",
-        titulo: 'Formulario de Urgência',
-        tipo: 'urgencia_formulario',
-        finalidade: 'auxiliar no diagnóstico de pacientes em situação de emergência',
-        perguntas: perguntasUrgencia,
-        urgencia: 3
-    },
+    //   {
+    //     id: "046975f7-d7d0-4635-a9d9-25efbe65d7b7",
+    //     titulo: 'Formulario de Urgência',
+    //     tipo: 'urgencia_formulario',
+    //     finalidade: 'auxiliar no diagnóstico de pacientes em situação de emergência',
+    //     perguntas: perguntasUrgencia,
+    //     urgencia: 3
+    // },
     {
       id: "d6303c95-2cbf-419d-87b3-0b11db0df5c6",
       titulo: 'Questionário de Actigrafia',
