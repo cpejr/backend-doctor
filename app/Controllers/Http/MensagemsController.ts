@@ -4,6 +4,7 @@ import MensagemsDTO from 'App/DTO/MensagemsDTO'
 import MensagemsRepository from 'App/Repositories/MensagemsRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { MensagemValidatorStore, MensagemValidatorUpdate } from 'App/Validators/MensagemValidator'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 export default class MensagemsController {
   public async index({ request }: HttpContextContract) {
@@ -59,6 +60,31 @@ export default class MensagemsController {
       foi_visualizado,
       id_conversa,
       id_usuario
+    })
+    return mensagem
+  }
+
+  public async storePdf({ request }: HttpContextContract) {
+    const validateData = await request.validate(MensagemValidatorStore)
+    
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+
+    const file = request.input('file')
+    const res = await arquivoscontroller.store(file)
+
+    const conteudo = undefined
+    const media_url = res
+    const foi_visualizado = validateData.foi_visualizado
+    const id_conversa = request.input('id_conversa')
+    const id_usuario = request.input('id_usuario')
+
+
+    const mensagem = await Mensagem.create({
+      conteudo,
+      media_url,
+      foi_visualizado,
+      id_conversa,
+      id_usuario,
     })
     return mensagem
   }

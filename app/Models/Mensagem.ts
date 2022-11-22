@@ -13,10 +13,10 @@ export default class Mensagem extends BaseModel {
   }
 
   @column()
-  public conteudo: string
+  public conteudo: string | undefined
 
   @column()
-  public media_url: string
+  public media_url: string | undefined
 
   @column()
   public foi_visualizado: boolean

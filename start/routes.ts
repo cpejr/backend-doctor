@@ -9,6 +9,9 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.post('/arquivofile/', async (ctx) => {
+  return new ArquivosController().storeFile(ctx)
+})
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
@@ -115,6 +118,7 @@ Route.delete('/conversas/:id_usuario/usuario', 'ConversasController.destroyByUsu
 Route.get('/mensagems', 'MensagemsController.index')
 Route.get('/mensagems/:id_conversa/conversa/:id_usuario', 'MensagemsController.indexByConversaId')
 Route.post('/mensagems', 'MensagemsController.store')
+Route.post('/mensagemsfile', 'MensagemsController.storePdf')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.put(
   '/mensagems/:id_conversa/visualizadas/:id_usuario',
