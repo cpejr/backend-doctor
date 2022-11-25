@@ -5,6 +5,7 @@ import MensagemsRepository from 'App/Repositories/MensagemsRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { MensagemValidatorStore, MensagemValidatorUpdate } from 'App/Validators/MensagemValidator'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
+import Drive from '@ioc:Adonis/Core/Drive'
 
 export default class MensagemsController {
   public async index({ request }: HttpContextContract) {
@@ -28,13 +29,21 @@ export default class MensagemsController {
       .where({ id_conversa })
       .orderBy('data_criacao', 'asc')
 
-    const mensagens = data?.map((messagem) => {
+      const requests = data
+      .filter(({ media_url }) => !!media_url)
+      .map((media_url) => Drive.getSignedUrl(String(media_url)))
+
+    const urls = await Promise.all(requests)
+    console.log(requests)
+
+    const mensagens = data?.map((messagem, index) => {
       const pertenceAoUsuarioAtual = messagem.id_usuario === id_usuario
 
       return {
         id: messagem.id,
         id_usuario: messagem.id_usuario,
         conteudo: messagem.conteudo,
+        media_url: urls[index],
         data_criacao: messagem.data_criacao,
         foi_visualizado: messagem.foi_visualizado,
         pertenceAoUsuarioAtual
@@ -86,6 +95,8 @@ export default class MensagemsController {
       id_conversa,
       id_usuario,
     })
+
+
     return mensagem
   }
 
