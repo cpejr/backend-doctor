@@ -164,3 +164,7 @@ Route.get('/medicos_indicados/:id_indicacao_especifica', 'MedicosIndicadosContro
 Route.post('/medicos_indicados', 'MedicosIndicadosController.store')
 Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
 Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
+
+Route.get('/edicao_sobre_mims', 'EdicaoSobreMimsController.index')
+Route.post('/edicao_sobre_mims', 'EdicaoSobreMimsController.store')
+Route.put('/edicao_sobre_mims', 'EdicaoSobreMimsController.update')
