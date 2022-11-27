@@ -81,5 +81,20 @@ export default class EdicaoSobreMimsController {
     return edicaoSobreMim
   }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request }: HttpContextContract) {
+    try {
+      const id = request.param('id')
+
+      const edicaoSobreMim = await EdicaoSobreMim.findOrFail(id)
+
+      await this.arquivoscontroller.delete(edicaoSobreMim.id_imagem_um)
+      await this.arquivoscontroller.delete(edicaoSobreMim.id_imagem_dois)
+
+      await edicaoSobreMim.delete()
+
+      return "Página de Edição Sobre Mim excluída com sucesso!"
+    } catch (error) {
+      return `Falha ao apagar Edição Sobre Mim:\n\n${error}`
+    }
+  }
 }

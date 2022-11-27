@@ -53,7 +53,7 @@ export default class ArquivosController {
     const { id: id_arquivo } = await Arquivo.create({
       nome,
       chave,
-      url: url.slice(0, 4),
+      url: url,
       tipo_conteudo,
     })
 
@@ -64,7 +64,7 @@ export default class ArquivosController {
     if (!arquivo.tmpPath) throw new Error(`Ocorreu uma falha com o arquivo ${arquivo.clientName}`)
 
     const tipo_conteudo = arquivo.type
-    const nome = arquivo.clientName;
+    const nome = arquivo.clientName
     const chaveNova = `${(Math.random() * 100).toString()}-${awsExtensao}`
 
     const arquivoAntigo = await Arquivo.findOrFail(id)
@@ -78,7 +78,7 @@ export default class ArquivosController {
     arquivoAntigo.merge({
       nome,
       chave: chaveNova,
-      url: newUrl.slice(0, 4),
+      url: newUrl,
       tipo_conteudo,
     })
 
@@ -119,6 +119,19 @@ export default class ArquivosController {
     });
 
   return chave;
+  }
+
+  public async delete(id: string) {
+    try {
+      const arquivo = await Arquivo.findOrFail(id)
+
+      await Drive.delete(arquivo.chave);
+      await arquivo.delete()
+
+      return 'Arquivo deletado com sucesso!'
+    } catch (error) {
+      return `Falha ao apagar o arquivo:\n\n${error}`
+    }
   }
 
   public async destroy(chave) {
