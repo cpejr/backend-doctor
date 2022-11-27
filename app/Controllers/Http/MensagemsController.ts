@@ -15,25 +15,23 @@ export default class MensagemsController {
       media_url: request.param('media_url'),
       foi_visualizado: request.param('foi_visualizado'),
       id_conversa: request.param('id_conversa'),
-      id_usuario: request.param('id_usuario')
+      id_usuario: request.param('id_usuario'),
     } as MensagemsDTO
     const mensagem = await MensagemsRepository.find(limpaCamposNulosDeObjeto(mensagemData))
     return mensagem
   }
 
   public async indexByConversaId({ request }: HttpContextContract) {
-    const { id_usuario, id_conversa } = request.params();
+    const { id_usuario, id_conversa } = request.params()
     if (!id_conversa || !id_usuario) return
 
-    const data = await Mensagem.query()
-      .where({ id_conversa })
-      .orderBy('data_criacao', 'asc')
+    const data = await Mensagem.query().where({ id_conversa }).orderBy('data_criacao', 'asc')
 
-      const requests = data.map(({media_url}) => media_url ? 
-        Drive.getSignedUrl(String(media_url)) : null)
+    const requests = data.map(({ media_url }) =>
+      media_url ? Drive.getSignedUrl(String(media_url)) : null
+    )
 
     const urls = await Promise.all(requests)
-    console.log({urls, requests})
 
     const mensagens = data?.map((messagem, index) => {
       const pertenceAoUsuarioAtual = messagem.id_usuario === id_usuario
@@ -45,7 +43,7 @@ export default class MensagemsController {
         media_url: urls[index],
         data_criacao: messagem.data_criacao,
         foi_visualizado: messagem.foi_visualizado,
-        pertenceAoUsuarioAtual
+        pertenceAoUsuarioAtual,
       }
     })
 
@@ -61,20 +59,19 @@ export default class MensagemsController {
     const id_conversa = request.input('id_conversa')
     const id_usuario = request.input('id_usuario')
 
-
     const mensagem = await Mensagem.create({
       conteudo,
       media_url,
       foi_visualizado,
       id_conversa,
-      id_usuario
+      id_usuario,
     })
     return mensagem
   }
 
   public async storePdf({ request }: HttpContextContract) {
     const validateData = await request.validate(MensagemValidatorStore)
-    
+
     const arquivoscontroller: ArquivosController = new ArquivosController()
 
     const file = request.input('file')
@@ -86,7 +83,6 @@ export default class MensagemsController {
     const id_conversa = request.input('id_conversa')
     const id_usuario = request.input('id_usuario')
 
-
     const mensagem = await Mensagem.create({
       conteudo,
       media_url,
@@ -94,7 +90,6 @@ export default class MensagemsController {
       id_conversa,
       id_usuario,
     })
-
 
     return mensagem
   }
@@ -115,11 +110,9 @@ export default class MensagemsController {
   public async updateVizualizada({ request }: HttpContextContract) {
     const id = request.param('id')
     if (!id) return
-    const mensagensAtualizadas = await Mensagem.query()
-      .where('id', id)
-      .update({
-        foi_visualizado: true
-      })
+    const mensagensAtualizadas = await Mensagem.query().where('id', id).update({
+      foi_visualizado: true,
+    })
 
     return mensagensAtualizadas
   }
@@ -131,10 +124,10 @@ export default class MensagemsController {
       .where('id_conversa', id_conversa)
       .whereNot({
         id_usuario,
-        foi_visualizado: true
+        foi_visualizado: true,
       })
       .update({
-        foi_visualizado: true
+        foi_visualizado: true,
       })
 
     return mensagensAtualizadas
