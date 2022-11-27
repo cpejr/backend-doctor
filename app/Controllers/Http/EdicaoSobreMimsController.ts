@@ -33,9 +33,10 @@ export default class EdicaoSobreMimsController {
     } = await request.validate(EdicaoSobreMimValidatorStore)
 
     const awsExtensao = 'edicaoSobreMim-imagem'
+    const visibility = 'public'
     const promises = [
-      this.arquivoscontroller.storeStream(imagem_um, awsExtensao),
-      this.arquivoscontroller.storeStream(imagem_dois, awsExtensao)
+      this.arquivoscontroller.storeStream(imagem_um, awsExtensao, visibility),
+      this.arquivoscontroller.storeStream(imagem_dois, awsExtensao, visibility)
     ]
     const [id_imagem_um, id_imagem_dois] = await Promise.all(promises)
 
@@ -51,10 +52,6 @@ export default class EdicaoSobreMimsController {
     return novoEdicaoSobremMim
   }
 
-  public async show({}: HttpContextContract) {}
-
-  public async edit({}: HttpContextContract) {}
-
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
     const {
@@ -65,14 +62,15 @@ export default class EdicaoSobreMimsController {
 
     const edicaoSobreMim = await EdicaoSobreMim.findOrFail(id)
     const awsExtensao = 'edicaoSobreMim-imagem'
+    const visibility = 'public'
 
     if (imagem_um) {
       const { id_imagem_um } = edicaoSobreMim
-      await this.arquivoscontroller.update(id_imagem_um, imagem_um, awsExtensao)
+      await this.arquivoscontroller.update(id_imagem_um, imagem_um, awsExtensao, visibility)
     }
     if (imagem_dois) {
       const { id_imagem_dois } = edicaoSobreMim
-      await this.arquivoscontroller.update(id_imagem_dois, imagem_dois, awsExtensao)
+      await this.arquivoscontroller.update(id_imagem_dois, imagem_dois, awsExtensao, visibility)
     }
 
     edicaoSobreMim.merge(edicaoSobreMimsUpdate)

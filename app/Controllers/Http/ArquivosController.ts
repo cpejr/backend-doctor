@@ -3,8 +3,8 @@ import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Arquivo from 'App/Models/Arquivo'
 import Drive from '@ioc:Adonis/Core/Drive'
 import pdf from 'html-pdf'
+import fs from "node:fs"
 import pdfReceita from "../../templates/Receita"
-import fs from "fs"
 export default class ArquivosController {
 
   public async indexByChave({ request }: HttpContextContract) {
@@ -38,18 +38,19 @@ export default class ArquivosController {
     return chave
   }
 
-  public async storeStream(arquivo: MultipartFileContract, awsExtensao: string): Promise<string> {
+  public async storeStream(arquivo: MultipartFileContract, awsExtensao: string, visibility: string): Promise<string> {
     if (!arquivo.tmpPath) throw new Error(`Ocorreu uma falha com o arquivo ${arquivo.clientName}`)
 
-    const tipo_conteudo = arquivo.type
+    const tipo_conteudo = `${arquivo.type}/${arquivo.subtype}`
     const nome = arquivo.clientName;
     const chave = `${(Math.random() * 100).toString()}-${awsExtensao}`
 
     await Drive.putStream(chave, fs.createReadStream(arquivo.tmpPath), {
       contentType: tipo_conteudo,
+      visibility
     })
 
-    const url = await Drive.getSignedUrl(chave);
+    const url = await Drive.getUrl(chave);
     const { id: id_arquivo } = await Arquivo.create({
       nome,
       chave,
@@ -60,10 +61,10 @@ export default class ArquivosController {
     return id_arquivo
   }
 
-  public async update(id: string, arquivo: MultipartFileContract, awsExtensao: string): Promise<string> {
+  public async update(id: string, arquivo: MultipartFileContract, awsExtensao: string, visibility: string): Promise<string> {
     if (!arquivo.tmpPath) throw new Error(`Ocorreu uma falha com o arquivo ${arquivo.clientName}`)
 
-    const tipo_conteudo = arquivo.type
+    const tipo_conteudo = `${arquivo.type}/${arquivo.subtype}`
     const nome = arquivo.clientName
     const chaveNova = `${(Math.random() * 100).toString()}-${awsExtensao}`
 
@@ -71,9 +72,9 @@ export default class ArquivosController {
 
     await Promise.all([
       Drive.delete(arquivoAntigo.chave),
-      Drive.putStream(chaveNova, fs.createReadStream(arquivo.tmpPath), { contentType: tipo_conteudo })
+      Drive.putStream(chaveNova, fs.createReadStream(arquivo.tmpPath), { contentType: tipo_conteudo, visibility })
     ])
-    const newUrl = await Drive.getSignedUrl(chaveNova)
+    const newUrl = await Drive.getUrl(chaveNova)
 
     arquivoAntigo.merge({
       nome,
