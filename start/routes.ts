@@ -9,6 +9,7 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.get('/arquivos', 'ArquivosController.index')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
@@ -167,4 +168,4 @@ Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
 
 Route.get('/edicao_sobre_mims', 'EdicaoSobreMimsController.index')
 Route.post('/edicao_sobre_mims', 'EdicaoSobreMimsController.store')
-Route.put('/edicao_sobre_mims', 'EdicaoSobreMimsController.update')
+Route.put('/edicao_sobre_mims/:id', 'EdicaoSobreMimsController.update')
