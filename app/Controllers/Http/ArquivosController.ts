@@ -54,7 +54,7 @@ export default class ArquivosController {
     const { id: id_arquivo } = await Arquivo.create({
       nome,
       chave,
-      url: url,
+      url,
       tipo_conteudo,
     })
 

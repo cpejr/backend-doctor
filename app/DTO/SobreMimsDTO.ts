@@ -1,9 +1,9 @@
 export default interface SobreMimsDTO {
-  id?: number
-  imagem_um?: string
+  id?: string
   titulo_um?: string
+  id_imagem_um?: string
   texto_um?: string
-  imagem_dois?: string
   titulo_dois?: string
+  id_imagem_dois?: string
   texto_dois?: string
 }

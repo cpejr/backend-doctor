@@ -1,32 +1,47 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
+import Arquivo from './Arquivo'
+
 export default class SobreMim extends BaseModel {
+
   @column({ isPrimary: true })
   public id: string
 
   @beforeCreate()
-  public static async createUUID (model:SobreMim){
+  public static async createUUID (model: SobreMim){
     model.id = uuid()
   }
-
-  @column()
-  public imagem_um: string
 
   @column()
   public titulo_um: string
 
   @column()
-  public texto_um: string
+  public id_imagem_um: string
 
   @column()
-  public imagem_dois: string
+  public texto_um: string
 
   @column()
   public titulo_dois: string
 
   @column()
+  public id_imagem_dois: string
+
+  @column()
   public texto_dois: string
+
+  @belongsTo(() => Arquivo, {
+    foreignKey: 'id_imagem_um',
+    localKey: 'id'
+  })
+  public imagem_um: BelongsTo<typeof Arquivo>
+
+  @belongsTo(() => Arquivo, {
+    foreignKey: 'id_imagem_dois',
+    localKey: 'id'
+  })
+  public imagem_dois: BelongsTo<typeof Arquivo>
 
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime
