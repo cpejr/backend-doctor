@@ -7,7 +7,7 @@ export default class Comentarios extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
       table.string('comentario').notNullable()
-
+      table.string('resposta').nullable()
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })
