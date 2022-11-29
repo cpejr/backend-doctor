@@ -19,9 +19,11 @@ export default class ComentariosController {
     const validateData = await request.validate(ComentarioValidatorStore)
 
     const comentario = validateData.comentario
+    const resposta = request.input('resposta')
 
     const comentarios = await Comentario.create({
       comentario,
+      resposta,
     })
     return comentarios
   }
