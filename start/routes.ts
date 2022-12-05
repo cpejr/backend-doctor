@@ -12,6 +12,9 @@ Route.post('/arquivo', async (ctx) => {
 Route.post('/arquivofile/', async (ctx) => {
   return new ArquivosController().storeFile(ctx)
 })
+Route.post('/arquivoimage/', async (ctx) => {
+  return new ArquivosController().storeImage(ctx)
+})
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
