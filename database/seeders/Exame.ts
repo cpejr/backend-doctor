@@ -20,6 +20,11 @@ export default class ExameSeeder extends BaseSeeder {
         titulo: 'Actigrafia',
         texto: 'WhatsApp: (31) 97248-8306',
       },
+      {
+        id: 'b575e0b0-6fbb-4730-970a-ca4196ab4a53',
+        titulo: 'Biologix',
+        texto: 'Biologix é um tipo de polissonografia domiciliar, ideal para diagnóstico e tratamento da apneia do sono.',
+      },
     ])
   }
 }
