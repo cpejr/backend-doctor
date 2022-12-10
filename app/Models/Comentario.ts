@@ -13,6 +13,9 @@ export default class Comentario extends BaseModel {
   @column()
   public comentario: string
 
+  @column()
+  public resposta: string
+
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime
 
