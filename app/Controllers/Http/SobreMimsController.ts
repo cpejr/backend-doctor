@@ -49,7 +49,7 @@ export default class SobreMimsController {
     ]
     const [id_imagem_um, id_imagem_dois] = await Promise.all(promises)
 
-    const novoEdicaoSobremMim = await SobreMim.create({
+    const novoSobremMim = await SobreMim.create({
       titulo_um,
       id_imagem_um,
       texto_um,
@@ -58,7 +58,7 @@ export default class SobreMimsController {
       id_imagem_dois
     })
 
-    return novoEdicaoSobremMim
+    return novoSobremMim
   }
 
   public async update({ request }: HttpContextContract) {
@@ -69,35 +69,35 @@ export default class SobreMimsController {
       ...sobreMimsUpdate
     } = await request.validate(SobreMimValidatorUpdate)
 
-    const edicaoSobreMim = await SobreMim.findOrFail(id)
+    const sobreMim = await SobreMim.findOrFail(id)
     const awsExtensao = 'paginaSobreMim-imagem'
     const visibility = 'public'
 
     if (imagem_um) {
-      const { id_imagem_um } = edicaoSobreMim
+      const { id_imagem_um } = sobreMim
       await this.arquivoscontroller.update(id_imagem_um, imagem_um, awsExtensao, visibility)
     }
     if (imagem_dois) {
-      const { id_imagem_dois } = edicaoSobreMim
+      const { id_imagem_dois } = sobreMim
       await this.arquivoscontroller.update(id_imagem_dois, imagem_dois, awsExtensao, visibility)
     }
 
-    edicaoSobreMim.merge(sobreMimsUpdate)
-    await edicaoSobreMim.save()
+    sobreMim.merge(sobreMimsUpdate)
+    await sobreMim.save()
 
-    return edicaoSobreMim
+    return sobreMim
   }
 
   public async destroy({ request }: HttpContextContract) {
     try {
       const id = request.param('id')
 
-      const edicaoSobreMim = await SobreMim.findOrFail(id)
+      const sobreMim = await SobreMim.findOrFail(id)
 
-      await this.arquivoscontroller.delete(edicaoSobreMim.id_imagem_um)
-      await this.arquivoscontroller.delete(edicaoSobreMim.id_imagem_dois)
+      await this.arquivoscontroller.delete(sobreMim.id_imagem_um)
+      await this.arquivoscontroller.delete(sobreMim.id_imagem_dois)
 
-      await edicaoSobreMim.delete()
+      await sobreMim.delete()
 
       return "Página de Edição Sobre Mim excluída com sucesso!"
     } catch (error) {
