@@ -40,18 +40,17 @@ export default class AmiesController {
     const id = request.param('id')
     if (!id) return
 
-    console.warn(request);
-
     const amie = await Amie.findOrFail(id)
 
     if (amie.imagem_um != undefined && amie.imagem_um != null && amie.imagem_um != "") {
-      if (amie.imagem_dois != undefined && amie.imagem_dois != null && amie.imagem_dois != "") {
-        const chave1 = amie.imagem_um;
-        const chave2 = amie.imagem_dois;
-        await arquivoscontroller.destroy(chave1);
-        await arquivoscontroller.destroy(chave2);
-      }
+      const chave1 = amie.imagem_um;
+      await arquivoscontroller.destroy(chave1);
     }
+    if (amie.imagem_dois != undefined && amie.imagem_dois != null && amie.imagem_dois != "") {
+      const chave2 = amie.imagem_dois;
+      await arquivoscontroller.destroy(chave2);
+    }
+
 
     const file1 = request.input('imagem_um');
     const file2 = request.input('imagem_dois');
