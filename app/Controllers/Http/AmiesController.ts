@@ -53,8 +53,8 @@ export default class AmiesController {
 
 
     const file1 = request.input('imagem_um');
-    const file2 = request.input('imagem_dois');
     const res1 = await arquivoscontroller.store(file1);
+    const file2 = request.input('imagem_dois');
     const res2 = await arquivoscontroller.store(file2);
 
     amie.$attributes.imagem_um = res1;
