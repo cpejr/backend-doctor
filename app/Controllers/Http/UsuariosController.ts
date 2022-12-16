@@ -101,13 +101,20 @@ export default class UsuariosController {
     return usuario
   }
 
-  public async update({ request }: HttpContextContract) {
+  public async update({ request, auth }: HttpContextContract) {
     const id = request.param('id')
     if (!id) return
 
     const validateData = await request.validate(UsuarioValidatorUpdate)
 
     const usuario = await Usuario.findOrFail(id)
+
+    const novoToken = await auth.use('api').generate(usuario, {
+      expiresIn: 7200,
+    })
+    const token = novoToken.token
+
+    usuario.$attributes.token_usuario = token
 
     usuario.merge(limpaCamposNulosDeObjeto(validateData))
     await usuario.save()
