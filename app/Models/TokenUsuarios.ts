@@ -3,12 +3,12 @@ import { BaseModel, column, beforeCreate, hasMany, HasMany } from '@ioc:Adonis/L
 import { v4 as uuid } from 'uuid'
 import Usuario from './Usuario'
 
-export default class TokenUsuario extends BaseModel {
+export default class TokenUsuarios extends BaseModel {
   @column({ isPrimary: true })
   public id_usuario: string
 
   @beforeCreate()
-  public static async createUUID (model:TokenUsuario){
+  public static async createUUID (model:TokenUsuarios){
     model.id_usuario = uuid()
   }
 
