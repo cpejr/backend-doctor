@@ -8,8 +8,9 @@ import { TokenUsuarioValidatorStore, TokenUsuarioValidatorUpdate } from 'App/Val
 export default class TokenUsuariosController {
   public async index({ request }: HttpContextContract) {
     const tokenusuarios = {
-      id_usuario: request.param('id_usuario'),
       token_dispositivo: request.param('token_dispositivo'),
+      id_usuario: request.param('id_usuario'),
+      
       
     } as TokenUsuariosDTO
     const  token = await TokenUsuariosRepository.find(
