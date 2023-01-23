@@ -6,7 +6,7 @@ export default class TokenUsuarios extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.string('token_dispositivo').primary()
-      table.string('id_usuario').references('id').inTable('usuarios')
+      table.string('id_usuario').references('id').inTable('usuarios').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

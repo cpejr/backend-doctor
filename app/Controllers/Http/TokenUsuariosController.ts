@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import TokenUsuariosRepository from 'App/Repositories/TokenUsuariosRepository'
 import TokenUsuariosDTO from 'App/DTO/TokenUsuariosDTO'
-import TokenUsuarios from 'App/Models/TokenUsuarios'
+import TokenUsuarios from 'App/Models/TokenUsuario'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { TokenUsuarioValidatorStore, TokenUsuarioValidatorUpdate } from 'App/Validators/TokenUsuarioValidator'
 
@@ -44,4 +44,14 @@ export default class TokenUsuariosController {
 
     return TokenUsuarios
   }
-}
+    public async destroy({ request }: HttpContextContract) {
+      const id = request.param('id')
+      if (!id) return
+  
+      const token = await TokenUsuarios.findOrFail(id)
+      await token.delete()
+  
+      return token
+    }
+  
+  }
