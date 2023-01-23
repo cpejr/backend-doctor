@@ -9,15 +9,17 @@ export default class TokenUsuario extends BaseModel {
   @column()
   public id_usuario: string
 
+  @belongsTo(() => Usuario, {
+    localKey: 'id_usuario'
+  })
+  public usuario: BelongsTo<typeof Usuario>
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Usuario, {
-    localKey: 'id_usuario'
-  })
-  public user: BelongsTo<typeof Usuario>
+
 
 }
