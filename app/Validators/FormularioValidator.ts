@@ -9,6 +9,7 @@ export class FormularioValidatorStore {
     tipo: schema.string({ trim: true }),
     finalidade: schema.string({ trim: true }),
     urgencia: schema.number([rules.range(1, 3)]),
+    visualizacao_secretaria: schema.boolean(),
   })
 
   public messages = {
@@ -16,6 +17,7 @@ export class FormularioValidatorStore {
     'urgencia.range': 'Insira estrelas de 1 a 3',
     'string': 'O campo {{field}} deve ser uma string',
     'number': 'O campo {{field}} deve ser um inteiro',
+     boolean: 'O campo {{field}} deve ser um booleano'
   }
 }
 export class FormularioValidatorUpdate {
@@ -27,6 +29,7 @@ export class FormularioValidatorUpdate {
     finalidade: schema.string.optional({ trim: true }),
     perguntas: schema.object.optional().anyMembers(),
     urgencia: schema.number.optional([rules.range(1, 3)]),
+    visualizacao_secretaria: schema.boolean.optional(),
   })
 
   public messages = {
