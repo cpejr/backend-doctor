@@ -10,6 +10,7 @@ Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
+Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
@@ -96,6 +97,7 @@ Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+Route.post('/receitas', 'ReceitasController.storeSemArquivo')
 
 Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
 Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')

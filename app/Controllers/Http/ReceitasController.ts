@@ -68,6 +68,27 @@ export default class ReceitasController {
 
     return receita;
   }
+  public async storeSemArquivo({ request }: HttpContextContract) {
+    const validateData = await request.validate(ReceitaValidatorStore)
+
+    const titulo = validateData.titulo
+    const descricao = validateData.descricao
+    const id_usuario = request.input('id_usuario');
+    const pdf_url = request.input('pdf_url');
+
+
+    const receita = await Receita.create({
+      titulo,
+      descricao,
+      id_usuario,
+      pdf_url,
+      
+    });
+
+    await receita.save();
+
+    return receita;
+  }
 
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')

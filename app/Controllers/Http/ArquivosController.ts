@@ -88,4 +88,23 @@ export default class ArquivosController {
       return 'Falha ao apagar o arquivo!'
     }
   }
+  public async storeFile(file) {
+    const tipo_conteudo = 'text'
+    const ACL = 'public-read'
+    const nome = 'doctor-app-file'
+    const chave = `${(Math.random() * 100).toString()}-${nome}`
+
+    await Drive.put(chave, file, {
+      contentType: tipo_conteudo,
+      visibility: ACL,
+    })
+
+    await Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo,
+    })
+
+    return chave
+  }
 }
