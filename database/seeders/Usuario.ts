@@ -6,8 +6,8 @@ export default class UsuarioSeeder extends BaseSeeder {
   public async run() {
     await Usuario.createMany([
       {
-        nome: 'Mateus',
-        email: 'matcpeabcsd@cpejr.com.br',
+        nome: 'Orion',
+        email: 'orion@cpejr.com.br',
         senha: 'orion2022!',
         data_nascimento: new Date('1990-01-01'),
         cpf: '31335333330',
