@@ -3,6 +3,7 @@ import { BaseModel, column, belongsTo, BelongsTo, beforeCreate } from '@ioc:Adon
 import Usuario from './Usuario'
 import Consultorio from './Consultorio'
 import { v4 as uuid } from 'uuid'
+import { Collection } from 'mongoose'
 export default class Consulta extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -29,6 +30,9 @@ export default class Consulta extends BaseModel {
 
   @column()
   public id_usuario: string
+
+  @column()
+  public notificacao: boolean
 
   @column()
   public id_consultorio: string
