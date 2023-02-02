@@ -18,6 +18,12 @@ export default class TokenUsuariosController {
     )
     return token
   }
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const id = request.param('id_usuario')
+    if (!id) return
+    const Tokenusuario = await TokenUsuarios.findBy('id_usuario', id);
+    return Tokenusuario
+  }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(TokenUsuarioValidatorStore)
