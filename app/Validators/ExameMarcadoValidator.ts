@@ -6,17 +6,17 @@ export class ExameMarcadoValidatorStore {
 
   public schema = schema.create({
     data_hora: schema.date({
-      format: 'yyyy/MM/dd HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     descricao: schema.string.optional({ trim: true }),
     data_envio: schema.date.optional({
-      format: 'yyyy/MM/dd HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     data_devolucao: schema.date.optional({
-      format: 'yyyy/MM/dd HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     data_pagamento: schema.date.optional({
-      format: 'yyyy/MM/dd HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     esta_atrasado: schema.boolean.optional(),
     esta_disponivel: schema.boolean.optional(),
