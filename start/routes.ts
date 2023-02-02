@@ -97,7 +97,7 @@ Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
-Route.post('/receitas/:id', 'ReceitasController.storeSemArquivo')
+Route.post('/receitasarquivo', 'ReceitasController.storeComArquivo')
 
 Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
 Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')

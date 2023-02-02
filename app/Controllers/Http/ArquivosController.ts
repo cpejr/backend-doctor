@@ -2,12 +2,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Arquivo from 'App/Models/Arquivo'
 import Drive from '@ioc:Adonis/Core/Drive'
 import pdf from 'html-pdf'
-import pdfReceita from "../../templates/Receita"
-import fs from "fs"
-
+import pdfReceita from '../../templates/Receita'
+import fs from 'fs'
 
 export default class ArquivosController {
-
   public async indexByChave({ request, response }: HttpContextContract) {
     try {
       const chave = request.param('chave')
@@ -40,47 +38,43 @@ export default class ArquivosController {
   }
 
   public async storePdf(nomePaciente, dataNascimento, tituloReceita, descricao) {
-
-    
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
-      return 0;
+      return 0
     }
-   
 
-    const tipo_conteudo = "pdf"
+    const tipo_conteudo = 'pdf'
     const ACL = 'public-read'
-    const nome = "PDF"
+    const nome = 'PDF'
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-    await pdf.create(pdfReceita({nomePaciente, dataNascimento, tituloReceita, descricao}), {}).toStream((err, res) => {
-      if (err) {
-        return false;
-      }
-      else {
-        Drive.putStream(chave, res, {
-          contentType: tipo_conteudo,
-          visibility: ACL,
-        });
+    await pdf
+      .create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {})
+      .toStream((err, res) => {
+        if (err) {
+          return false
+        } else {
+          Drive.putStream(chave, res, {
+            contentType: tipo_conteudo,
+            visibility: ACL,
+          })
 
-        Arquivo.create({
-          nome,
-          chave,
-          tipo_conteudo,
-        });
+          Arquivo.create({
+            nome,
+            chave,
+            tipo_conteudo,
+          })
+        }
+      })
 
-      }
-    });
-
-  return chave;
+    return chave
   }
 
-
-  public async update({ }: HttpContextContract) { }
+  public async update({}: HttpContextContract) {}
 
   public async destroy(chave) {
     try {
       const arquivo = await Arquivo.findByOrFail('chave', chave)
 
-      await Drive.delete(chave);
+      await Drive.delete(chave)
       await arquivo.delete()
 
       return 'Arquivo deletado com sucesso!'
