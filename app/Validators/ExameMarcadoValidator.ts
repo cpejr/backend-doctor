@@ -34,20 +34,22 @@ export class ExameMarcadoValidatorUpdate {
 
   public schema = schema.create({
     data_hora: schema.date.optional({
-      format: 'dd/MM/yyyy HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     descricao: schema.string.optional({ trim: true }),
     data_envio: schema.date.optional({
-      format: 'dd/MM/yyyy HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     data_devolucao: schema.date.optional({
-      format: 'dd/MM/yyyy HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     data_pagamento: schema.date.optional({
-      format: 'dd/MM/yyyy HH:mm:ss',
+      format: 'yyyy-MM-dd HH:mm:ss',
     }),
     esta_atrasado: schema.boolean.optional(),
     esta_disponivel: schema.boolean.optional(),
+    id_consultorio: schema.string.optional(),
+    id_exame: schema.string.optional(),
   })
 
   public messages = {
