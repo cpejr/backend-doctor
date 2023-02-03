@@ -109,7 +109,7 @@ const bodyParserConfig: BodyParserConfig = {
     | file sizes.
     |
     */
-    autoProcess: false,
+    autoProcess: true,
 
     /*
     |--------------------------------------------------------------------------

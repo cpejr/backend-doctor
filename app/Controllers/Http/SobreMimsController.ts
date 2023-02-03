@@ -1,66 +1,107 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import SobreMim from 'App/Models/SobreMim'
-import SobreMimsDTO from 'App/DTO/SobreMimsDTO'
-import SobreMimsRepository from 'App/Repositories/SobreMimsRepository'
-import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { SobreMimValidatorStore, SobreMimValidatorUpdate } from 'App/Validators/SobreMimValidator'
-
+import {
+  SobreMimValidatorGet,
+  SobreMimValidatorStore,
+  SobreMimValidatorUpdate
+} from 'App/Validators/SobreMimValidator'
+import ArquivosController from './ArquivosController'
 export default class SobreMimsController {
+  protected arquivoscontroller: ArquivosController = new ArquivosController()
+
   public async index({ request }: HttpContextContract) {
-    const sobreMimData = {
-      id: request.param('id'),
-      imagem_um: request.param('imagem_um'),
-      titulo_um: request.param('titulo_um'),
-      texto_um: request.param('texto_um'),
-      imagem_dois: request.param('imagem_dois'),
-      titulo_dois: request.param('titulo_dois'),
-      texto_dois: request.param('texto_dois'),
-    } as SobreMimsDTO
-    const sobreMim = await SobreMimsRepository.find(limpaCamposNulosDeObjeto(sobreMimData))
-    return sobreMim
+    const sobreMimsData = await request.validate(SobreMimValidatorGet)
+
+    const sobreMims = await SobreMim.query()
+      .where(sobreMimsData)
+      .preload('imagem_um', (query) => query.select('url'))
+      .preload('imagem_dois', (query) => query.select('url'))
+      .select(
+        'id',
+        'titulo_um',
+        'id_imagem_um',
+        'id_imagem_dois',
+        'texto_um',
+        'titulo_dois',
+        'texto_dois',
+      )
+
+    return sobreMims
   }
 
+  public async create({}: HttpContextContract) {}
+
   public async store({ request }: HttpContextContract) {
-    const validateData = await request.validate(SobreMimValidatorStore)
-
-    const imagem_um = validateData.imagem_um
-    const titulo_um = validateData.titulo_um
-    const texto_um = validateData.texto_um
-    const imagem_dois = validateData.imagem_dois
-    const titulo_dois = validateData.titulo_dois
-    const texto_dois = validateData.texto_dois
-
-    const SobreMims = await SobreMim.create({
-      imagem_um,
+    const {
       titulo_um,
+      imagem_um,
       texto_um,
-      imagem_dois,
       titulo_dois,
       texto_dois,
+      imagem_dois
+    } = await request.validate(SobreMimValidatorStore)
+
+    const awsExtensao = 'paginaSobreMim-imagem'
+    const visibility = 'public'
+    const promises = [
+      this.arquivoscontroller.storeStream(imagem_um, awsExtensao, visibility),
+      this.arquivoscontroller.storeStream(imagem_dois, awsExtensao, visibility)
+    ]
+    const [id_imagem_um, id_imagem_dois] = await Promise.all(promises)
+
+    const novoSobremMim = await SobreMim.create({
+      titulo_um,
+      id_imagem_um,
+      texto_um,
+      titulo_dois,
+      texto_dois,
+      id_imagem_dois
     })
-    return SobreMims
+
+    return novoSobremMim
   }
 
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
-    if (!id) return
+    const {
+      imagem_um,
+      imagem_dois,
+      ...sobreMimsUpdate
+    } = await request.validate(SobreMimValidatorUpdate)
 
-    const validateData = await request.validate(SobreMimValidatorUpdate)
+    const sobreMim = await SobreMim.findOrFail(id)
+    const awsExtensao = 'paginaSobreMim-imagem'
+    const visibility = 'public'
 
-    const SobreMims = await SobreMim.findOrFail(id)
-    SobreMims.merge(limpaCamposNulosDeObjeto(validateData))
-    await SobreMims.save()
+    if (imagem_um) {
+      const { id_imagem_um } = sobreMim
+      await this.arquivoscontroller.update(id_imagem_um, imagem_um, awsExtensao, visibility)
+    }
+    if (imagem_dois) {
+      const { id_imagem_dois } = sobreMim
+      await this.arquivoscontroller.update(id_imagem_dois, imagem_dois, awsExtensao, visibility)
+    }
 
-    return SobreMims
+    sobreMim.merge(sobreMimsUpdate)
+    await sobreMim.save()
+
+    return sobreMim
   }
 
   public async destroy({ request }: HttpContextContract) {
-    const id = request.param('id')
-    if (!id) return
+    try {
+      const id = request.param('id')
 
-    const SobreMims = await SobreMim.findOrFail(id)
-    await SobreMims.delete()
+      const sobreMim = await SobreMim.findOrFail(id)
 
-    return SobreMims
+      await this.arquivoscontroller.delete(sobreMim.id_imagem_um)
+      await this.arquivoscontroller.delete(sobreMim.id_imagem_dois)
+
+      await sobreMim.delete()
+
+      return "Página de Edição Sobre Mim excluída com sucesso!"
+    } catch (error) {
+      return `Falha ao apagar Edição Sobre Mim:\n\n${error}`
+    }
   }
 }

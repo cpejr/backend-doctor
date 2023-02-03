@@ -9,6 +9,7 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.get('/arquivos', 'ArquivosController.index')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
@@ -58,10 +59,10 @@ Route.post('/comentarios', 'ComentariosController.store')
 Route.put('/comentarios/:id', 'ComentariosController.update')
 Route.delete('/comentarios/:id', 'ComentariosController.destroy')
 
-Route.get('/sobremims', 'SobreMimsController.index')
-Route.post('/sobremims', 'SobreMimsController.store')
-Route.put('/sobremims/:id', 'SobreMimsController.update')
-Route.delete('/sobremims/:id', 'SobreMimsController.destroy')
+Route.get('/sobre_mims', 'SobreMimsController.index')
+Route.post('/sobre_mims', 'SobreMimsController.store')
+Route.put('/sobre_mims/:id', 'SobreMimsController.update')
+Route.delete('/sobre_mims/:id', 'SobreMimsController.destroy')
 
 Route.get('/consultorios', 'ConsultoriosController.index')
 Route.get('/consultorios/:id', 'ConsultoriosController.indexByIdConsultorio')
@@ -164,3 +165,4 @@ Route.get('/medicos_indicados/:id_indicacao_especifica', 'MedicosIndicadosContro
 Route.post('/medicos_indicados', 'MedicosIndicadosController.store')
 Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
 Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
+

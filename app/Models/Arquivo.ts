@@ -13,16 +13,16 @@ export default class Arquivo extends BaseModel {
     }
   }
 
-  @column({ isPrimary: true })
+  @column()
   public nome: string
 
-  @column({ isPrimary: true })
+  @column()
   public chave: string
 
-  @column({ isPrimary: true })
-  public url: void
+  @column()
+  public url: string | null
 
-  @column({ isPrimary: true })
+  @column()
   public tipo_conteudo: string
 
   @column.dateTime({ autoCreate: true })
