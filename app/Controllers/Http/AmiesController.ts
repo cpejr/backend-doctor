@@ -4,6 +4,7 @@ import AmiesDTO from 'App/DTO/AmiesDTO'
 import AmiesRepository from 'App/Repositories/AmiesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { AmieValidatorStore, AmieValidatorUpdate } from 'App/Validators/AmieValidator'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 export default class AmiesController {
   public async index({ request }: HttpContextContract) {
@@ -33,13 +34,33 @@ export default class AmiesController {
   }
 
   public async update({ request }: HttpContextContract) {
+
+    const arquivoscontroller: ArquivosController = new ArquivosController();
+
     const id = request.param('id')
     if (!id) return
 
-    const validateData = await request.validate(AmieValidatorUpdate)
-    
     const amie = await Amie.findOrFail(id)
-    amie.merge(limpaCamposNulosDeObjeto(validateData))
+
+    if (amie.imagem_um != undefined && amie.imagem_um != null && amie.imagem_um != "") {
+      const chave1 = amie.imagem_um;
+      await arquivoscontroller.destroy(chave1);
+    }
+    if (amie.imagem_dois != undefined && amie.imagem_dois != null && amie.imagem_dois != "") {
+      const chave2 = amie.imagem_dois;
+      await arquivoscontroller.destroy(chave2);
+    }
+
+
+    const file1 = request.input('imagem_um');
+    const res1 = await arquivoscontroller.store(file1);
+    const file2 = request.input('imagem_dois');
+    const res2 = await arquivoscontroller.store(file2);
+
+    amie.$attributes.imagem_um = res1;
+    amie.$attributes.imagem_dois = res2;
+    amie.$attributes.texto = request.input('texto');
+
     await amie.save()
 
     return amie
