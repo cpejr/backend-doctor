@@ -3,7 +3,7 @@ import Usuario from 'App/Models/Usuario'
 import ApiToken from 'App/Models/ApiToken'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Mail from '@ioc:Adonis/Addons/Mail'
-
+import jwt from 'jsonwebtoken'
 export default class SessoesController {
   public async login({ request, auth, response }: HttpContextContract) {
     const email = request.input('email')
@@ -24,7 +24,13 @@ export default class SessoesController {
     const novoToken = await auth.use('api').generate(usuario, {
       expires_at: tempoExpiracaoToken,
     })
+     
+     /*const novoToken =  jwt.sign( {usuario}, process.env.ACCESS_TOKEN_SECRET,{
+      expiresIn: '5h',
+    } )*/
 
+    Object.assign(usuario, novoToken);
+    
     const tokens = await ApiToken.all();
     
     for(var i = 0; i < tokens.length; i ++){
@@ -37,7 +43,6 @@ export default class SessoesController {
 
     const tipo = usuario.tipo
     const id = usuario.id
-
     return response.status(200).json({ id, email, token, tipo })
   }
   public async verificarSenha({ request, response }: HttpContextContract) {

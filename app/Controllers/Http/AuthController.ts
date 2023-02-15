@@ -2,12 +2,12 @@
  import Usuario from 'App/Models/Usuario'
 
 export default class AuthController {
-    async register({request, auth, response}) {
+    async register({request, auth, response}: HttpContextContract) {
     
         let user = await Usuario.create(request.all())
 
         //generate token for user;
-        let token = await auth.generate(user)
+        let token = await auth.use("api").generate(user)
     
         Object.assign(user, token)
     
