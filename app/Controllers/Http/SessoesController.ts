@@ -21,15 +21,14 @@ export default class SessoesController {
 
     
     // Generate token
-    const novoToken = await auth.use('api').generate(usuario, {
+    /*const novoToken = await auth.use('api').generate(usuario, {
       expires_at: tempoExpiracaoToken,
-    })
+    })*/
      
-     /*const novoToken =  jwt.sign( {usuario}, process.env.ACCESS_TOKEN_SECRET,{
+     const novoToken =  jwt.sign( {usuario}, process.env.ACCESS_TOKEN_SECRET,{
       expiresIn: '5h',
-    } )*/
+    })
 
-    Object.assign(usuario, novoToken);
     
     const tokens = await ApiToken.all();
     
@@ -39,11 +38,10 @@ export default class SessoesController {
       }
     }
     
-    const token = novoToken.token
 
     const tipo = usuario.tipo
     const id = usuario.id
-    return response.status(200).json({ id, email, token, tipo })
+    return response.status(200).json({ id, email, novoToken, tipo })
   }
   public async verificarSenha({ request, response }: HttpContextContract) {
     const email = request.input('email')
