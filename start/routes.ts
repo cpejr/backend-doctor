@@ -1,7 +1,6 @@
 import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
-
 Route.get('/', async () => {
   return { hello: 'world' }
 })
@@ -91,11 +90,11 @@ Route.post('/imagem_carrossels', 'ImagensCarrosselController.store')
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
 
-Route.get('/receitas', 'ReceitasController.index')
+Route.get('/receitas', 'ReceitasController.index').middleware('auth')
 Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
-Route.post('/receitas', 'ReceitasController.store')
-Route.put('/receitas/:id', 'ReceitasController.update')
-Route.delete('/receitas/:id', 'ReceitasController.destroy')
+Route.post('/receitas', 'ReceitasController.store').middleware('auth')
+Route.put('/receitas/:id', 'ReceitasController.update').middleware('auth')
+Route.delete('/receitas/:id', 'ReceitasController.destroy').middleware('auth')
 
 Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
 Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')
@@ -156,7 +155,7 @@ Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
-Route.post('/login', 'SessoesController.login')
+Route.post('/login','SessoesController.login')
 Route.post('/verificar', 'SessoesController.verificarSenha')
 
 Route.get('/medicos_indicados', 'MedicosIndicadosController.index')
