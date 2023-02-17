@@ -4,6 +4,9 @@ import ApiToken from 'App/Models/ApiToken'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Mail from '@ioc:Adonis/Addons/Mail'
 import jwt from 'jsonwebtoken'
+import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
+import ApiTokenDTO from 'App/DTO/ApiTokenDTO'
+import ApiTokenRepository from 'App/Repositories/ApiTokenRepository'
 export default class SessoesController {
   public async login({ request, auth, response }: HttpContextContract) {
     const email = request.input('email')
@@ -42,6 +45,16 @@ export default class SessoesController {
 
     const tipo = usuario.tipo
     const id = usuario.id
+/*
+    const ApiTokenData = {
+      user_id: request.param(id),
+    } as ApiTokenDTO
+    
+    const apiId = await ApiTokenRepository.find(ApiTokenData)
+
+    apiId.merge(limpaCamposNulosDeObjeto(token));
+    await apiId.save();*/
+
     return response.status(200).json({ id, email, token, tipo })
   }
   public async verificarSenha({ request, response }: HttpContextContract) {
