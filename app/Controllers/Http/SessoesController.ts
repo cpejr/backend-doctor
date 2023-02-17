@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import ApiTokenDTO from 'App/DTO/ApiTokenDTO'
 import ApiTokenRepository from 'App/Repositories/ApiTokenRepository'
+import ApiTokenValidatorStore from 'App/Validators/ApiTokenValidator'
 export default class SessoesController {
   public async login({ request, auth, response }: HttpContextContract) {
     const email = request.input('email')
@@ -33,6 +34,7 @@ export default class SessoesController {
     })*/
     
     
+    
     const tokens = await ApiToken.all();
     
     for(var i = 0; i < tokens.length; i ++){
@@ -40,20 +42,30 @@ export default class SessoesController {
         await tokens[i].delete();
       }
     }
+
     
     const token = novoToken.token
-
+    
     const tipo = usuario.tipo
     const id = usuario.id
-/*
-    const ApiTokenData = {
+    
+
+    /*const tokenapi = await SessoesController.store({
+      token,
+    })
+   
+    //ideia tokens[0].token = novoToken.token
+  
+   /* const ApiTokenData = {
       user_id: request.param(id),
     } as ApiTokenDTO
     
     const apiId = await ApiTokenRepository.find(ApiTokenData)
 
-    apiId.merge(limpaCamposNulosDeObjeto(token));
-    await apiId.save();*/
+    //apiId.merge(limpaCamposNulosDeObjeto(token));
+    //await apiId.save();
+    console.log(tokenapi)*/
+
 
     return response.status(200).json({ id, email, token, tipo })
   }
@@ -67,6 +79,17 @@ export default class SessoesController {
     } else {
       return true
     }
+  }
+
+  public async store({ request }: HttpContextContract) {
+    const validateData = await request.validate(ApiTokenValidatorStore)
+
+    const token = validateData.token
+
+    const tokenapi = await ApiToken.create({
+      token,
+    })
+    return tokenapi
   }
 
 }
