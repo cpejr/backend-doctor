@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import ApiTokenDTO from 'App/DTO/ApiTokenDTO'
 import ApiTokenRepository from 'App/Repositories/ApiTokenRepository'
-import ApiTokenValidatorStore from 'App/Validators/ApiTokenValidator'
+import ApiTokenValidatorStore, { ApiTokenValidatorUpdate } from 'App/Validators/ApiTokenValidator'
 export default class SessoesController {
   public async login({ request, auth, response }: HttpContextContract) {
     const email = request.input('email')
@@ -43,30 +43,30 @@ export default class SessoesController {
       }
     }
 
-    
+    tokens[0].token = novoToken.token
     const token = novoToken.token
     
     const tipo = usuario.tipo
     const id = usuario.id
     
-
     /*const tokenapi = await SessoesController.store({
       token,
     })
    
-    //ideia tokens[0].token = novoToken.token
+    //ideia tokens[0].token = novoToken.token isso aqui troca o token, entretanto, ele é sobrescrito após ser salvo
+
   
-   /* const ApiTokenData = {
+    const ApiTokenData = {
       user_id: request.param(id),
     } as ApiTokenDTO
     
-    const apiId = await ApiTokenRepository.find(ApiTokenData)
+    const apiId = await ApiToken.find(ApiTokenData)
 
-    //apiId.merge(limpaCamposNulosDeObjeto(token));
-    //await apiId.save();
+    apiId.merge(limpaCamposNulosDeObjeto(token));
+    await apiId.save();
     console.log(tokenapi)*/
 
-
+   console.log(tokens)
     return response.status(200).json({ id, email, token, tipo })
   }
   public async verificarSenha({ request, response }: HttpContextContract) {
@@ -91,5 +91,22 @@ export default class SessoesController {
     })
     return tokenapi
   }
+  
+  /*public async update({ params, request }){
+    
+    const id = request.param('id')
+    if (!id) return
+
+
+    const validateData =  await request.validate(ApiTokenValidatorUpdate)
+     
+    const apiId = await ApiToken.find(params.id)
+
+    apiId.merge(limpaCamposNulosDeObjeto(validateData.token));
+    await apiId.save();
+
+    return apiId
+  }*/
+
 
 }
