@@ -4,6 +4,7 @@ import ImagensCarrosselRepository from 'App/Repositories/ImagensCarrosselReposio
 import ImagensCarrosselDTO from 'App/DTO/ImagensCarrossel'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { ImagemCarroselValidatorStore, ImagemCarroselValidatorUpdate } from 'App/Validators/ImagemCarrosselValidator'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 export default class ImagensCarrosselController {
   public async index({ request }: HttpContextContract) {
@@ -49,5 +50,22 @@ export default class ImagensCarrosselController {
     await imagemCarrossel.delete()
 
     return imagemCarrossel
+  }
+
+  public async updateImagem({ request }: HttpContextContract) {
+
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    const url = request.param('url')
+    arquivoscontroller.destroy(url)
+    
+    const id = request.param('id')
+    if (!id) return
+
+    const imagem_especifica = await ImagemCarrossel.findOrFail(id);
+
+    const file = request.input('file')
+    const res = await arquivoscontroller.store(file)
+    imagem_especifica.$attributes.imagem = res
+    await imagem_especifica.save()
   }
 }
