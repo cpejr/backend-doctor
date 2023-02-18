@@ -7,14 +7,13 @@ Route.get('/', async () => {
 
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
-})
+}).middleware('auth')
 Route.post('/arquivofile/', async (ctx) => {
   return new ArquivosController().storeFile(ctx)
-})
+}).middleware('auth')
 Route.post('/arquivoimage/', async (ctx) => {
   return new ArquivosController().storeImage(ctx)
-})
-Route.post('/arquivopdf/', 'ArquivosController.storePdf')
+}).middleware('auth')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf').middleware('auth')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy').middleware('auth')
