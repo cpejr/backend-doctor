@@ -8,6 +8,13 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.post('/arquivofile/', async (ctx) => {
+  return new ArquivosController().storeFile(ctx)
+})
+Route.post('/arquivoimage/', async (ctx) => {
+  return new ArquivosController().storeImage(ctx)
+})
+Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf').middleware('auth')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy').middleware('auth')
@@ -90,6 +97,7 @@ Route.post('/imagem_carrossels', 'ImagensCarrosselController.store').middleware(
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update').middleware('auth')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy').middleware('auth')
 
+Route.get('/receitas/:id', 'ReceitasController.indexPdfLink')
 Route.get('/receitas', 'ReceitasController.index')
 Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store').middleware('auth')
@@ -113,8 +121,9 @@ Route.delete('/conversas/:id_usuario/usuario', 'ConversasController.destroyByUsu
 
 Route.get('/mensagems', 'MensagemsController.index')
 Route.get('/mensagems/:id_conversa/conversa/:id_usuario', 'MensagemsController.indexByConversaId')
-Route.post('/mensagems', 'MensagemsController.store').middleware('auth')
-Route.put('/mensagems/:id', 'MensagemsController.update').middleware('auth')
+Route.post('/mensagems', 'MensagemsController.store')
+Route.post('/mensagemsfile', 'MensagemsController.storePdf')
+Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.put(
   '/mensagems/:id_conversa/visualizadas/:id_usuario',
   'MensagemsController.updateVisualizadasPorConversaId'
@@ -163,3 +172,8 @@ Route.get('/medicos_indicados/:id_indicacao_especifica', 'MedicosIndicadosContro
 Route.post('/medicos_indicados', 'MedicosIndicadosController.store').middleware('auth')
 Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update').middleware('auth')
 Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy').middleware('auth')
+
+Route.get('/token_usuarios', 'TokenUsuariosController.index')
+Route.post('/token_usuarios', 'TokenUsuariosController.store')
+Route.put('/token_usuarios/:id_usuario', 'TokenUsuariosController.update')
+Route.delete('/token_usuarios/:id_usuario', 'TokenUsuariosController.destroy')

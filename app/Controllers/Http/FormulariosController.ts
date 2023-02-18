@@ -17,6 +17,7 @@ export default class FormulariosController {
       finalidade: request.param('finalidade'),
       perguntas: request.param('perguntas'),
       urgencia: request.param('urgencia'),
+      visualizacao_secretaria: request.param('visualizacao_secretaria')
     } as FormulariosDTO
     const formularios = await FormulariosRepository.find(limpaCamposNulosDeObjeto(formularioData))
     return formularios
@@ -47,13 +48,15 @@ export default class FormulariosController {
     const finalidade = validateData.finalidade
     const perguntas = request.input('perguntas')
     const urgencia = validateData.urgencia
-
+    const visualizacao_secretaria = validateData.visualizacao_secretaria
+    
     const formulario = await Formulario.create({
       titulo,
       tipo,
       finalidade,
       perguntas,
       urgencia,
+      visualizacao_secretaria,
     })
     return formulario
   }

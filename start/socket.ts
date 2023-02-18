@@ -15,6 +15,8 @@ Ws.io.on('connection', (socket) => {
     socket.to(receptorId).emit('mensagemRecebida', novaMensagem)
   })
 
+
+
   socket.on('enviarConversa', ({ novaConversa, receptorId }) => {
     socket.to(receptorId).emit('conversaRecebida', novaConversa)
   })

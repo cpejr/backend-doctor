@@ -5,4 +5,5 @@ export default interface FormulariosDTO {
   finalidade?: string
   perguntas?: JSON
   urgencia?: number
+  visualizacao_secretaria?: boolean
 }
