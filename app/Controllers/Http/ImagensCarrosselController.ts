@@ -55,17 +55,20 @@ export default class ImagensCarrosselController {
   public async updateImagem({ request }: HttpContextContract) {
 
     const arquivoscontroller: ArquivosController = new ArquivosController()
-    const url = request.param('url')
-    arquivoscontroller.destroy(url)
-    
     const id = request.param('id')
     if (!id) return
 
     const imagem_especifica = await ImagemCarrossel.findOrFail(id);
+    if(imagem_especifica.imagem != undefined && imagem_especifica.imagem != null && imagem_especifica.imagem != ""){
+      const chave = imagem_especifica.imagem
+      await arquivoscontroller.destroy(chave);
+    }
 
     const file = request.input('file')
     const res = await arquivoscontroller.store(file)
     imagem_especifica.$attributes.imagem = res
     await imagem_especifica.save()
+
+    return id;
   }
 }

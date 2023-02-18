@@ -87,7 +87,7 @@ Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
 Route.get('/imagem_carrossels', 'ImagensCarrosselController.index')
-Route.post('/imagem_carrossels', 'ImagensCarrosselController.store')
+Route.post('/imagemcarrossels', 'ImagensCarrosselController.store')
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
 Route.post('/imagem_carrossels/:id', 'ImagensCarrosselController.updateImagem')
