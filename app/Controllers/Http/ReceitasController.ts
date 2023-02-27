@@ -5,6 +5,7 @@ import ReceitasRepository from 'App/Repositories/ReceitasRepostory'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { ReceitaValidatorStore, ReceitaValidatorUpdate } from 'App/Validators/ReceitaValidator'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
+import Drive from '@ioc:Adonis/Core/Drive'
 
 export default class ReceitasController {
   public async index({ request }: HttpContextContract) {
@@ -29,13 +30,15 @@ export default class ReceitasController {
     return receitas
   }
 
-  public async indexById({ request }: HttpContextContract) {
+  public async indexPdfLink({ request }: HttpContextContract) {
     const id = request.param('id')
     if (!id) return
 
-    const receitas = await Receita.findOrFail(id)
+    const receitas = await Receita.findBy('id' , id)
 
-    return receitas
+    const url = await Drive.getSignedUrl(String(receitas?.pdf_url))
+
+    return url
   }
 
   public async store({ request }: HttpContextContract) {
@@ -113,4 +116,5 @@ export default class ReceitasController {
 
     return receita
   }
+  
 }
