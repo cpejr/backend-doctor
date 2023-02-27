@@ -28,7 +28,7 @@ export default class Mensagem extends BaseModel {
   public id_usuario: string
 
   @column()
-  public tipo: string
+  public tipo: string 
 
   @belongsTo(() => Conversa, {
     foreignKey: 'id_conversa',
