@@ -5,4 +5,5 @@ export default interface MensagemsDTO {
   foi_visualizado?: boolean
   id_conversa?: string
   id_usuario?: string
+  tipo?: string
 }
