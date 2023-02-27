@@ -54,10 +54,12 @@ export default class MensagemsController {
     const validateData = await request.validate(MensagemValidatorStore)
 
     const conteudo = validateData.conteudo
-    const media_url = validateData.media_url
+    let media_url = validateData.media_url
     const foi_visualizado = validateData.foi_visualizado
     const id_conversa = request.input('id_conversa')
     const id_usuario = request.input('id_usuario')
+
+    if(String(media_url).includes("nenhuma")){ media_url = "";}
 
     const mensagem = await Mensagem.create({
       conteudo,
