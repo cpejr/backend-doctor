@@ -66,7 +66,6 @@ export default class SessoesController {
     await apiId.save();
     console.log(tokenapi)*/
 
-   console.log(tokens)
     return response.status(200).json({ id, email, token, tipo })
   }
   public async verificarSenha({ request, response }: HttpContextContract) {
