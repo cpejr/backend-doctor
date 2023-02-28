@@ -14,7 +14,6 @@ export default class SessoesController {
     const senha = request.input('senha')
     const usuario = await Usuario.query().where('email', email).firstOrFail()
 
-    // Verify password
     if (!(await Hash.verify(usuario.senha, senha))) {
       return response.badRequest('Credenciais Inválidas')
     }
@@ -23,18 +22,12 @@ export default class SessoesController {
     const horas = tempoExpiracaoToken.getHours();
     tempoExpiracaoToken.setHours(horas + 8);
 
-    
-    // Generate token
+
    const novoToken = await auth.use('api').generate(usuario, {
       expires_at: tempoExpiracaoToken,
     })
      
-    /*const token =  jwt.sign( {usuario}, process.env.ACCESS_TOKEN_SECRET,{
-      expiresIn: '5h',
-    })*/
-    
-    
-    
+
     const tokens = await ApiToken.all();
     
     for(var i = 0; i < tokens.length; i ++){
@@ -49,22 +42,7 @@ export default class SessoesController {
     const tipo = usuario.tipo
     const id = usuario.id
     
-    /*const tokenapi = await SessoesController.store({
-      token,
-    })
-   
-    //ideia tokens[0].token = novoToken.token isso aqui troca o token, entretanto, ele é sobrescrito após ser salvo
-
   
-    const ApiTokenData = {
-      user_id: request.param(id),
-    } as ApiTokenDTO
-    
-    const apiId = await ApiToken.find(ApiTokenData)
-
-    apiId.merge(limpaCamposNulosDeObjeto(token));
-    await apiId.save();
-    console.log(tokenapi)*/
 
     return response.status(200).json({ id, email, token, tipo })
   }
@@ -91,7 +69,7 @@ export default class SessoesController {
     return tokenapi
   }
   
-  /*public async update({ params, request }){
+  public async update({ params, request }){
     
     const id = request.param('id')
     if (!id) return
@@ -99,13 +77,13 @@ export default class SessoesController {
 
     const validateData =  await request.validate(ApiTokenValidatorUpdate)
      
-    const apiId = await ApiToken.find(params.id)
+    const apiId = await ApiToken.findOrFail(params.id)
 
     apiId.merge(limpaCamposNulosDeObjeto(validateData.token));
     await apiId.save();
 
     return apiId
-  }*/
+  }
 
 
 }
