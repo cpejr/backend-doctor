@@ -6,7 +6,7 @@ export default class Mensagems extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
-      table.string('conteudo', 10000).notNullable()
+      table.string('conteudo', 10000).nullable()
       table.string('media_url').nullable()
       table.boolean('foi_visualizado').notNullable()
       table.string('id_conversa').references('id').inTable('conversas').onDelete('CASCADE')

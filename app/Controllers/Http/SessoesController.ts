@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import ApiTokenDTO from 'App/DTO/ApiTokenDTO'
 import ApiTokenRepository from 'App/Repositories/ApiTokenRepository'
-import ApiTokenValidatorStore, { ApiTokenValidatorUpdate } from 'App/Validators/ApiTokenValidator'
+import {ApiTokenValidatorStore,  ApiTokenValidatorUpdate } from 'App/Validators/ApiTokenValidator'
 export default class SessoesController {
   public async login({ request, auth, response }: HttpContextContract) {
     const email = request.input('email')
@@ -30,15 +30,23 @@ export default class SessoesController {
 
     const tokens = await ApiToken.all();
     
-    for(var i = 0; i < tokens.length; i ++){
+   for(var i = 0; i < tokens.length; i ++){
       if(tokens[i].$attributes.expiresAt < hoje){
         await tokens[i].delete();
       }
     }
 
-    tokens[0].token = novoToken.token
-    const token = novoToken.token
     
+    const token = novoToken.token
+
+    /*for(var i = 0; i < tokens.length; i ++){
+      if(tokens[i].$attributes.expiresAt < hoje){
+        tokens[0].token = novoToken.token
+        await tokens[i].save();
+      }
+    }*/
+
+  
     const tipo = usuario.tipo
     const id = usuario.id
     
