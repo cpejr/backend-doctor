@@ -97,22 +97,21 @@ export default class ArquivosController {
     const ACL = 'public-read'
     const nome = "PDF"
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-    await pdf.create(pdfReceita({nomePaciente, dataNascimento, tituloReceita, descricao}), {}).toStream((err, res) => {
+    await pdf.create(pdfReceita({nomePaciente, dataNascimento, tituloReceita, descricao}), {}).toFile((err, res) => {
       if (err) {
         return false;
       }
       else {
-        Drive.putStream(chave, res, {
+        let arquivo64 = fs.readFileSync(res.filename, {encoding: "base64"});
+        Drive.put(chave, arquivo64, {
           contentType: tipo_conteudo,
           visibility: ACL,
         });
-
         Arquivo.create({
           nome,
           chave,
           tipo_conteudo,
         });
-
       }
     });
 
