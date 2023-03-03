@@ -39,6 +39,52 @@ export default class ArquivosController {
     return chave
   }
 
+  public async storeFile({ request }: HttpContextContract) {
+    const tipo_conteudo = 'application/pdf'
+    const ACL = 'public-read'
+    const nome = 'doctor-app-file'
+    const chave = `${(Math.random() * 100).toString()}-${nome}`
+    const file = request.input('file').replace(/^data:.+;base64,/, "");
+
+    const fileBuffer = Buffer.from(file,'base64')
+
+    await Drive.put(chave, fileBuffer, {
+      contentType: tipo_conteudo,
+      visibility: ACL,
+    })
+
+    await Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo,
+    })
+
+    return chave
+  }
+
+  public async storeImage({ request }: HttpContextContract) {
+    const tipo_conteudo = 'text'
+    const ACL = 'public-read'
+    const nome = 'doctor-app-image'
+    const chave = `${(Math.random() * 100).toString()}-${nome}`
+    const file = request.input('file').replace(/^data:.+;base64,/, "");
+
+    const fileBuffer = Buffer.from(file,'base64')
+
+    await Drive.put(chave, fileBuffer, {
+      contentType: tipo_conteudo,
+      visibility: ACL,
+    })
+
+    await Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo,
+    })
+
+    return chave
+  }
+
   public async storePdf(nomePaciente, dataNascimento, tituloReceita, descricao) {
 
     

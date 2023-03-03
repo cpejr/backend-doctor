@@ -8,7 +8,7 @@ export class MensagemValidatorStore {
     id_usuario: schema.string({ trim: true }),
     id_conversa: schema.string({ trim: true }),
     conteudo: schema.string({ trim: true }),
-    media_url: schema.string({ trim: true }),
+    media_url: schema.string.nullable({ trim: true }),
     foi_visualizado: schema.boolean(),
   })
 

@@ -20,6 +20,9 @@ export default class Consultorio extends BaseModel {
   @column()
   public id_endereco: string
 
+  @column()
+  public tipo: string
+
   @belongsTo(() => Endereco, {
     localKey: 'id_endereco'
   })

@@ -1,17 +1,16 @@
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export class ConsultaValidatorStore {
+export class MedicosIndicadoValidatorStore {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    data_hora: schema.date({
-      format: 'yyyy-MM-dd HH:mm:ss'
-    }),
-    duracao_em_minutos: schema.number([rules.unsigned()]),
-    tipo: schema.string({ trim: true }),
-    descricao: schema.string.optional({ trim: true }),
-    avaliacao: schema.number.optional([rules.range(1, 3)]),
+    id_indicacao_especifica: schema.string({ trim: true }),
+    nome: schema.string.optional({ trim: true }),
+    telefone: schema.string.optional({ trim: true }),
+    local_atendimento: schema.string({ trim: true }),
+    
+
   })
 
   public messages = {
@@ -22,27 +21,30 @@ export class ConsultaValidatorStore {
     'date': 'A data_hora deve ser do formato yyyy-MM-dd HH:mm:ss',
     'unsigned': 'A duracao_em_minutos deve ser um numero positivo',
   }
+
 }
-export class ConsultaValidatorUpdate {
+
+
+export class MedicosIndicadoValidatorUpdate {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    data_hora: schema.date.optional({
-      format: 'yyyy-MM-dd HH:mm:ss',
-    }),
-    tipo: schema.string.optional({ trim: true }),
-    duracao_em_minutos: schema.number.optional([rules.unsigned()]),
-    descricao: schema.string.optional({ trim: true }),
-    avaliacao: schema.number.optional([rules.range(0, 4)]),
-    id_consultorio: schema.string.optional(),
-   
+    id_indicacao_especifica: schema.string.optional({ trim: true }),
+    nome: schema.string.optional({ trim: true }),
+    telefone: schema.string.optional({ trim: true }),
+    local_atendimento: schema.string.optional({ trim: true }),
+    
   })
 
   public messages = {
+    'required': 'Digite um {{field}}',
     'avaliacao.range': 'Insira valores entre 1 e 3 em avaliacao',
     'string': 'O campo {{field}} deve ser uma string',
     'number': 'O campo {{field}} deve ser um inteiro',
     'date': 'A data_hora deve ser do formato yyyy-MM-dd HH:mm:ss',
     'unsigned': 'A duracao_em_minutos deve ser um numero positivo',
   }
+
 }
+
+

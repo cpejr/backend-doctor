@@ -57,6 +57,16 @@ export default class EnderecoSeeder extends BaseSeeder {
         rua: 'Rua T-4',
         numero: 32
       },
+      {
+        id: "5de7fee5-c181-4207-8f84-689487df341f",
+        cep: '30150320',
+        pais: 'Brasil',
+        estado: 'MG',
+        cidade: 'Belo Horizonte',
+        bairro: 'Santa Efigênia',
+        rua: 'rua Piauí',
+        numero: 150
+      },
     ])
   }
 }

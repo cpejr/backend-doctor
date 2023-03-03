@@ -28,6 +28,9 @@ export default class Formulario extends BaseModel {
   @column()
   public urgencia: number
 
+  @column()
+  public visualizacao_secretaria: boolean
+
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime
 
