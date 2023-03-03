@@ -16,7 +16,7 @@ export default class Mensagem extends BaseModel {
   public conteudo: string
 
   @column()
-  public media_url: string
+  public media_url: string | null
 
   @column()
   public foi_visualizado: boolean

@@ -8,7 +8,7 @@ export default class Conversas extends BaseSchema {
       table.string('id').primary()
       table.string('id_criador').references('id').inTable('usuarios').onDelete('CASCADE')
       table.string('id_receptor').references('id').inTable('usuarios').onDelete('CASCADE')
-      table.enu('tipo',['EXAME']).nullable()
+      table.enu('tipo',['ACTIGRAFIA', 'BIOLOGIX']).nullable()
       table.boolean('ativada').defaultTo(false).notNullable()
       table.boolean('finalizada').defaultTo(false).notNullable()
 

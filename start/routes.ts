@@ -9,6 +9,12 @@ Route.get('/', async () => {
 Route.post('/arquivo', async (ctx) => {
   return new ArquivosController().store(ctx)
 })
+Route.post('/arquivofile/', async (ctx) => {
+  return new ArquivosController().storeFile(ctx)
+})
+Route.post('/arquivoimage/', async (ctx) => {
+  return new ArquivosController().storeImage(ctx)
+})
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
@@ -91,8 +97,9 @@ Route.post('/imagem_carrossels', 'ImagensCarrosselController.store')
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
 
+Route.get('/receitas/:id', 'ReceitasController.indexPdfLink')
 Route.get('/receitas', 'ReceitasController.index')
-Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
+Route.get('/receitas_usuario/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
@@ -115,6 +122,7 @@ Route.delete('/conversas/:id_usuario/usuario', 'ConversasController.destroyByUsu
 Route.get('/mensagems', 'MensagemsController.index')
 Route.get('/mensagems/:id_conversa/conversa/:id_usuario', 'MensagemsController.indexByConversaId')
 Route.post('/mensagems', 'MensagemsController.store')
+Route.post('/mensagemsfile', 'MensagemsController.storePdf')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.put(
   '/mensagems/:id_conversa/visualizadas/:id_usuario',
