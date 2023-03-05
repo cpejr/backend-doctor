@@ -3,7 +3,7 @@ import Conversa from 'App/Models/Conversa'
 import ConversasDTO from 'App/DTO/ConversasDTO'
 import ConversasRepository from 'App/Repositories/ConversasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { mensagemPagamento } from 'Config/whatsApp'
+import { mensagemPagamento, mensagemFinalizarExame } from 'Config/whatsApp'
 import Usuario from 'App/Models/Usuario'
 
 export default class ConversasController {
@@ -96,6 +96,14 @@ export default class ConversasController {
     const id_criador = request.param('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
     const mensagem = mensagemPagamento(usuario.nome);
+    await Promise.all([mensagem]);
+  }
+
+  public async enviarMensagemFinalizarExame({ request }: HttpContextContract){
+    const id_criador = request.param('id_usuario');
+    const usuario = await Usuario.findOrFail(id_criador);4
+    const endereco = await Usuario.findOrFail(usuario.id_endereco);
+    const mensagem = mensagemFinalizarExame(usuario.nome, usuario.telefone, usuario.cpf);
     await Promise.all([mensagem]);
   }
 
