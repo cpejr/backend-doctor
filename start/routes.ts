@@ -5,14 +5,8 @@ import ArquivosController from 'App/Controllers/Http/ArquivosController'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
-
-Route.post('/arquivo', async (ctx) => {
-  return new ArquivosController().store(ctx)
-})
-
-Route.post('/arquivoimage/', async (ctx) => {
-  return new ArquivosController().storeImage(ctx)
-})
+Route.post('/arquivo', 'ArquivosController.store')
+Route.post('/arquivoimage/', 'ArquivosController.storeImage')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
