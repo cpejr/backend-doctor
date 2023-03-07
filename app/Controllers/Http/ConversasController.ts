@@ -102,8 +102,7 @@ export default class ConversasController {
   public async enviarMensagemFinalizarExame({ request }: HttpContextContract){
     const id_criador = request.param('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);4
-    const endereco = await Usuario.findOrFail(usuario.id_endereco);
-    const mensagem = mensagemFinalizarExame(usuario.nome, usuario.telefone, usuario.cpf);
+    const mensagem = mensagemFinalizarExame(usuario.nome);
     await Promise.all([mensagem]);
   }
 

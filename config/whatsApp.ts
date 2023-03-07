@@ -57,14 +57,14 @@ export const mensagemPagamento = (nome_paciente: String) => {
   });
 }
 
-export const mensagemFinalizarExame = (nome_paciente: String, telefone: String, cpf: String) => {
+export const mensagemFinalizarExame = (nome_paciente: String) => {
   const PHONE_ID = Env.get("WHATSAPP_SENDER_PHONE_ID")
   return whatsappApi.post(`${PHONE_ID}/messages`, {
     messaging_product: "whatsapp",
     type: "template",
     to: Env.get("WHATSAPP_FORMULARIO_RECEIVER_NUM"),
     template: {
-      name: Env.get("WHATSAPP_PAGAMENTO_EXAME_TEMPLATE_NAME"),
+      name: Env.get("WHATSAPP_FINALIZAR_EXAME_TEMPLATE_NAME"),
       language: { code: "pt_BR" },
       components: [
         {
@@ -76,11 +76,11 @@ export const mensagemFinalizarExame = (nome_paciente: String, telefone: String, 
             },
             {
               type: "text",
-              text: telefone,
+              text: nome_paciente,
             },
             {
               type: "text",
-              text: cpf,
+              text: nome_paciente,
             },
           ],
         },
