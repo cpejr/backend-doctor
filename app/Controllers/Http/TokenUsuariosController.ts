@@ -19,9 +19,9 @@ export default class TokenUsuariosController {
     return token
   }
   public async indexByIdUsuario({ request }: HttpContextContract) {
-    const id = request.param('id_usuario')
-    if (!id) return
-    const Tokenusuario = await TokenUsuarios.findBy('id_usuario', id);
+    const id_usuario = request.param('id_usuario')
+    if (!id_usuario) return
+    const Tokenusuario = await TokenUsuarios.query().where({id_usuario});
     return Tokenusuario
   }
 
