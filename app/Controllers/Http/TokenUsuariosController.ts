@@ -52,10 +52,10 @@ export default class TokenUsuariosController {
     return TokenUsuarios
   }
     public async destroy({ request }: HttpContextContract) {
-      const id = request.param('id')
-      if (!id) return
+      const token_dispositivo = request.param('token_dispositivo')
+      if (!token_dispositivo) return
   
-      const token = await TokenUsuarios.findOrFail(id)
+      const token = await TokenUsuarios.findOrFail(token_dispositivo)
       await token.delete()
   
       return token
