@@ -51,14 +51,15 @@ export default class TokenUsuariosController {
 
     return TokenUsuarios
   }
-    public async destroy({ request }: HttpContextContract) {
-      const token_dispositivo = request.param('token_dispositivo')
-      if (!token_dispositivo) return
+  public async destroy({ request }: HttpContextContract) {
+    const tokenusuarios = {
+      token_dispositivo: request.body().token_dispositivo,
+
+    } as TokenUsuariosDTO
+    const token = await TokenUsuarios.findOrFail(tokenusuarios.token_dispositivo)
+    await token.delete()
   
-      const token = await TokenUsuarios.findOrFail(token_dispositivo)
-      await token.delete()
-  
-      return token
-    }
+    return token
+  }
   
   }
