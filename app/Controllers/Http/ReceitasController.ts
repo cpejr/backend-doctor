@@ -46,26 +46,44 @@ export default class ReceitasController {
 
     const arquivoscontroller: ArquivosController = new ArquivosController()
 
-    const nomePaciente = request.input('nome');
-    const dataNascimento = request.input('data');
+    const nomePaciente = request.input('nome')
+    const dataNascimento = request.input('data')
 
     const titulo = validateData.titulo
     const descricao = validateData.descricao
 
-    const id_usuario = request.input('id_usuario');
+    const id_usuario = request.input('id_usuario')
 
-
-    const res = await arquivoscontroller.storePdf(nomePaciente,dataNascimento,titulo, descricao);
-
+    const res = await arquivoscontroller.storePdf(nomePaciente, dataNascimento, titulo, descricao)
 
     const receita = await Receita.create({
       titulo,
       descricao,
       id_usuario,
-      
-    });
+    })
 
-    receita.$attributes.pdf_url = res;
+    receita.$attributes.pdf_url = res
+
+    await receita.save()
+
+    return receita
+  }
+  public async storeComArquivo({ request }: HttpContextContract) {
+    const validateData = await request.validate(ReceitaValidatorStore)
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    const file = request.input('file')
+    const url = await arquivoscontroller.storeFile(file)
+    const titulo = validateData.titulo
+    const descricao = validateData.descricao
+    const id_usuario = request.input('id_usuario');
+    const pdf_url = url
+
+    const receita = await Receita.create({
+      titulo,
+      descricao,
+      id_usuario,
+      pdf_url,
+    });
 
     await receita.save();
 
@@ -89,14 +107,11 @@ export default class ReceitasController {
     const id = request.param('id')
     if (!id) return
 
+    const arquivoscontroller: ArquivosController = new ArquivosController()
 
-    const arquivoscontroller: ArquivosController = new ArquivosController();
-
-
-    
     const receita = await Receita.findOrFail(id)
 
-    await arquivoscontroller.destroy(receita.pdf_url); 
+    await arquivoscontroller.destroy(receita.pdf_url)
     await receita.delete()
 
     return receita

@@ -4,17 +4,10 @@ import ArquivosController from 'App/Controllers/Http/ArquivosController'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
-
-Route.post('/arquivo', async (ctx) => {
-  return new ArquivosController().store(ctx)
-})
-Route.post('/arquivofile/', async (ctx) => {
-  return new ArquivosController().storeFile(ctx)
-})
-Route.post('/arquivoimage/', async (ctx) => {
-  return new ArquivosController().storeImage(ctx)
-})
+Route.post('/arquivo', 'ArquivosController.store')
+Route.post('/arquivoimage/', 'ArquivosController.storeImage')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
+Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
@@ -102,6 +95,7 @@ Route.get('/receitas_usuario/:id_usuario', 'ReceitasController.indexByIdUsuario'
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+Route.post('/receitasarquivo', 'ReceitasController.storeComArquivo')
 
 Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index').middleware('auth')
 Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store').middleware('auth')
