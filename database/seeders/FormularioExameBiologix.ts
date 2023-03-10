@@ -161,7 +161,8 @@ export default class FormularioExameBiologixSeeder extends BaseSeeder {
         tipo: 'exame_biologix',
         finalidade: 'Monitorar o sono do paciente',
         perguntas: perguntasBiologix,
-        urgencia: 3
+        urgencia: 3,
+        visualizacao_secretaria: false
     },
     )
   }
