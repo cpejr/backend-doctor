@@ -35,6 +35,7 @@ export class ConsultaValidatorUpdate {
     descricao: schema.string.optional({ trim: true }),
     avaliacao: schema.number.optional([rules.range(0, 4)]),
     id_consultorio: schema.string.optional(),
+   
   })
 
   public messages = {

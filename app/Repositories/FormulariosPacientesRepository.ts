@@ -14,7 +14,8 @@ export default class FormulariosPacientesRepository {
         'formularios.titulo',
         'formularios.urgencia',
         'formularios.tipo',
-        'formularios.perguntas'
+        'formularios.perguntas',
+        'formularios.visualizacao_secretaria'
       )
     return result
   }

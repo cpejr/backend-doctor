@@ -7,6 +7,7 @@ export class ConversaValidatorStore {
   public schema = schema.create({
     id_criador: schema.string({ trim: true }),
     id_receptor: schema.string({ trim: true }),
+    tipo: schema.enum.optional(['EXAME']),
   })
 
   public messages = {

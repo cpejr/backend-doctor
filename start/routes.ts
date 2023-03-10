@@ -1,14 +1,13 @@
 import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
-
 Route.get('/', async () => {
   return { hello: 'world' }
 })
-
-Route.post('/arquivo', async (ctx) => {
-  return new ArquivosController().store(ctx)
-})
+Route.post('/arquivo', 'ArquivosController.store')
+Route.post('/arquivoimage/', 'ArquivosController.storeImage')
+Route.post('/arquivopdf/', 'ArquivosController.storePdf')
+Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
@@ -37,6 +36,7 @@ Route.put('/assinaturas/:id', 'AssinaturasController.update')
 Route.delete('/assinaturas/:id', 'AssinaturasController.destroy')
 
 Route.get('/dispositivos', 'DispositivosController.index')
+Route.get('/dispositivos/:id', 'DispositivosController.indexByIdDispositivo')
 Route.post('/dispositivos', 'DispositivosController.store')
 Route.put('/dispositivos/:id', 'DispositivosController.update')
 Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
@@ -74,10 +74,13 @@ Route.delete('/indicacaos/:id', 'IndicacaosController.destroy')
 
 Route.get('/usuarios', 'UsuariosController.index')
 Route.get('/usuarios/:email', 'UsuariosController.indexByEmail')
+Route.get('/usuarios_id/:id', 'UsuariosController.indexByIdUsuario')
 Route.get('/usuarios_token/:token_usuario', 'UsuariosController.indexByToken')
 Route.get('/usuarios_receitas/:id', 'UsuariosController.indexById')
 Route.post('/usuarios', 'UsuariosController.store')
 Route.put('/usuarios/:id', 'UsuariosController.update')
+Route.post('/usuariosimagem/:id', 'UsuariosController.updateImagem')
+Route.put('/usuariosdeletarimagem/:id', 'UsuariosController.deleteImagem')
 Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
@@ -86,28 +89,33 @@ Route.post('/imagem_carrossels', 'ImagensCarrosselController.store')
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
 
+Route.get('/receitas/:id', 'ReceitasController.indexPdfLink')
 Route.get('/receitas', 'ReceitasController.index')
-Route.get('/receitas/:id_usuario', 'ReceitasController.indexByIdUsuario')
+Route.get('/receitas_usuario/:id_usuario', 'ReceitasController.indexByIdUsuario')
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+Route.post('/receitasarquivo', 'ReceitasController.storeComArquivo')
 
-Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
-Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')
-Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update')
-Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy')
+Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index').middleware('auth')
+Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store').middleware('auth')
+Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update').middleware('auth')
+Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy').middleware('auth')
 
 Route.get('/conversas', 'ConversasController.index')
 Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioId')
 Route.post('/conversas', 'ConversasController.store')
+Route.post('/conversas_whatsapp/:id_usuario', 'ConversasController.enviarMensagemConfirmarPagamento')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
+Route.put('/conversas/finalizacao/:id', 'ConversasController.updateFinalizada')
 Route.delete('/conversas/:id', 'ConversasController.destroy')
 Route.delete('/conversas/:id_usuario/usuario', 'ConversasController.destroyByUsuarioId')
 
 Route.get('/mensagems', 'MensagemsController.index')
 Route.get('/mensagems/:id_conversa/conversa/:id_usuario', 'MensagemsController.indexByConversaId')
 Route.post('/mensagems', 'MensagemsController.store')
+Route.post('/mensagemsfile', 'MensagemsController.storePdf')
 Route.put('/mensagems/:id', 'MensagemsController.update')
 Route.put(
   '/mensagems/:id_conversa/visualizadas/:id_usuario',
@@ -149,5 +157,16 @@ Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
-Route.post('/login', 'SessoesController.login')
+Route.post('/login','SessoesController.login')
 Route.post('/verificar', 'SessoesController.verificarSenha')
+
+Route.get('/medicos_indicados', 'MedicosIndicadosController.index')
+Route.get('/medicos_indicados/:id_indicacao_especifica', 'MedicosIndicadosController.indexByIdIndicacao')
+Route.post('/medicos_indicados', 'MedicosIndicadosController.store')
+Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
+Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
+
+Route.get('/token_usuarios', 'TokenUsuariosController.index')
+Route.post('/token_usuarios', 'TokenUsuariosController.store')
+Route.put('/token_usuarios/:id_usuario', 'TokenUsuariosController.update')
+Route.delete('/token_usuarios/:id_usuario', 'TokenUsuariosController.destroy')
