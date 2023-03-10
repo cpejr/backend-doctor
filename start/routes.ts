@@ -105,7 +105,7 @@ Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosCont
 Route.get('/conversas', 'ConversasController.index')
 Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioId')
 Route.post('/conversas', 'ConversasController.store')
-Route.post('/conversas_whatsapp/:id_usuario', 'ConversasController.enviarMensagemConfirmarPagamento')
+Route.post('/conversas_whatsapp', 'ConversasController.enviarMensagemConfirmarPagamento')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
 Route.put('/conversas/finalizacao/:id', 'ConversasController.updateFinalizada')
@@ -133,6 +133,7 @@ Route.get(
   '/formularios_pacientes_formularios/:id_formulario',
   'FormulariosPacientesController.indexByIdFormulario'
 )
+Route.post('/formularios_pacientes_teste', 'FormulariosPacientesController.testeMensagem')
 Route.post('/formularios_pacientes', 'FormulariosPacientesController.store')
 Route.put('/formularios_pacientes/:id', 'FormulariosPacientesController.update')
 Route.delete('/formularios_pacientes/:id', 'FormulariosPacientesController.destroy')
