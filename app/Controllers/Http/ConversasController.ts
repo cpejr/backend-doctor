@@ -92,18 +92,18 @@ export default class ConversasController {
     return novaConversa
   }
 
-  public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract){
+  public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract) {
     const id_criador = request.param('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
     const mensagem = mensagemPagamento(usuario.nome);
     await Promise.all([mensagem]);
   }
 
-  public async enviarMensagemFinalizarExame({ request }: HttpContextContract){
-    const id_criador = request.param('id_usuario');
+  public async enviarMensagemFinalizarExame({ request }: HttpContextContract) {
+    const id_criador = request.input('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
-    const mensagem = await mensagemFinalizarExame(usuario.nome);
-  }
+    const enderecoCompleto = request.input('endereco');
+    const mensagem = await mensagemFinalizarExame(usuario.nome, usuario.telefone, enderecoCompleto);  }
 
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
