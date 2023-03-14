@@ -167,6 +167,7 @@ Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
 Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
 
 Route.get('/token_usuarios', 'TokenUsuariosController.index')
+Route.get('/token_usuarios/:id_usuario', 'TokenUsuariosController.indexByIdUsuario')
 Route.post('/token_usuarios', 'TokenUsuariosController.store')
 Route.put('/token_usuarios/:id_usuario', 'TokenUsuariosController.update')
-Route.delete('/token_usuarios/:id_usuario', 'TokenUsuariosController.destroy')
+Route.delete('/token_usuarios', 'TokenUsuariosController.destroy')
