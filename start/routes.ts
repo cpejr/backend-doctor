@@ -1,21 +1,13 @@
 import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
-
 Route.get('/', async () => {
   return { hello: 'world' }
 })
-
-Route.post('/arquivo', async (ctx) => {
-  return new ArquivosController().store(ctx)
-})
-Route.post('/arquivofile/', async (ctx) => {
-  return new ArquivosController().storeFile(ctx)
-})
-Route.post('/arquivoimage/', async (ctx) => {
-  return new ArquivosController().storeImage(ctx)
-})
+Route.post('/arquivo', 'ArquivosController.store')
+Route.post('/arquivoimage/', 'ArquivosController.storeImage')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
+Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
@@ -103,11 +95,12 @@ Route.get('/receitas_usuario/:id_usuario', 'ReceitasController.indexByIdUsuario'
 Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
+Route.post('/receitasarquivo', 'ReceitasController.storeComArquivo')
 
-Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index')
-Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store')
-Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update')
-Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy')
+Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index').middleware('auth')
+Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store').middleware('auth')
+Route.put('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.update').middleware('auth')
+Route.delete('/lista_de_espera_dispositivos/:id', 'ListaDeEsperaDispositivosController.destroy').middleware('auth')
 
 Route.get('/conversas', 'ConversasController.index')
 Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioId')
@@ -164,7 +157,7 @@ Route.post('/exame_marcados', 'ExamesMarcadosController.store')
 Route.put('/exame_marcados/:id', 'ExamesMarcadosController.update')
 Route.delete('/exame_marcados/:id', 'ExamesMarcadosController.destroy')
 
-Route.post('/login', 'SessoesController.login')
+Route.post('/login','SessoesController.login')
 Route.post('/verificar', 'SessoesController.verificarSenha')
 
 Route.get('/medicos_indicados', 'MedicosIndicadosController.index')
@@ -174,6 +167,7 @@ Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
 Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
 
 Route.get('/token_usuarios', 'TokenUsuariosController.index')
+Route.get('/token_usuarios/:id_usuario', 'TokenUsuariosController.indexByIdUsuario')
 Route.post('/token_usuarios', 'TokenUsuariosController.store')
 Route.put('/token_usuarios/:id_usuario', 'TokenUsuariosController.update')
-Route.delete('/token_usuarios/:id_usuario', 'TokenUsuariosController.destroy')
+Route.delete('/token_usuarios', 'TokenUsuariosController.destroy')

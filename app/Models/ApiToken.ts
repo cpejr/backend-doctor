@@ -15,5 +15,7 @@ export default class ApiToken extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public expiresAt: DateTime
   
+  @column()
+  public token: string
 }
 
