@@ -16,6 +16,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { v4 as uuid } from 'uuid'
 import Mensagem from './Mensagem'
 import Conversa from './Conversa'
+import TokenUsuario from './TokenUsuario'
 export default class Usuario extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -110,6 +111,11 @@ export default class Usuario extends BaseModel {
     foreignKey: 'id_usuario',
   })
   public mensagem: HasMany<typeof Mensagem>
+
+  @hasMany(() => TokenUsuario, {
+    foreignKey: 'id_usuario'
+  })
+  public subject: HasMany<typeof TokenUsuario>
 
   @beforeSave()
   public static async hashPassword(usuario: Usuario) {

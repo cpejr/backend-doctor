@@ -16,6 +16,7 @@ export default class ConsultasController {
       avaliacao: request.param('avaliacao'),
       id_usuario: request.param('id_usuario'),
       id_consultorio: request.param('id_consultorio'),
+      notificacao: request.param('notificacao'),
 
     } as ConsultasDTO
     const consultas = await ConsultasRepository.find(limpaCamposNulosDeObjeto(consultaData))
@@ -52,6 +53,7 @@ export default class ConsultasController {
     const avaliacao = validateData.avaliacao
     const id_usuario = request.input('id_usuario')
     const id_consultorio = request.input('id_consultorio')
+    const notificacao = false
 
     const consulta = await Consulta.create({
       data_hora,
@@ -61,6 +63,7 @@ export default class ConsultasController {
       avaliacao,
       id_usuario,
       id_consultorio,
+      notificacao,
     })
     return consulta
   }
