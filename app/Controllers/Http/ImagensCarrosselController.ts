@@ -65,8 +65,8 @@ export default class ImagensCarrosselController {
     }
 
     const file = request.input('file')
-    const res = await arquivoscontroller.store(file)
-    imagem_especifica.$attributes.imagem = res
+    const chave_nova = await arquivoscontroller.store(file)
+    imagem_especifica.$attributes.imagem = chave_nova;
     await imagem_especifica.save()
 
     return id;
