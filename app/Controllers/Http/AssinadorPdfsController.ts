@@ -1,6 +1,6 @@
 //Teste 2( já está em NodeJs, porém frontend é diferente)
-const request = require('request');
-const fs = require('fs');
+import request from 'request';
+import fs from 'fs';
 require('dotenv/config');
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 // É necessário armazenar o nonce do lote inicializado
