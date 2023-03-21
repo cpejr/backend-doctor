@@ -4,6 +4,7 @@ import HomesDTO from 'App/DTO/HomesDTO'
 import HomesRepository from 'App/Repositories/HomesRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { HomeValidatorStore, HomeValidatorUpdate } from 'App/Validators/HomeValidator'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 export default class HomesController {
   public async index({ request }: HttpContextContract) {
@@ -56,13 +57,10 @@ export default class HomesController {
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
     if (!id) return
-
     const validateData = await request.validate(HomeValidatorUpdate)
-
     const home = await Home.findOrFail(id)
     home.merge(limpaCamposNulosDeObjeto(validateData))
     await home.save()
-
     return home
   }
 
@@ -75,4 +73,25 @@ export default class HomesController {
 
     return home
   }
+
+  public async updateImagem({ request }: HttpContextContract) {
+
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    const id = request.param('id')
+    if (!id) return
+  
+    const imagem_especifica = await Home.findOrFail(id);
+    if(imagem_especifica.imagem_quatro != undefined && imagem_especifica.imagem_quatro != null && imagem_especifica.imagem_quatro != ""){
+      const chave = imagem_especifica.imagem_quatro
+      await arquivoscontroller.destroy(chave);
+    }
+    const file = request.input('file')
+    const chave_nova = await arquivoscontroller.store(file)
+    imagem_especifica.$attributes.imagem_quatro= chave_nova;
+    await imagem_especifica.save()
+  
+    return id;
+  }
 }
+
+

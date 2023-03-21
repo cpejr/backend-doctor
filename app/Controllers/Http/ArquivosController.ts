@@ -97,20 +97,11 @@ export default class ArquivosController {
 
   public async destroy(chave) {
     try {
-      console.log("-=-=--=-=-=-=-=-=-=-")
-
       const arquivos = await Arquivo.all();
-
       for (var i = 0; i < arquivos.length; i++) {
-        console.log(arquivos[i].chave)
       }
-
-      console.log("-=-=--=-=-=-=-=-=-=-");
-
       await Database.from('arquivos').where('chave', chave).delete();
       await Drive.delete(chave)
-  
-
       return 'Arquivo deletado com sucesso!'
     } catch (error) {
       return 'Falha ao apagar o arquivo!'

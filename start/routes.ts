@@ -43,6 +43,7 @@ Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
 
 Route.get('/homes', 'HomesController.index')
 Route.post('/homes', 'HomesController.store')
+Route.put('/homesImagem/:id', 'HomesController.updateImagem')
 Route.put('/homes/:id', 'HomesController.update')
 Route.delete('/homes/:id', 'HomesController.destroy')
 
@@ -88,7 +89,7 @@ Route.get('/imagem_carrossels', 'ImagensCarrosselController.index')
 Route.post('/imagemcarrossels', 'ImagensCarrosselController.store')
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
-Route.post('/imagem_carrossels/:id', 'ImagensCarrosselController.updateImagem')
+Route.put('/imagem_carrossels_img/:id', 'ImagensCarrosselController.updateImagem')
 
 Route.get('/receitas/:id', 'ReceitasController.indexPdfLink')
 Route.get('/receitas', 'ReceitasController.index')
