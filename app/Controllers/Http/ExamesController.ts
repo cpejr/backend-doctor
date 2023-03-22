@@ -7,12 +7,13 @@ import { ExameValidatorStore, ExameValidatorUpdate } from 'App/Validators/ExameV
 
 export default class ExamesController {
   public async index({ request }: HttpContextContract) {
+    const filtro = request.all() || {};
     const exameData = {
       id: request.param('id'),
       titulo: request.param('titulo'),
       texto: request.param('texto'),
     } as ExamesDTO
-    const exames = await ExamesRepository.find(limpaCamposNulosDeObjeto(exameData))
+    const exames = await ExamesRepository.find(filtro)
     return exames
   }
 
