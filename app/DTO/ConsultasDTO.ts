@@ -9,4 +9,5 @@ export default interface ConsultasDTO {
   avaliacao?: number
   id_usuario?: number
   id_consultorio?: number
+  notificacao?: boolean
 }
