@@ -97,9 +97,6 @@ export default class ArquivosController {
 
   public async destroy(chave) {
     try {
-      const arquivos = await Arquivo.all();
-      for (var i = 0; i < arquivos.length; i++) {
-      }
       await Database.from('arquivos').where('chave', chave).delete();
       await Drive.delete(chave)
       return 'Arquivo deletado com sucesso!'
