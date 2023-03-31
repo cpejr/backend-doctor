@@ -3,7 +3,7 @@ import Conversa from 'App/Models/Conversa'
 import ConversasDTO from 'App/DTO/ConversasDTO'
 import ConversasRepository from 'App/Repositories/ConversasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { mensagemPagamento, mensagemFinalizarExame } from 'Config/whatsApp'
+import { mensagemFinalizarExame, mensagemConfirmouPagamento } from 'Config/whatsApp'
 import Usuario from 'App/Models/Usuario'
 
 export default class ConversasController {
@@ -93,17 +93,18 @@ export default class ConversasController {
   }
 
   public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract) {
-    const id_criador = request.param('id_usuario');
+    const id_criador = request.input('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
-    const mensagem = mensagemPagamento(usuario.nome);
-    await Promise.all([mensagem]);
+    const enderecoCompleto = request.input('endereco');
+    const mensagem = await mensagemConfirmouPagamento(usuario.nome, usuario.nome, usuario.nome, usuario.telefone, enderecoCompleto);
   }
 
   public async enviarMensagemFinalizarExame({ request }: HttpContextContract) {
     const id_criador = request.input('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
     const enderecoCompleto = request.input('endereco');
-    const mensagem = await mensagemFinalizarExame(usuario.nome, usuario.telefone, enderecoCompleto);  }
+    const mensagem = await mensagemFinalizarExame(usuario.nome, usuario.telefone, enderecoCompleto);
+  }
 
   public async update({ request }: HttpContextContract) {
     const id = request.param('id')
