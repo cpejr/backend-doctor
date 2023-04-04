@@ -51,20 +51,20 @@ export default class MedicosIndicadosController {
     return medicos_indicados
   }
 
-  public async update({ request }) {
+  public async update({ params, request }) {
   
-    const id_indicacao_especifica = request.param('id')
-    if (!id_indicacao_especifica) return
+    const id = request.param('id')
+    if (!id) return
 
     
     const validateData = await request.validate(MedicosIndicadoValidatorUpdate);
 
-    const medicos_indicados = await MedicosIndicado.findByOrFail("id_indicacao_especifica", id_indicacao_especifica);
+    const medicos_indicados = await MedicosIndicado.findOrFail(params.id);
 
 
     medicos_indicados.merge(limpaCamposNulosDeObjeto(validateData));
 
-    await medicos_indicados.save() ;
+    await medicos_indicados.save();
 
     return medicos_indicados
   }

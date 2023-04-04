@@ -31,6 +31,9 @@ export default class Consulta extends BaseModel {
   public id_usuario: string
 
   @column()
+  public notificacao: boolean
+
+  @column()
   public id_consultorio: string
 
   @belongsTo(() => Usuario, {

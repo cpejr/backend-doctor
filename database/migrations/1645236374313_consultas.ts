@@ -13,7 +13,8 @@ export default class Consultas extends BaseSchema {
       table.integer('avaliacao').nullable()
       table.string('id_usuario').references('id').inTable('usuarios').onDelete('CASCADE')
       table.string('id_consultorio').references('id').inTable('consultorios').onDelete('CASCADE')
-      
+      table.boolean('notificacao').nullable()
+
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
     })
