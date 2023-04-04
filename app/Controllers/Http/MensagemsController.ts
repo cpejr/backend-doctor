@@ -61,8 +61,10 @@ export default class MensagemsController {
     const id_conversa = request.input('id_conversa')
     const id_usuario = request.input('id_usuario')
     let tipo = ""
-    if(String(media_url).includes("doctor-app-file")){tipo = "PDF"}else if(String(media_url).includes("doctor-app-image")){tipo = "IMAGEM"}else{tipo = "TEXTO"; media_url = ""}
 
+    if (String(media_url).includes("PDF")) { tipo = "PDF" } else if (String(media_url).includes("doctor-app-image")) { tipo = "IMAGEM" } else { tipo = "TEXTO"; media_url = "" }
+
+    
     const mensagem = await Mensagem.create({
       conteudo,
       media_url,
@@ -71,6 +73,7 @@ export default class MensagemsController {
       id_usuario,
       tipo,
     })
+    
     return mensagem
   }
 
