@@ -141,7 +141,7 @@ export default class UsuariosController {
 
     await Mail.send((message) => {
       message
-        .from('thoshioonuki2022@gmail.com')
+        .from('aplicativos@cpejr.com.br')
         .to(usuario.email)
         .subject('Alteração de senha do DoctorApp')
         .htmlView('emails/alterar_senha', {
