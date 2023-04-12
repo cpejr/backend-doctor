@@ -16,7 +16,7 @@ export const mensagemComunicadoUrgencia = (nome_paciente: String) => {
     type: "template",
     to: Env.get("WHATSAPP_FORMULARIO_RECEIVER_NUM"),
     template: {
-      name: Env.get("WHATSAPP_COMUNICADO_URGENCIA_TEMPLATE_NAMEE"),
+      name: Env.get("WHATSAPP_COMUNICADO_URGENCIA_TEMPLATE_NAME"),
       language: { code: "pt_BR" },
       components: [
         {
