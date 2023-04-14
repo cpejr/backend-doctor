@@ -1,6 +1,4 @@
-import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
-import ArquivosController from 'App/Controllers/Http/ArquivosController'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
