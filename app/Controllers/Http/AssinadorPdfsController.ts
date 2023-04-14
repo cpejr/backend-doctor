@@ -22,6 +22,8 @@ public async inicializar({ request, response }: HttpContextContract) {
 	// Certificado veio do lado cliente
 	let certificado = bodyJson.certificado;
 
+    console.log(certificado);
+
 	// Inicializa assinatura PDF (Server-Framework através do BRy HUB)
 	this.inicializarPdf(certificado, meta)
 	.then((resultPdf) => {
