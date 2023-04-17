@@ -2,7 +2,9 @@
 import request from 'request';
 import fs from 'fs';
 require('dotenv/config');
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+//Biblioteca que o ChatGPT sugeriu.
+import got from "got";
 // É necessário armazenar o nonce do lote inicializado
 // para que seja possível finalizar a assinatura
 var nonceSessaoLotePdfInicializado = "0";
@@ -73,6 +75,8 @@ public  finalizar = ({ request, response }: HttpContextContract) => {
 public async prepararDadosEntradaExtensao(resultPDf) {
 	// Para mais detalhes sobre os dados de entrada da extensão favor consular a documentação da extensão.  
 
+	console.log(resultPDf);
+	console.log("Teste");
 	nonceSessaoLotePdfInicializado = resultPDf.nonce;
 
 	let assinaturas = new Array();
@@ -133,7 +137,9 @@ public async inicializarPdf(certificado, meta) {
 		},
 		formData: formData
 	};
-
+	console.log(options);
+   // Comentários, a partir daqui está dando errado, o documento e a imagem estão colocadas fixas, pois estou testando a funcionalidade, no caso está nos documentos que eu mandei, mas tá traquilo
+   // Renovei e e criei outros tokens, mas, mesmo assim, não funcionou
 	return new Promise((resolve, reject) => {
 		request.post(options, (err, res, body) => {
 			if (err) {
@@ -141,7 +147,8 @@ public async inicializarPdf(certificado, meta) {
 				reject(err);
 			}
 			else {
-				if (res.statusCode == 200) {          
+				if (res.statusCode == 200) {   
+					console.log(body);       
 					resolve(body);
 				}
 				else {
@@ -150,6 +157,22 @@ public async inicializarPdf(certificado, meta) {
 			}
 		});
 	});
+// Sugestão do Chat GPT 
+   /* try {
+		const response = await got.post(options)
+	
+		if (response.statusCode === 200) {
+		  console.log(response.body)
+		  return response.body
+		} else {
+		  throw response.body
+		}
+	  } catch (error) {
+		console.log(error)
+		throw error
+	  }*/
+
+
 }
 
 public async finalizarPdf(dataFinalizaPdf) {
