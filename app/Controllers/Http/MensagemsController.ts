@@ -28,12 +28,6 @@ export default class MensagemsController {
 
     const data = await Mensagem.query().where({ id_conversa }).orderBy('data_criacao', 'asc')
 
-    const requests = data.map(({ media_url }) =>
-      media_url ? Drive.getSignedUrl(String(media_url)) : null
-    )
-
-    const urls = await Promise.all(requests)
-
     const mensagens = data?.map((messagem, index) => {
       const pertenceAoUsuarioAtual = messagem.id_usuario === id_usuario
 
@@ -41,7 +35,7 @@ export default class MensagemsController {
         id: messagem.id,
         id_usuario: messagem.id_usuario,
         conteudo: messagem.conteudo,
-        media_url: urls[index],
+        media_url: messagem.media_url,
         data_criacao: messagem.data_criacao,
         foi_visualizado: messagem.foi_visualizado,
         tipo: messagem.tipo,
