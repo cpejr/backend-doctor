@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Env from '@ioc:Adonis/Core/Env'
 import Usuario from 'App/Models/Usuario'
 import Mail from '@ioc:Adonis/Addons/Mail'
-import { mensagemComunicado } from 'Config/whatsApp'
+import { mensagemComunicado, mensagemFormularioUrgencia } from 'Config/whatsApp'
 import FormularioPaciente from 'App/Models/FormularioPaciente'
 import FormulariosPacientesDTO from 'App/DTO/FormulariosPacientesDTO'
 import FormulariosPacientesRepository from 'App/Repositories/FormulariosPacientesRepository'
@@ -99,11 +99,23 @@ export default class FormulariosPacientesController {
             url: Env.get('SYSTEM_URL'),
           })
       })
+      const mensagemFormulario = mensagemFormularioUrgencia(usuario.nome)
+      const emailAdm = Mail.send((message) => {
+        message
+          .from(Env.get('SENDER_EMAIL'))
+          .to(Env.get('SENDER_EMAIL'))
+          .subject('Formulário de Urgência respondido')
+          .htmlView('emails/formulario_emergencia', {
+            nome_paciente: usuario.nome,
+            url: Env.get('SYSTEM_URL'),
+          })
+      })
       try{
-      await Promise.all([mensagem, email])}
+      await Promise.all([mensagem, email, mensagemFormulario, emailAdm])}
       catch{}
     }
 
+    
     formularioPaciente.merge(limpaCamposNulosDeObjeto(validateData))
     await formularioPaciente.save()
 

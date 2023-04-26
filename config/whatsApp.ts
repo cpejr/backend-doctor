@@ -58,4 +58,29 @@ export const mensagemPagamento = (nome_paciente: String) => {
 }
 
 
-
+export const mensagemFormularioUrgencia = (nome_paciente: string) => {
+  const PHONE_ID = Env.get("WHATSAPP_SENDER_PHONE_ID")
+  const body = {
+    messaging_product: "whatsapp",
+    type: "template",
+    to: Env.get("WHATSAPP_FORMULARIO_RECEIVER_NUM"),
+    template: {
+      name: Env.get("WHATSAPP_FINALIZAR_EXAME_TEMPLATE_NAME"),
+      language: { code: "pt_BR" },
+      components: [
+        {
+          type: "body",
+          parameters: [
+            {
+              type: "text",
+              text: nome_paciente,
+            },
+          ],
+        },
+      ],
+    },
+  }
+  return whatsappApi.post(`${PHONE_ID}/messages`,
+    body
+  );
+}
