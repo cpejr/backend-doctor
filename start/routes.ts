@@ -107,6 +107,7 @@ Route.get('/conversas/:id_usuario/usuario', 'ConversasController.indexByUsuarioI
 Route.post('/conversas', 'ConversasController.store')
 Route.post('/conversas_whatsapp/:id_usuario', 'ConversasController.enviarMensagemConfirmarPagamento')
 Route.post('/conversas_whatsapp/', 'ConversasController.enviarMensagemFinalizarExame')
+Route.post('/conversas_whatsapp/finalizar_exame', 'FormularioPacienteController.mensagemformularioUrgencia')
 Route.put('/conversas/:id', 'ConversasController.update')
 Route.put('/conversas/ativacao/:id', 'ConversasController.updateAtivada')
 Route.put('/conversas/finalizacao/:id', 'ConversasController.updateFinalizada')

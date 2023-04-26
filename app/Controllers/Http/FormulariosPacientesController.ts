@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Env from '@ioc:Adonis/Core/Env'
 import Usuario from 'App/Models/Usuario'
 import Mail from '@ioc:Adonis/Addons/Mail'
-import { mensagemComunicado, mensagemFormularioUrgencia } from 'Config/whatsApp'
+import { mensagemComunicado, mensagemFormularioUrgencia,sendMessage } from 'Config/whatsApp'
 import FormularioPaciente from 'App/Models/FormularioPaciente'
 import FormulariosPacientesDTO from 'App/DTO/FormulariosPacientesDTO'
 import FormulariosPacientesRepository from 'App/Repositories/FormulariosPacientesRepository'
@@ -87,31 +87,23 @@ export default class FormulariosPacientesController {
     const formularioPaciente = await FormularioPaciente.findOrFail(id)
     if (status || notificacao_ativa) {
       const usuario = await Usuario.findOrFail(formularioPaciente.id_usuario)
-
-      const mensagem = mensagemComunicado(usuario.nome)
-      const email = Mail.send((message) => {
-        message
-          .from(Env.get('SENDER_EMAIL'))
-          .to(Env.get('RECEIVER_EMAIL'))
-          .subject('Comunicado preenchido')
-          .htmlView('emails/formulario_emergencia', {
-            nome_paciente: usuario.nome,
-            url: Env.get('SYSTEM_URL'),
-          })
-      })
       const mensagemFormulario = mensagemFormularioUrgencia(usuario.nome)
+      //const mensagemFormulario = sendMessage("teste")
       const emailAdm = Mail.send((message) => {
         message
           .from(Env.get('SENDER_EMAIL'))
           .to(Env.get('SENDER_EMAIL'))
           .subject('Formulário de Urgência respondido')
-          .htmlView('emails/formulario_emergencia', {
+          .htmlView('emails/formulario_urgencia_respondido', {
             nome_paciente: usuario.nome,
             url: Env.get('SYSTEM_URL'),
           })
       })
+      
       try{
-      await Promise.all([mensagem, email, mensagemFormulario, emailAdm])}
+        console.log("Chegou")
+        console.log(mensagemFormulario)
+      await Promise.all([mensagemFormulario, emailAdm])}
       catch{}
     }
 
