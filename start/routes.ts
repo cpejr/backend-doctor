@@ -5,7 +5,23 @@ Route.get('/', async () => {
 Route.post('/arquivo', 'ArquivosController.store')
 Route.post('/arquivoimage/', 'ArquivosController.storeImage')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
-Route.post('/arquivofile/', 'ArquivosController.storeFile')
+/* Route.post('/arquivofile/', 'ArquivosController.storeFile')
+ */
+Route.post('/testearquivo', async ({request}) => {
+  await request.multipart.process()
+  console.log(request.allFiles())
+  const fileOrNull = request.file('arq')
+
+  if(!fileOrNull) {
+    console.log(request)
+    return {message: "arquivo não recebido"}
+  }
+
+  console.log(fileOrNull)
+
+  return { ola: "mundo" }
+})
+
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
