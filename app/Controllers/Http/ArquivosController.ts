@@ -5,7 +5,8 @@ import pdf from 'html-pdf'
 import pdfReceita from '../../templates/Receita'
 import fs from 'fs'
 import Database from '@ioc:Adonis/Lucid/Database'
-
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 export default class ArquivosController {
   public async indexByChave({ request, response }: HttpContextContract) {
     try {
@@ -38,14 +39,12 @@ export default class ArquivosController {
     return chave
   }
 
-
-
   public async storeImage({ request }: HttpContextContract) {
     const tipo_conteudo = 'text'
     const ACL = 'public-read'
     const nome = 'doctor-app-image'
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-    const file = request.input('file').replace(/^data:.+;base64,/, "");
+    const file = request.input('file').replace(/^data:.+;base64,/, '')
 
     const fileBuffer = Buffer.from(file, 'base64')
 
@@ -72,32 +71,33 @@ export default class ArquivosController {
     const ACL = 'public-read'
     const nome = 'PDF'
     const chave = `${(Math.random() * 100).toString()}-${nome}`
-    await pdf.create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {}).toFile((err, res) => {
-      if (err) {
-        return false;
-      }
-      else {
-        let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
-        Drive.put(chave, arquivo64, {
-          contentType: tipo_conteudo,
-          visibility: ACL,
-        });
-        Arquivo.create({
-          nome,
-          chave,
-          tipo_conteudo,
-        });
-      }
-    });
+    await pdf
+      .create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {})
+      .toFile((err, res) => {
+        if (err) {
+          return false
+        } else {
+          let arquivo64 = fs.readFileSync(res.filename, { encoding: 'base64' })
+          Drive.put(chave, arquivo64, {
+            contentType: tipo_conteudo,
+            visibility: ACL,
+          })
+          Arquivo.create({
+            nome,
+            chave,
+            tipo_conteudo,
+          })
+        }
+      })
 
-    return chave;
+    return chave
   }
 
-  public async update({ }: HttpContextContract) { }
+  public async update({}: HttpContextContract) {}
 
   public async destroy(chave) {
     try {
-      await Database.from('arquivos').where('chave', chave).delete();
+      await Database.from('arquivos').where('chave', chave).delete()
       await Drive.delete(chave)
       return 'Arquivo deletado com sucesso!'
     } catch (error) {
@@ -105,6 +105,7 @@ export default class ArquivosController {
     }
   }
   public async storeFile({ request }: HttpContextContract) {
+    request.file('file')
     const file = request.input('file')
     const tipo_conteudo = 'pdf'
     const ACL = 'public-read'

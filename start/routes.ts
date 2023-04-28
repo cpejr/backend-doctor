@@ -5,8 +5,8 @@ Route.get('/', async () => {
 Route.post('/arquivo', 'ArquivosController.store')
 Route.post('/arquivoimage/', 'ArquivosController.storeImage')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
-/* Route.post('/arquivofile/', 'ArquivosController.storeFile')
- */
+Route.post('/arquivofile/', 'ArquivosController.storeFile')
+
 Route.post('/testearquivo', async ({request}) => {
   await request.multipart.process()
   console.log(request.allFiles())
