@@ -58,10 +58,9 @@ export const mensagemPagamento = (nome_paciente: String) => {
 }
 
 
-export const mensagemFormularioUrgencia = async(nome_paciente: string) => {
+export const mensagemFormularioUrgencia = (nome_paciente: string) => {
   const PHONE_ID = Env.get("WHATSAPP_SENDER_PHONE_ID")
-  console.log("ZAPZAP");
-  const resposta = await whatsappApi.post(`${PHONE_ID}/messages`, {
+  const resposta = whatsappApi.post(`${PHONE_ID}/messages`, {
     messaging_product: "whatsapp",
     type: "template",
     to: Env.get("WHATSAPP_FORMULARIO_RECEIVER_NUM"),
@@ -81,7 +80,6 @@ export const mensagemFormularioUrgencia = async(nome_paciente: string) => {
       ],
     },
   });
-  console.log("whatssap     "+ resposta);
   return resposta
 }
 

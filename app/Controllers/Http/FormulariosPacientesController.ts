@@ -87,7 +87,7 @@ export default class FormulariosPacientesController {
     const formularioPaciente = await FormularioPaciente.findOrFail(id)
     if (status || notificacao_ativa) {
       const usuario = await Usuario.findOrFail(formularioPaciente.id_usuario)
-      const mensagemFormulario = await sendMessage()
+      const mensagemFormulario = mensagemFormularioUrgencia(usuario.nome)
       const emailAdm = Mail.send((message) => {
         message
           .from(Env.get('SENDER_EMAIL'))
@@ -100,8 +100,6 @@ export default class FormulariosPacientesController {
       })
 
       try{
-        console.log("Chegou")
-        console.log(mensagemFormulario)
       await Promise.all([mensagemFormulario, emailAdm])}
       catch{}
     }
