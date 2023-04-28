@@ -35,7 +35,7 @@ public async inicializar({ request, response }: HttpContextContract) {
 		let input = this.prepararDadosEntradaExtensao(resultPdf);
 		console.log("teste2");
         console.log(input);
-		response.send(input);
+		response.status(200).send(input);
 
 	})
 	.catch((error) => {
@@ -45,16 +45,16 @@ public async inicializar({ request, response }: HttpContextContract) {
 
 public  finalizar = ({ request, response }: HttpContextContract) => {
 	let resultadoExtensao = request.body();
-
+	 console.log("Teste3");
+     console.log(resultadoExtensao);
 	let dadosFinalizarPdf;
 
 	// Prepara os dados para finalizar a assinatura
-	for (let i = 0; i < resultadoExtensao.assinaturas.length; i++) {
 		dadosFinalizarPdf.push({
-			"cifrado": resultadoExtensao.assinaturas[i].hashes[0],
-			"nonce": resultadoExtensao.assinaturas[i].nonce
+			"cifrado": resultadoExtensao.assinaturas[0].hashes[0],
+			"nonce": resultadoExtensao.assinaturas[0].nonce
 		});
-	}
+	
 
 	// Finaliza assinatura PDF (Server-Framework através do BRy HUB)
 	this.finalizarPdf(dadosFinalizarPdf)
