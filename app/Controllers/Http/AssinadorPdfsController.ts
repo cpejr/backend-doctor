@@ -1,6 +1,7 @@
 //Teste 2( já está em NodeJs, porém frontend é diferente)
 import request from 'request';
 import fs from 'fs';
+import FormData from 'form-data';
 require('dotenv/config');
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 //Biblioteca que o ChatGPT sugeriu.
@@ -17,7 +18,7 @@ public async inicializar({ request, response }: HttpContextContract) {
   console.log(credencial);
   console.log(request);
 	let bodyJson = request.body();
-    
+    console.log(bodyJson);
 	let meta = bodyJson.metadados;
     
 	console.log(meta);
@@ -30,15 +31,16 @@ public async inicializar({ request, response }: HttpContextContract) {
 	this.inicializarPdf(certificado, meta)
 	.then((resultPdf) => {
 		// Prepara os dados de entrada para a extensão e envia para o lado cliente
+		console.log(resultPdf);
 		let input = this.prepararDadosEntradaExtensao(resultPdf);
-
-		response.status(200).send(input);
+		console.log("teste2");
+        console.log(input);
+		response.send(input);
 
 	})
 	.catch((error) => {
 		response.status(400).send(error);
 	});
-
 }
 
 public  finalizar = ({ request, response }: HttpContextContract) => {
@@ -74,26 +76,30 @@ public  finalizar = ({ request, response }: HttpContextContract) => {
 // Esta função prepara os dados para a extensão assinar.
 public async prepararDadosEntradaExtensao(resultPDf) {
 	// Para mais detalhes sobre os dados de entrada da extensão favor consular a documentação da extensão.  
-
-	console.log(resultPDf);
-	console.log("Teste");
-	nonceSessaoLotePdfInicializado = resultPDf.nonce;
-
+    console.log("Teste");
+	console.log(JSON.parse(resultPDf) );
+	let resultadoPDF = JSON.parse(resultPDf)
+	nonceSessaoLotePdfInicializado = resultadoPDF.nonce;
+    
+	console.log( nonceSessaoLotePdfInicializado);
+	let assinaturaobjeto = resultadoPDF.assinaturasInicializadas;
+	console.log(assinaturaobjeto[0].nonce);
 	let assinaturas = new Array();
 
-	for (let i = 0; i < resultPDf.assinaturasInicializadas.length; i++) {
 		assinaturas.push({
-			"algoritmoHash": resultPDf.algoritmoHash,
-			"nonce": resultPDf.assinaturasInicializadas[i].nonce,
-			"hashes": [resultPDf.assinaturasInicializadas[i].messageDigest]
+			"algoritmoHash": resultadoPDF.algoritmoHash,
+			"nonce": resultadoPDF.assinaturasInicializadas[0].nonce,
+			"hashes": [resultadoPDF.assinaturasInicializadas[0].messageDigest]
 		});
-	}
+	
 
 	let input = {        
 		"formatoDadosEntrada": "Base64",
 		"formatoDadosSaida": "Base64",
 		"assinaturas": assinaturas
 	};
+	console.log("Teste1");
+	console.log(input.assinaturas);
 	
 	return JSON.stringify(input);
 }
@@ -103,7 +109,6 @@ public async inicializarPdf(certificado, meta) {
 		// loop
 		'documento': [
 			fs.createReadStream("./documento.pdf"),
-			fs.createReadStream("./documento.pdf")
 		],
 		// fim loop
 		'imagem': fs.createReadStream("./imagem.jpg"),
@@ -114,7 +119,7 @@ public async inicializarPdf(certificado, meta) {
 				"formatoDadosEntrada": "Base64",
 				"formatoDadosSaida": "Base64",
 				"certificado": certificado,
-				"nonces": ["PDF1","PDF2"]
+				"nonces": ["PDF1"]
 			}
 		),
 		'configuracao_imagem': JSON.stringify(
@@ -127,6 +132,38 @@ public async inicializarPdf(certificado, meta) {
 		),
 		'metadados': JSON.stringify(meta)
 	};
+    /*const formData = new FormData();
+    const documentoFiles = [
+      fs.createReadStream('./documento.pdf'),
+      fs.createReadStream('./documento.pdf'),
+    ];
+    documentoFiles.forEach((documentoFile) => {
+      formData.append('documento', documentoFile);
+    });
+
+   const imagemFile = fs.createReadStream('./imagem.jpg');
+   formData.append('imagem', imagemFile);
+
+    const dadosIniciar = JSON.stringify({
+       perfil: 'CARIMBO',
+       algoritmoHash: 'SHA256',
+       formatoDadosEntrada: 'Base64',
+       formatoDadosSaida: 'Base64',
+       certificado: certificado,
+       nonces: ['PDF1', 'PDF2'],
+    });
+    formData.append('dados_inicializar', dadosIniciar);
+
+    const configuracaoImagem = JSON.stringify({
+       altura: 60,
+       largura: 170,
+       posicao: 'INFERIOR_ESQUERDO',
+       pagina: 'PRIMEIRA',
+    });
+    formData.append('configuracao_imagem', configuracaoImagem);
+    const metaJson = JSON.stringify(meta);
+    formData.append('metadados', metaJson);
+    console.log(formData);*/
 	const options = {
 		method: "POST",
 		url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/inicializar`,
@@ -152,6 +189,7 @@ public async inicializarPdf(certificado, meta) {
 					resolve(body);
 				}
 				else {
+					console.log(body);
 					reject(body);
 				}
 			}
