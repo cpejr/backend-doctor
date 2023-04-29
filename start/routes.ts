@@ -1,6 +1,4 @@
-import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
-import ArquivosController from 'App/Controllers/Http/ArquivosController'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
@@ -47,6 +45,7 @@ Route.delete('/dispositivos/:id', 'DispositivosController.destroy')
 
 Route.get('/homes', 'HomesController.index')
 Route.post('/homes', 'HomesController.store')
+Route.put('/homesImagem/:id', 'HomesController.updateImagem')
 Route.put('/homes/:id', 'HomesController.update')
 Route.delete('/homes/:id', 'HomesController.destroy')
 
@@ -89,9 +88,10 @@ Route.put('/alterar_senha/:email', 'UsuariosController.alteracaoDeSenha')
 Route.delete('/usuarios/:id', 'UsuariosController.destroy')
 
 Route.get('/imagem_carrossels', 'ImagensCarrosselController.index')
-Route.post('/imagem_carrossels', 'ImagensCarrosselController.store')
+Route.post('/imagemcarrossels', 'ImagensCarrosselController.store')
 Route.put('/imagem_carrossels/:id', 'ImagensCarrosselController.update')
 Route.delete('/imagem_carrossels/:id', 'ImagensCarrosselController.destroy')
+Route.put('/imagem_carrossels_img/:id', 'ImagensCarrosselController.updateImagem')
 
 Route.get('/receitas/:id', 'ReceitasController.indexPdfLink')
 Route.get('/receitas', 'ReceitasController.index')
@@ -171,6 +171,7 @@ Route.put('/medicos_indicados/:id', 'MedicosIndicadosController.update')
 Route.delete('/medicos_indicados/:id', 'MedicosIndicadosController.destroy')
 
 Route.get('/token_usuarios', 'TokenUsuariosController.index')
+Route.get('/token_usuarios/:id_usuario', 'TokenUsuariosController.indexByIdUsuario')
 Route.post('/token_usuarios', 'TokenUsuariosController.store')
 Route.put('/token_usuarios/:id_usuario', 'TokenUsuariosController.update')
-Route.delete('/token_usuarios/:id_usuario', 'TokenUsuariosController.destroy')
+Route.delete('/token_usuarios', 'TokenUsuariosController.destroy')

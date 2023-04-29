@@ -7,13 +7,14 @@ import { ConsultorioValidatorStore, ConsultorioValidatorUpdate } from 'App/Valid
 
 export default class ConsultoriosController {
   public async index({ request }: HttpContextContract) {
+    const filtro = request.all() || {};
     const consultorioData = {
       id: request.param('id'),
       nome: request.param('nome'),
       id_endereco: request.param('id_endereco'),
       tipo: request.param('tipo'),
     } as ConsultoriosDTO
-    const consultorios = await ConsultoriosRepository.find(limpaCamposNulosDeObjeto(consultorioData))
+    const consultorios = await ConsultoriosRepository.find(filtro)
     return consultorios
   }
   public async indexByIdConsultorio({ request }: HttpContextContract) {

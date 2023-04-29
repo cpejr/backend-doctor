@@ -18,6 +18,12 @@ export default class TokenUsuariosController {
     )
     return token
   }
+  public async indexByIdUsuario({ request }: HttpContextContract) {
+    const id_usuario = request.param('id_usuario')
+    if (!id_usuario) return
+    const Tokenusuario = await TokenUsuarios.query().where({id_usuario});
+    return Tokenusuario
+  }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(TokenUsuarioValidatorStore)
@@ -45,14 +51,15 @@ export default class TokenUsuariosController {
 
     return TokenUsuarios
   }
-    public async destroy({ request }: HttpContextContract) {
-      const id = request.param('id')
-      if (!id) return
+  public async destroy({ request }: HttpContextContract) {
+    const tokenusuarios = {
+      token_dispositivo: request.body().token_dispositivo,
+
+    } as TokenUsuariosDTO
+    const token = await TokenUsuarios.findOrFail(tokenusuarios.token_dispositivo)
+    await token.delete()
   
-      const token = await TokenUsuarios.findOrFail(id)
-      await token.delete()
-  
-      return token
-    }
+    return token
+  }
   
   }
