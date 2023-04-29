@@ -26,7 +26,7 @@ public async inicializar({ request, response }: HttpContextContract) {
 	let certificado = bodyJson.certificado;
 
     console.log(certificado);
-
+    let respostaInicializar = {}
 	// Inicializa assinatura PDF (Server-Framework através do BRy HUB)
 	this.inicializarPdf(certificado, meta)
 	.then((resultPdf) => {
@@ -35,12 +35,15 @@ public async inicializar({ request, response }: HttpContextContract) {
 		let input = this.prepararDadosEntradaExtensao(resultPdf);
 		console.log("teste2");
         console.log(input);
-		response.status(200).send(input);
-
+		respostaInicializar = input;
+		console.log(respostaInicializar);
+		//response.status(200).send(input);
+        return respostaInicializar;
 	})
 	.catch((error) => {
 		response.status(400).send(error);
 	});
+	
 }
 
 public  finalizar = ({ request, response }: HttpContextContract) => {
@@ -132,38 +135,7 @@ public async inicializarPdf(certificado, meta) {
 		),
 		'metadados': JSON.stringify(meta)
 	};
-    /*const formData = new FormData();
-    const documentoFiles = [
-      fs.createReadStream('./documento.pdf'),
-      fs.createReadStream('./documento.pdf'),
-    ];
-    documentoFiles.forEach((documentoFile) => {
-      formData.append('documento', documentoFile);
-    });
-
-   const imagemFile = fs.createReadStream('./imagem.jpg');
-   formData.append('imagem', imagemFile);
-
-    const dadosIniciar = JSON.stringify({
-       perfil: 'CARIMBO',
-       algoritmoHash: 'SHA256',
-       formatoDadosEntrada: 'Base64',
-       formatoDadosSaida: 'Base64',
-       certificado: certificado,
-       nonces: ['PDF1', 'PDF2'],
-    });
-    formData.append('dados_inicializar', dadosIniciar);
-
-    const configuracaoImagem = JSON.stringify({
-       altura: 60,
-       largura: 170,
-       posicao: 'INFERIOR_ESQUERDO',
-       pagina: 'PRIMEIRA',
-    });
-    formData.append('configuracao_imagem', configuracaoImagem);
-    const metaJson = JSON.stringify(meta);
-    formData.append('metadados', metaJson);
-    console.log(formData);*/
+    
 	const options = {
 		method: "POST",
 		url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/inicializar`,
@@ -195,20 +167,7 @@ public async inicializarPdf(certificado, meta) {
 			}
 		});
 	});
-// Sugestão do Chat GPT 
-   /* try {
-		const response = await got.post(options)
-	
-		if (response.statusCode === 200) {
-		  console.log(response.body)
-		  return response.body
-		} else {
-		  throw response.body
-		}
-	  } catch (error) {
-		console.log(error)
-		throw error
-	  }*/
+
 
 
 }
