@@ -15,7 +15,6 @@ export default class AssinadorPdfsController {
 	public async inicializar({ request, response }: HttpContextContract) {
 
 		let bodyJson = request.body();
-
 		let meta = bodyJson.metadados;
 
 		// Certificado veio do lado cliente
@@ -31,7 +30,7 @@ export default class AssinadorPdfsController {
 
 	}
 
-	public finalizar = ({ request, response }: HttpContextContract) => {
+	public async finalizar ({ request, response }: HttpContextContract)  {
 		let resultadoExtensao = request.body();
 		let dadosFinalizarPdf = new Array();
         console.log(resultadoExtensao);
@@ -108,6 +107,7 @@ export default class AssinadorPdfsController {
 			),
 			'metadados': JSON.stringify(meta)
 		};
+		console.log(formData);
 
 		const options = {
 			method: "POST",
@@ -142,7 +142,7 @@ export default class AssinadorPdfsController {
 	}
 
 	public async finalizarPdf(dataFinalizaPdf) {
-		let jsonFinalizar = {
+		var jsonFinalizar = {
 			"nonce": nonceSessaoLotePdfInicializado,
 			"formatoDeDados": "Base64",
 			"assinaturasPkcs1": dataFinalizaPdf
@@ -162,6 +162,7 @@ export default class AssinadorPdfsController {
 		return new Promise((resolve, reject) => {
 			request.post(options, (err, res, body) => {
 				if (err) {
+					console.log(err);
 					reject(err);
 				}
 				else {
