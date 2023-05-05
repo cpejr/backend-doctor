@@ -145,7 +145,8 @@ export default class AssinadorPdfsController {
 		var jsonFinalizar = {
 			"nonce": nonceSessaoLotePdfInicializado,
 			"formatoDeDados": "Base64",
-			"assinaturasPkcs1": dataFinalizaPdf
+			"assinaturasPkcs1": dataFinalizaPdf,
+			"tipoRetorno": "BASE64"
 		};
       console.log( jsonFinalizar);
 		const options = {
