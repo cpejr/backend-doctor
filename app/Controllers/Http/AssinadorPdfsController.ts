@@ -24,7 +24,7 @@ export default class AssinadorPdfsController {
 		// Inicializa assinatura PDF (Server-Framework através do BRy HUB)
 		const resultPdf = await this.inicializarPdf(certificado, meta);
 		// Prepara os dados de entrada para a extensão e envia para o lado cliente
-		let respostaInicializar = this.prepararDadosEntradaExtensao(resultPdf);
+		let respostaInicializar = await this.prepararDadosEntradaExtensao(resultPdf);
 		return respostaInicializar;
 		response.status(200).send(respostaInicializar);
 
@@ -42,7 +42,7 @@ export default class AssinadorPdfsController {
 
 
 		// Finaliza assinatura PDF (Server-Framework através do BRy HUB)
-		const resultPdf =  this.finalizarPdf(dadosFinalizarPdf);
+		const resultPdf =  await this.finalizarPdf(dadosFinalizarPdf);
         console.log(resultPdf);
 				// Cria uma estrutura JSON apenas para exibir no textarea no lado cliente
 				var input = {
