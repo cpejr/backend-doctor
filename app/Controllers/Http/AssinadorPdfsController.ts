@@ -33,7 +33,6 @@ export default class AssinadorPdfsController {
 	public async finalizar ({ request, response }: HttpContextContract)  {
 		let resultadoExtensao = request.body();
 		let dadosFinalizarPdf = new Array();
-        console.log(resultadoExtensao);
 		// Prepara os dados para finalizar a assinatura
 		dadosFinalizarPdf.push({
 			"cifrado": resultadoExtensao.assinaturas[0].hashes[0],
@@ -43,7 +42,6 @@ export default class AssinadorPdfsController {
 
 		// Finaliza assinatura PDF (Server-Framework através do BRy HUB)
 		const resultPdf =  await this.finalizarPdf(dadosFinalizarPdf);
-        console.log(resultPdf);
 				// Cria uma estrutura JSON apenas para exibir no textarea no lado cliente
 				var input = {
 					"PDF": resultPdf
@@ -107,7 +105,6 @@ export default class AssinadorPdfsController {
 			),
 			'metadados': JSON.stringify(meta)
 		};
-		console.log(formData);
 
 		const options = {
 			method: "POST",
@@ -148,7 +145,6 @@ export default class AssinadorPdfsController {
 			"assinaturasPkcs1": dataFinalizaPdf,
 			"tipoRetorno": "BASE64"
 		};
-      console.log( jsonFinalizar);
 		const options = {
 			method: "POST",
 			url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/finalizar`,
@@ -163,7 +159,6 @@ export default class AssinadorPdfsController {
 		return new Promise((resolve, reject) => {
 			request.post(options, (err, res, body) => {
 				if (err) {
-					console.log(err);
 					reject(err);
 				}
 				else {
