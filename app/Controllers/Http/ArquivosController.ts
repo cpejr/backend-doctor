@@ -116,12 +116,17 @@ export default class ArquivosController {
 
     const caminhoArquivo = request.file('file')?.tmpPath;
 
-    console.log(request.file('file'));
-
     if (caminhoArquivo) {
       const caminhoAbsoluto = path.resolve(caminhoArquivo);
       try {
         const arquivoPDF = fs.readFileSync(caminhoAbsoluto);
+        const file2 = request.file('file');
+        if(file2){
+          await file2.moveToDisk('./', {
+            name: chave,
+            contentType: 'application/pdf'
+          }, 's3');
+        }
         await Drive.put(chave, arquivoPDF, {
           contentType: 'application/pdf',
           visibility: 'public-read',
