@@ -110,7 +110,6 @@ export default class ArquivosController {
   public async storeFile({ request }: HttpContextContract) {
 
     const nome = 'PDF';
-    const ACL = 'public-read';
     const chave = `${(Math.random() * 100).toString()}-${nome}`;
     const tipo_conteudo = 'pdf'
 
