@@ -121,7 +121,7 @@ export default class ArquivosController {
       try {
         const arquivoPDF = fs.readFileSync(caminhoAbsoluto);
         const file2 = request.file('file');
-        if(file2){
+        if (file2) {
           await file2.moveToDisk('./', {
             name: chave,
             contentType: 'application/pdf'
@@ -138,13 +138,13 @@ export default class ArquivosController {
 
     }
 
-    /*     await Arquivo.create({
-          nome,
-          chave,
-          tipo_conteudo,
-        }) */
+    await Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo,
+    })
 
-    /* return chave */
+    return chave
 
   }
 }
