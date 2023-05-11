@@ -9,6 +9,10 @@ Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 
+Route.post('/inicializar', 'AssinadorPdfsController.inicializar')
+Route.post('/finalizar', 'AssinadorPdfsController.finalizar')
+
+
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')
 Route.post('/enderecos', 'EnderecosController.store')
