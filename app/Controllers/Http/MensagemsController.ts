@@ -36,8 +36,6 @@ export default class MensagemsController {
 
     const urls = await Promise.all(requests)
 
-    console.log(urls);
-
    
 
     const mensagens = data?.map((messagem, index) => {
@@ -45,8 +43,6 @@ export default class MensagemsController {
 
 
       if(messagem.tipo === 'PDF'){
-        console.log(messagem.id);
-        console.log(urls[index]);
       }
 
       return {

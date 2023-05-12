@@ -111,39 +111,26 @@ export default class ArquivosController {
 
     const nome = 'PDF';
     const chave = `${(Math.random() * 100).toString()}-${nome}`;
-    const tipo_conteudo = 'pdf'
 
-    const caminhoArquivo = request.file('file')?.tmpPath;
-
-    if (caminhoArquivo) {
-      const caminhoAbsoluto = path.resolve(caminhoArquivo);
-      try {
-        const arquivoPDF = fs.readFileSync(caminhoAbsoluto);
-        const file2 = request.file('file');
-        if (file2) {
-          await file2.moveToDisk('./', {
-            name: chave,
-            contentType: 'application/pdf'
-          }, 's3');
-        }
-        await Drive.put(chave, arquivoPDF, {
-          contentType: 'application/pdf',
-          visibility: 'public-read',
-        })
-
-      } catch (erro) {
-        console.error('Erro ao ler arquivo:', erro);
-      }
-
+    const file2 = request.file('file');
+    console.log(file2);
+    if (file2?.tmpPath) {
+      const resposta = await file2.moveToDisk('./', {
+        name: chave,
+        contentType: 'application/pdf'
+      }, 's3');
+      console.log(resposta)
     }
 
-    await Arquivo.create({
-      nome,
-      chave,
-      tipo_conteudo,
-    })
 
-    return chave
 
   }
+
+  /*     await Arquivo.create({
+        nome,
+        chave,
+        tipo_conteudo,
+      }) */
+
+  /* return chave */
 }
