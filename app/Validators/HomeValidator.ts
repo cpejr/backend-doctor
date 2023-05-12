@@ -11,10 +11,7 @@ export class HomeValidatorStore {
     titulo_dois: schema.string({ trim: true }),
     texto_dois: schema.string({ trim: true }),
     titulo_tres: schema.string({ trim: true }),
-    texto_tres: schema.string({ trim: true }),
-    titulo_quatro: schema.string({ trim: true }),
-    texto_quatro: schema.string({ trim: true }),
-    imagem_quatro: schema.string({ trim: true }),
+    texto_tres: schema.string({ trim: true })
   })
 
   public messages = {
@@ -32,10 +29,7 @@ export class HomeValidatorUpdate {
     titulo_dois: schema.string.optional({ trim: true }),
     texto_dois: schema.string.optional({ trim: true }),
     titulo_tres: schema.string.optional({ trim: true }),
-    texto_tres: schema.string.optional({ trim: true }),
-    titulo_quatro: schema.string.optional({ trim: true }),
-    texto_quatro: schema.string.optional({ trim: true }),
-    imagem_quatro: schema.string.optional({ trim: true }),
+    texto_tres: schema.string.optional({ trim: true })
   })
 
   public messages = {

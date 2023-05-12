@@ -1,6 +1,4 @@
-import { Router } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
-import ArquivosController from 'App/Controllers/Http/ArquivosController'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
@@ -10,6 +8,10 @@ Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.post('/arquivofile/', 'ArquivosController.storeFile')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
+
+Route.post('/inicializar', 'AssinadorPdfsController.inicializar')
+Route.post('/finalizar', 'AssinadorPdfsController.finalizar')
+
 
 Route.get('/enderecos', 'EnderecosController.index')
 Route.get('/enderecos/:id', 'EnderecosController.indexById')

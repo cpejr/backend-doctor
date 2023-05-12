@@ -13,9 +13,6 @@ export default class Homes extends BaseSchema {
       table.string('texto_dois', 10000).notNullable()
       table.string('titulo_tres', 10000).notNullable()
       table.string('texto_tres', 10000).notNullable()
-      table.string('titulo_quatro', 10000).notNullable()
-      table.string('texto_quatro', 10000).notNullable()
-      table.string('imagem_quatro').notNullable()
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
