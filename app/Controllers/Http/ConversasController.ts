@@ -5,6 +5,7 @@ import ConversasRepository from 'App/Repositories/ConversasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { mensagemFinalizarExame, mensagemConfirmouPagamento, mensagemComunicadoUrgencia, mensagemExameMarcado } from 'Config/whatsApp'
 import Usuario from 'App/Models/Usuario'
+import Endereco from 'App/Models/Endereco'
 
 export default class ConversasController {
   public async index({ request }: HttpContextContract) {
@@ -95,9 +96,11 @@ export default class ConversasController {
   public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract) {
     const id_criador = request.input('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
-    const enderecoCompleto = request.input('endereco');
-    const mensagem = await mensagemConfirmouPagamento(usuario.nome, usuario.nome, usuario.nome, usuario.telefone, enderecoCompleto);
-  }
+    const Secretaria = request.input('secretaria')
+    const Secretarianome = await Usuario.findOrFail(Secretaria);
+    const usuarioendereço = await Endereco.findOrFail(usuario.id_endereco);
+    const mensagem = await mensagemConfirmouPagamento(Secretarianome.nome, "EXAME", usuario.nome, usuario.telefone, "Endereço: " + usuarioendereço.rua +", "+ usuarioendereço.numero + " - " + usuarioendereço.bairro + ", " + usuarioendereço.cidade + " - " + usuarioendereço.estado +", " +usuarioendereço.cep);
+  }                                                                                                                                                                                           //Av. Antônio Abrahão Caram, 960 - pampulha, Belo Horizonte - MG, 31275-000
 
   public async enviarMensagemFinalizarExame({ request }: HttpContextContract) {
     const id_criador = request.input('id_usuario');

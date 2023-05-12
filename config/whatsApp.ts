@@ -92,7 +92,7 @@ export const mensagemFinalizarExame = (nome_paciente: string, telefone: string, 
   );
 }
 
-export const mensagemConfirmouPagamento = (nome_secretaria: string, nome_exame: string, nome_paciente: string, telefone: string, endereco: string) => {
+export const mensagemConfirmouPagamento = (nome_secretaria: string, nome_dispositivo: string, nome_paciente: string, telefone: string, endereco: string) => {
   const PHONE_ID = Env.get("WHATSAPP_SENDER_PHONE_ID")
   const body = {
     messaging_product: "whatsapp",
@@ -107,11 +107,11 @@ export const mensagemConfirmouPagamento = (nome_secretaria: string, nome_exame: 
           parameters: [
             {
               type: "text",
-              text: nome_exame,
+              text: nome_secretaria,
             },
             {
               type: "text",
-              text: nome_secretaria,
+              text: nome_dispositivo,
             },
             {
               type: "text",
@@ -119,11 +119,7 @@ export const mensagemConfirmouPagamento = (nome_secretaria: string, nome_exame: 
             },
             {
               type: "text",
-              text: telefone,
-            },
-            {
-              type: "text",
-              text: endereco,
+              text: telefone +"\\n"+ endereco,
             },
           ],
         },
