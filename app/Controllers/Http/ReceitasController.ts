@@ -63,7 +63,7 @@ export default class ReceitasController {
     })
 
     receita.$attributes.pdf_url = res
-
+    console.log(receita.$attributes.pdf_url)
     await receita.save()
 
     return receita

@@ -67,7 +67,7 @@ export default class ArquivosController {
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
       return 0
     }
-
+    var chave64;
     const tipo_conteudo = 'pdf'
     const ACL = 'public-read'
     const nome = 'PDF'
@@ -78,6 +78,7 @@ export default class ArquivosController {
       }
       else {
         let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
+        let chave64 = fs.readFileSync
         Drive.put(chave, arquivo64, {
           contentType: tipo_conteudo,
           visibility: ACL,
@@ -89,8 +90,11 @@ export default class ArquivosController {
         });
       }
     });
-
-    return chave;
+     var retorno = {
+      "chavecriada": chave,
+      "base": chave64,
+    };
+    return retorno.chavecriada;
   }
 
   public async update({ }: HttpContextContract) { }
