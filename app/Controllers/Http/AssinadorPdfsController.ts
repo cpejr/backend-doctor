@@ -2,6 +2,7 @@
 import request from 'request';
 import fs from 'fs';
 import FormData from 'form-data';
+import { Readable } from 'stream';
 require('dotenv/config');
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 //Biblioteca que o ChatGPT sugeriu.
@@ -9,14 +10,13 @@ import got from "got";
 // É necessário armazenar o nonce do lote inicializado
 // para que seja possível finalizar a assinatura
 var nonceSessaoLotePdfInicializado = "0";
-
 var credencial = `${process.env.ACCESS_TOKEN}`;
 export default class AssinadorPdfsController {
 	public async inicializar({ request, response }: HttpContextContract) {
-
+    
 		let bodyJson = request.body();
 		let meta = bodyJson.metadados;
-
+        console.log(meta.documento);
 		// Certificado veio do lado cliente
 		let certificado = bodyJson.certificado;
 
@@ -81,7 +81,7 @@ export default class AssinadorPdfsController {
 		var formData = {
 			// loop
 			'documento': [
-				fs.createReadStream("./documento.pdf"),
+				meta.documento,
 			],
 			// fim loop
 			'imagem': fs.createReadStream("./imagem.jpg"),

@@ -48,25 +48,24 @@ export default class ReceitasController {
 
     const nomePaciente = request.input('nome')
     const dataNascimento = request.input('data')
-
+    const formInicializar = request.input('formInicializar')
     const titulo = validateData.titulo
     const descricao = validateData.descricao
 
     const id_usuario = request.input('id_usuario')
 
     const res = await arquivoscontroller.storePdf(nomePaciente, dataNascimento, titulo, descricao)
-
+    console.log(res);
     const receita = await Receita.create({
       titulo,
       descricao,
       id_usuario,
     })
-
     receita.$attributes.pdf_url = res
     console.log(receita.$attributes.pdf_url)
     await receita.save()
 
-    return receita
+    return receita.$attributes.pdf_url
   }
   public async storeComArquivo({ request }: HttpContextContract) {
     const validateData = await request.validate(ReceitaValidatorStore)
