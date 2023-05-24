@@ -30,7 +30,7 @@ export default class ConversasController {
         query.select('id', 'nome', 'avatar_url')
       })
       .preload('receptor', (query) => {
-        query.select('id', 'nome', 'avatar_url')
+        query.select('id', 'nome', 'avatar_url', 'cpf', 'telefone', 'id_endereco')
       })
       .preload('mensagem', (query) => {
         query
@@ -55,7 +55,7 @@ export default class ConversasController {
           id: conversa.id,
           tipo: conversa.tipo,
           data_criacao: conversa.data_criacao,
-          conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador,
+          conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador, 
           ativada: conversa.ativada,
           finalizada: conversa.finalizada,
           ultima_mensagem,
