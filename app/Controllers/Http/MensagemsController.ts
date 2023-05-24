@@ -16,6 +16,7 @@ export default class MensagemsController {
       foi_visualizado: request.param('foi_visualizado'),
       id_conversa: request.param('id_conversa'),
       id_usuario: request.param('id_usuario'),
+      tipo: request.param('tipo'),
     } as MensagemsDTO
     const mensagem = await MensagemsRepository.find(limpaCamposNulosDeObjeto(mensagemData))
     return mensagem
@@ -43,6 +44,7 @@ export default class MensagemsController {
         media_url: urls[index],
         data_criacao: messagem.data_criacao,
         foi_visualizado: messagem.foi_visualizado,
+        tipo: messagem.tipo,
         pertenceAoUsuarioAtual,
       }
     })
@@ -54,18 +56,24 @@ export default class MensagemsController {
     const validateData = await request.validate(MensagemValidatorStore)
 
     const conteudo = validateData.conteudo
-    const media_url = validateData.media_url
+    let media_url = validateData.media_url
     const foi_visualizado = validateData.foi_visualizado
     const id_conversa = request.input('id_conversa')
     const id_usuario = request.input('id_usuario')
+    let tipo = ""
 
+    if (String(media_url).includes("PDF")) { tipo = "PDF" } else if (String(media_url).includes("doctor-app-image")) { tipo = "IMAGEM" } else { tipo = "TEXTO"; media_url = "" }
+
+    
     const mensagem = await Mensagem.create({
       conteudo,
       media_url,
       foi_visualizado,
       id_conversa,
       id_usuario,
+      tipo,
     })
+    
     return mensagem
   }
 

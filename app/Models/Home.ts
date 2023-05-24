@@ -31,15 +31,6 @@ export default class Home extends BaseModel {
   @column()
   public texto_tres: string
 
-  @column()
-  public titulo_quatro: string
-
-  @column()
-  public texto_quatro: string
-
-  @column()
-  public imagem_quatro: string
-
   @column.dateTime({ autoCreate: true })
   public data_criacao: DateTime
 

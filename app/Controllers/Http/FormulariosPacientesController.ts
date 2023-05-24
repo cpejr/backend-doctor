@@ -99,7 +99,9 @@ export default class FormulariosPacientesController {
             url: Env.get('SYSTEM_URL'),
           })
       })
-      await Promise.all([mensagem, email])
+      try{
+      await Promise.all([mensagem, email])}
+      catch{}
     }
 
     formularioPaciente.merge(limpaCamposNulosDeObjeto(validateData))

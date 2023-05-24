@@ -10,7 +10,8 @@ export default class Formularios extends BaseSchema {
       table.string('tipo').notNullable()
       table.string('finalidade').notNullable()
       table.json('perguntas').notNullable()
-      table.integer('urgencia').notNullable()
+      table.integer('urgencia').notNullable();
+      table.boolean('visualizacao_secretaria').nullable();
 
       table.timestamp('data_criacao', { useTz: true })
       table.timestamp('data_atualizacao', { useTz: true })
