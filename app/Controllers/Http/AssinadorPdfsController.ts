@@ -5,6 +5,8 @@ import FormData from 'form-data';
 import { Readable } from 'stream';
 require('dotenv/config');
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
+
 //Biblioteca que o ChatGPT sugeriu.
 import got from "got";
 // É necessário armazenar o nonce do lote inicializado
@@ -17,7 +19,15 @@ export default class AssinadorPdfsController {
 		let bodyJson = request.body();
 		let meta = bodyJson.metadados;
         console.log(meta.documento);
+		const arquivoscontroller: ArquivosController = new ArquivosController();
+		const nomePaciente = meta.documento.NomePaciente
+		const dataNascimento = meta.documento.dataNascimento
+		const titulo = meta.documento.titulo
+		const descricao = meta.documento.descricao
+		const res = await arquivoscontroller.storePdf(nomePaciente,dataNascimento, titulo, descricao)
 		// Certificado veio do lado cliente
+		meta.documento = res;
+		console.log(res);
 		let certificado = bodyJson.certificado;
 
 

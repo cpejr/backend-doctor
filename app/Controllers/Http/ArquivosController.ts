@@ -85,51 +85,12 @@ export default class ArquivosController {
       else {
         let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
         const fileBuffer = Buffer.from(arquivo64, 'base64');
-        /*const readableStream = new Readable();
-        readableStream.push(fileBuffer);
-        readableStream.push(null);*/
-        retorno.append('arquivo', fileBuffer, {filename: res.filename, contentType: 'application/pdf' });
-        console.log(retorno);
-        /*;
-        const file = new File({
-          fieldName: 'arquivo',
-          originalFilename: res.filename,
-          path: '', 
-          headers: {
-            'content-type': 'application/pdf',
-            'content-length': fileBuffer.length,
-          },
-        });     
-        file.stream = readableStream;*/
-
-       /* const formData = new FormData();
-        formData.append('arquivo', readableStream, {filename: res.filename, contentType: 'application/pdf' });
-        /*const Retorno: { chave1: string, chave2: FormData } = {
-          chave1: chave,
-          chave2: formData
-        };*/
-        //console.log(formInicializar);
-        //const retorno =  assinadorpdfscontroller.inicializar(formInicializar);
-        //console.log(retorno);
         
-        //return formData;
-        /*Drive.put(chave, arquivo64, {
-          contentType: tipo_conteudo,
-          visibility: ACL,
-        });
-        Arquivo.create({
-          nome,
-          chave,
-          tipo_conteudo,
-        });
-      }*/
+        retorno.append('arquivo', fileBuffer, {filename: res.filename, contentType: 'application/pdf' });
+       
     }
     });
-    /* var retorno = {
-      "chavecriada": chave,
-      "base": chave64,
-    };*/
-    //return retorno.chavecriada;
+    
     return retorno;
   }
 
