@@ -15,19 +15,20 @@ var nonceSessaoLotePdfInicializado = "0";
 var credencial = `${process.env.ACCESS_TOKEN}`;
 export default class AssinadorPdfsController {
 	public async inicializar({ request, response }: HttpContextContract) {
-    
+
 		let bodyJson = request.body();
 		let meta = bodyJson.metadados;
-        console.log(meta.documento);
 		const arquivoscontroller: ArquivosController = new ArquivosController();
+
 		const nomePaciente = meta.documento.NomePaciente
 		const dataNascimento = meta.documento.dataNascimento
 		const titulo = meta.documento.titulo
 		const descricao = meta.documento.descricao
-		const res = await arquivoscontroller.storePdf(nomePaciente,dataNascimento, titulo, descricao)
+
+		const arquivoPdfReceita = await arquivoscontroller.criaPDFReceita(nomePaciente, dataNascimento, titulo, descricao)
+		console.log(arquivoPdfReceita);
 		// Certificado veio do lado cliente
-		meta.documento = res;
-		console.log(res);
+		meta.documento = arquivoPdfReceita;
 		let certificado = bodyJson.certificado;
 
 
@@ -40,7 +41,7 @@ export default class AssinadorPdfsController {
 
 	}
 
-	public async finalizar ({ request, response }: HttpContextContract)  {
+	public async finalizar({ request, response }: HttpContextContract) {
 		let resultadoExtensao = request.body();
 		let dadosFinalizarPdf = new Array();
 		// Prepara os dados para finalizar a assinatura
@@ -51,13 +52,13 @@ export default class AssinadorPdfsController {
 
 
 		// Finaliza assinatura PDF (Server-Framework através do BRy HUB)
-		const resultPdf =  await this.finalizarPdf(dadosFinalizarPdf);
-				// Cria uma estrutura JSON apenas para exibir no textarea no lado cliente
-				var input = {
-					"PDF": resultPdf
-				};
-        return input;
-				response.status(200).send(input);
+		const resultPdf = await this.finalizarPdf(dadosFinalizarPdf);
+		// Cria uma estrutura JSON apenas para exibir no textarea no lado cliente
+		var input = {
+			"PDF": resultPdf
+		};
+		return input;
+		response.status(200).send(input);
 
 
 	}

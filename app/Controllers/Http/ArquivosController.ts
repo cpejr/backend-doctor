@@ -5,8 +5,8 @@ import pdf from 'html-pdf'
 import pdfReceita from '../../templates/Receita'
 import fs from 'fs'
 import Database from '@ioc:Adonis/Lucid/Database'
-import File  from 'multiparty'
-import {Readable } from 'stream'
+import File from 'multiparty'
+import { Readable } from 'stream'
 import AssinadorPdfsController from './AssinadorPdfsController'
 import FormData from 'form-data'
 
@@ -67,31 +67,31 @@ export default class ArquivosController {
     return chave
   }
 
-  public async storePdf(nomePaciente, dataNascimento, tituloReceita, descricao) {
+  public async criaPDFReceita(nomePaciente, dataNascimento, tituloReceita, descricao) {
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
-      return 0
+      return false;
     }
-    //const assinadorpdfscontroller:AssinadorPdfsController = new AssinadorPdfsController(); 
-    var chave64;
-    const tipo_conteudo = 'pdf'
-    const ACL = 'public-read'
-    const nome = 'PDF'
-    const chave = `${(Math.random() * 100).toString()}-${nome}`
-    const retorno = new FormData();
-    await pdf.create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {}).toFile((err, res) => {
-      if (err) {
-        return false;
-      }
-      else {
-        let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
-        const fileBuffer = Buffer.from(arquivo64, 'base64');
-        
-        retorno.append('arquivo', fileBuffer, {filename: res.filename, contentType: 'application/pdf' });
-       
-    }
+
+    return new Promise((resolve, reject) => {
+      let FormDataObj = {
+        buffer: {},
+        filename: '',
+        contentType: ''
+      };
+
+      pdf.create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {}).toFile((err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
+          const fileBuffer = Buffer.from(arquivo64, 'base64');
+          FormDataObj.buffer = fileBuffer;
+          FormDataObj.filename = res.filename;
+          FormDataObj.contentType = 'application/pdf';
+          resolve(FormDataObj);
+        }
+      });
     });
-    
-    return retorno;
   }
 
   public async update({ }: HttpContextContract) { }
