@@ -66,18 +66,14 @@ export default class ArquivosController {
 
     return chave
   }
-
+  
   public async criaPDFReceita(nomePaciente, dataNascimento, tituloReceita, descricao) {
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
       return false;
     }
 
     return new Promise((resolve, reject) => {
-      let FormDataObj = {
-        buffer: {},
-        filename: '',
-        contentType: ''
-      };
+      let FormDataObj = new FormData();
 
       pdf.create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {}).toFile((err, res) => {
         if (err) {
@@ -85,9 +81,7 @@ export default class ArquivosController {
         } else {
           let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
           const fileBuffer = Buffer.from(arquivo64, 'base64');
-          FormDataObj.buffer = fileBuffer;
-          FormDataObj.filename = res.filename;
-          FormDataObj.contentType = 'application/pdf';
+          FormDataObj.append("arquivo",fileBuffer, {filename:res.filename, contentType: 'application/pdf'} )
           resolve(FormDataObj);
         }
       });

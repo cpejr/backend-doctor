@@ -21,12 +21,15 @@ export default class AssinadorPdfsController {
 		const arquivoscontroller: ArquivosController = new ArquivosController();
 
 		const nomePaciente = meta.documento.NomePaciente
-		const dataNascimento = meta.documento.dataNascimento
-		const titulo = meta.documento.titulo
-		const descricao = meta.documento.descricao
-
+		const dataNascimento = meta.documento.dataNascimentoPaciente
+		const titulo = meta.documento.tituloReceita
+		const descricao = meta.documento.descricaoReceita
+        console.log(nomePaciente);
+		console.log(dataNascimento);
+		console.log(titulo);
+		console.log(descricao);
 		const arquivoPdfReceita = await arquivoscontroller.criaPDFReceita(nomePaciente, dataNascimento, titulo, descricao)
-		console.log(arquivoPdfReceita);
+        let arquivostringfado = JSON.stringify(arquivoPdfReceita);
 		// Certificado veio do lado cliente
 		meta.documento = arquivoPdfReceita;
 		let certificado = bodyJson.certificado;

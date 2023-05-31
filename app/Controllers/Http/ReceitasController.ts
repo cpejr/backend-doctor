@@ -53,8 +53,8 @@ export default class ReceitasController {
     const descricao = validateData.descricao
 
     const id_usuario = request.input('id_usuario')
-
-    const res = await arquivoscontroller.storePdf(nomePaciente, dataNascimento, titulo, descricao)
+    console.log(nomePaciente,dataNascimento, titulo, descricao )
+    const res = await arquivoscontroller.criaPDFReceita(nomePaciente, dataNascimento, titulo, descricao)
     console.log(res);
     const receita = await Receita.create({
       titulo,
