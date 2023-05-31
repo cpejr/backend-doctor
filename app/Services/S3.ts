@@ -25,7 +25,7 @@ class S3Service {
     return url
   }
 
-  public async uploadManually(file: MultipartStream, chave: string): Promise<string> {
+  public async uploadManually2(file: MultipartStream, chave: string): Promise<string> {
     const buffer = await stream2buffer(file)
 
     const params = {
@@ -41,7 +41,7 @@ class S3Service {
     return url
   }
 
-  public async uploadManually2(file: MultipartStream, chave: string): Promise<string> {
+  public async uploadManually(file: MultipartStream, chave: string): Promise<string> {
     const params = {
       Bucket: Env.get('AWS_BUCKET_NAME'),
       Body: file,

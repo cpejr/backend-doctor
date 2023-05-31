@@ -188,17 +188,17 @@ export default class ArquivosController {
     // }
 
     const chave = `${crypto.randomBytes(32).toString('hex')}-PDF`
-    request.multipart.onFile('file', {}, async (file) => {
-      try {
-        const url = await S3Service.uploadManually(file, chave)
-        console.log(url)
-      } catch (erro) {
-        console.error(erro)
-      }
-    })
-    await request.multipart.process()
-
-    // const arquivo = request.file('file')
+    await request.multipart
+      .onFile('file', {}, async (file) => {
+        try {
+          const url = await S3Service.uploadManually(file, chave)
+          console.log(url)
+          return { url }
+        } catch (erro) {
+          console.error(erro)
+        }
+      })
+      .process()
 
     // if (!arquivo?.tmpPath) throw new Error(`Ocorreu uma falha com o arquivo ${arquivo?.clientName}`)
 
