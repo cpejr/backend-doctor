@@ -19,7 +19,7 @@ export default Env.rules({
   PORT: Env.schema.number(),
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
-  DRIVE_DISK: Env.schema.enum(['local'] as const),
+  DRIVE_DISK: Env.schema.enum(['local', 's3'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
   SYSTEM_URL: Env.schema.string(),
 
@@ -34,6 +34,11 @@ export default Env.rules({
   S3_BUCKET: Env.schema.string(),
   S3_REGION: Env.schema.string(),
   S3_ENDPOINT: Env.schema.string.optional(),
+
+  AWS_BUCKET_NAME: Env.schema.string(),
+  AWS_ACCESS_KEY_ID: Env.schema.string(),
+  AWS_SECRET_ACCESS_KEY: Env.schema.string(),
+  AWS_REGION: Env.schema.string(),
 
   SMTP_HOST: Env.schema.string(),
   SMTP_PORT: Env.schema.number(),
