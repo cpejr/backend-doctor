@@ -11,72 +11,6 @@ import * as AWS from 'aws-sdk'
 import Env from '@ioc:Adonis/Core/Env'
 import S3Service from 'App/Services/S3'
 
-// import {
-//   DeleteObjectCommand,
-//   DeleteObjectsCommand,
-//   GetBucketCorsCommand,
-//   GetObjectCommand,
-//   PutBucketCorsCommand,
-//   PutObjectCommand,
-//   S3Client,
-// } from '@aws-sdk/client-s3'
-
-// const s3 = new S3Client({
-//   region: Env.get('AWS_REGION'),
-//   credentials: {
-//     accessKeyId: Env.get('AWS_ACCESS_KEY_ID'),
-//     secretAccessKey: Env.get('AWS_SECRET_ACCESS_KEY'),
-//   },
-// })
-
-// const s3 = new AWS.S3({
-//   region: Env.get('AWS_REGION'),
-//   accessKeyId: Env.get('AWS_ACCESS_KEY_ID'),
-//   secretAccessKey: Env.get('AWS_SECRET_ACCESS_KEY'),
-// })
-// async function stream2buffer(stream: any): Promise<Buffer> {
-//   return new Promise<Buffer>((resolve, reject) => {
-//     const _buf = Array<any>()
-
-//     stream.on('data', (chunk) => _buf.push(chunk))
-//     stream.on('end', () => resolve(Buffer.concat(_buf)))
-//     stream.on('error', (err) => reject(`error converting stream - ${err}`))
-//   })
-// }
-
-// export const uploadToS3Bucket = async (
-//   file: any,
-//   bucket: string
-// ): Promise<{ key: string; url: string }> => {
-//   try {
-//     const chave = crypto.randomBytes(32).toString('hex')
-//     const contentType = `${file?.type}/${file?.subtype}`
-//     const key = `${chave}-${file?.clientName}`
-
-//     const fileStream = fs.createReadStream(file.tmpPath!)
-//     const buffer = await stream2buffer(fileStream)
-
-//     const params = {
-//       Bucket: bucket,
-//       Body: buffer,
-//       Key: key,
-//       ContentType: contentType,
-//       ACL: 'public-read',
-//     }
-
-//     await s3.send(new PutObjectCommand(params))
-
-//     const url = `https://${bucket}.s3.amazonaws.com/${key}`
-
-//     return {
-//       key,
-//       url,
-//     }
-//   } catch (err) {
-//     console.log(err)
-//     return err
-//   }
-// }
 export default class ArquivosController {
   public async indexByChave({ request, response }: HttpContextContract) {
     try {
@@ -175,17 +109,6 @@ export default class ArquivosController {
     }
   }
   public async storeFile({ request }: HttpContextContract) {
-    // const file = request.file('file')
-    // const chave = `${crypto.randomBytes(32).toString('hex')}-${file?.clientName}`
-
-    // try {
-    //   if (!file) throw new Error('Arquivo não encontrado')
-    //   const url = await S3Service.upload(file, chave)
-
-    //   console.log(url)
-    // } catch (erro) {
-    //   console.error(erro)
-    // }
 
     const hash = crypto.randomBytes(32).toString('hex')
     await request.multipart
@@ -200,19 +123,5 @@ export default class ArquivosController {
         }
       })
       .process()
-
-    const { meta } = request.file('file')!
-    console.log(meta?.url)
-
-    // if (!arquivo?.tmpPath) throw new Error(`Ocorreu uma falha com o arquivo ${arquivo?.clientName}`)
-
-    // const tipo_conteudo = `${arquivo.type}/${arquivo.subtype}`
-    // const nome = arquivo.clientName
-    // const chave = `${(Math.random() * 100).toString()}-${nome}`
-
-    // await Drive.putStream(chave, fs.createReadStream(arquivo.tmpPath), {
-    //   contentType: tipo_conteudo,
-    //   visibility: 'public-read',
-    // })
   }
 }
