@@ -24,23 +24,32 @@ export default class AssinadorPdfsController {
 		const dataNascimento = meta.documento.dataNascimentoPaciente
 		const titulo = meta.documento.tituloReceita
 		const descricao = meta.documento.descricaoReceita
-        console.log(nomePaciente);
-		console.log(dataNascimento);
-		console.log(titulo);
-		console.log(descricao);
-		const arquivoPdfReceita = await arquivoscontroller.criaPDFReceita(nomePaciente, dataNascimento, titulo, descricao)
-        let arquivostringfado = JSON.stringify(arquivoPdfReceita);
+
+
+		
+
+
+
+		const arquivoPdfReceita = await arquivoscontroller.criaPDFReceita(nomePaciente, dataNascimento, titulo, descricao);
+		console.log(arquivoPdfReceita);
+
+
 		// Certificado veio do lado cliente
-		meta.documento = arquivoPdfReceita;
+		let documento = arquivoPdfReceita;
+		
 		let certificado = bodyJson.certificado;
+
+	
+		delete meta.documento;
 
 
 		// Inicializa assinatura PDF (Server-Framework através do BRy HUB)
-		const resultPdf = await this.inicializarPdf(certificado, meta);
+		const resultPdf = await this.inicializarPdf(certificado, meta, documento);
 		// Prepara os dados de entrada para a extensão e envia para o lado cliente
 		let respostaInicializar = await this.prepararDadosEntradaExtensao(resultPdf);
+		/* console.log(respostaInicializar); */
 		return respostaInicializar;
-		response.status(200).send(respostaInicializar);
+		/* response.status(200).send(respostaInicializar); */
 
 	}
 
@@ -91,12 +100,19 @@ export default class AssinadorPdfsController {
 		return JSON.stringify(input);
 	}
 
-	public async inicializarPdf(certificado, meta) {
+	public async inicializarPdf(certificado, meta, documento) {
+
+		console.log(meta);
+
+
+		fs.writeFileSync('documento3.pdf', documento);
+
+		
 		var formData = {
 			// loop
-			'documento': [
-				meta.documento,
-			],
+			'documento': 
+				fs.createReadStream('documento3.pdf')
+			,
 			// fim loop
 			'imagem': fs.createReadStream("./imagem.jpg"),
 			'dados_inicializar': JSON.stringify(
@@ -157,7 +173,7 @@ export default class AssinadorPdfsController {
 			"nonce": nonceSessaoLotePdfInicializado,
 			"formatoDeDados": "Base64",
 			"assinaturasPkcs1": dataFinalizaPdf,
-			"tipoRetorno": "BASE64"
+			"tipoRetorno": "LINK"
 		};
 		const options = {
 			method: "POST",

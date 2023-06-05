@@ -82,7 +82,7 @@ export default class ArquivosController {
           let arquivo64 = fs.readFileSync(res.filename, { encoding: "base64" });
           const fileBuffer = Buffer.from(arquivo64, 'base64');
           FormDataObj.append("arquivo",fileBuffer, {filename:res.filename, contentType: 'application/pdf'} )
-          resolve(FormDataObj);
+          resolve(fileBuffer);
         }
       });
     });
