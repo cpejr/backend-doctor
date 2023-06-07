@@ -3,7 +3,7 @@ import Conversa from 'App/Models/Conversa'
 import ConversasDTO from 'App/DTO/ConversasDTO'
 import ConversasRepository from 'App/Repositories/ConversasRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
-import { mensagemPagamento } from 'Config/whatsApp'
+import { mensagemFinalizarExame, mensagemConfirmouPagamento, mensagemComunicadoUrgencia, mensagemExameMarcado } from 'Config/whatsApp'
 import Usuario from 'App/Models/Usuario'
 
 export default class ConversasController {
@@ -30,7 +30,7 @@ export default class ConversasController {
         query.select('id', 'nome', 'avatar_url')
       })
       .preload('receptor', (query) => {
-        query.select('id', 'nome', 'avatar_url')
+        query.select('id', 'nome', 'avatar_url', 'cpf', 'telefone', 'id_endereco')
       })
       .preload('mensagem', (query) => {
         query
@@ -55,7 +55,7 @@ export default class ConversasController {
           id: conversa.id,
           tipo: conversa.tipo,
           data_criacao: conversa.data_criacao,
-          conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador,
+          conversaCom: conversa.id_criador === id_usuario ? conversa.receptor : conversa.criador, 
           ativada: conversa.ativada,
           finalizada: conversa.finalizada,
           ultima_mensagem,
@@ -92,11 +92,30 @@ export default class ConversasController {
     return novaConversa
   }
 
-  public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract){
-    const id_criador = request.param('id_usuario');
+  public async enviarMensagemConfirmarPagamento({ request }: HttpContextContract) {
+    const id_criador = request.input('id_usuario');
     const usuario = await Usuario.findOrFail(id_criador);
-    const mensagem = mensagemPagamento(usuario.nome);
-    await Promise.all([mensagem]);
+    const enderecoCompleto = request.input('endereco');
+    const mensagem = await mensagemConfirmouPagamento(usuario.nome, usuario.nome, usuario.nome, usuario.telefone, enderecoCompleto);
+  }
+
+  public async enviarMensagemFinalizarExame({ request }: HttpContextContract) {
+    const id_criador = request.input('id_usuario');
+    const usuario = await Usuario.findOrFail(id_criador);
+    const enderecoCompleto = request.input('endereco');
+    const mensagem = await mensagemFinalizarExame(usuario.nome, usuario.telefone, enderecoCompleto);
+  }
+
+  public async enviarMensagemComunicado({ request }: HttpContextContract) {
+    const id_criador = request.input('id_usuario');
+    const usuario = await Usuario.findOrFail(id_criador);
+    const mensagem = await mensagemComunicadoUrgencia(usuario.nome);
+  }
+
+  public async enviarMensagemExameMarcado({ request }: HttpContextContract) {
+    const id_criador = request.input('id_usuario');
+    const usuario = await Usuario.findOrFail(id_criador);
+    const mensagem = await mensagemExameMarcado(usuario.nome);
   }
 
   public async update({ request }: HttpContextContract) {
