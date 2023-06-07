@@ -173,7 +173,7 @@ export default class AssinadorPdfsController {
 			"nonce": nonceSessaoLotePdfInicializado,
 			"formatoDeDados": "Base64",
 			"assinaturasPkcs1": dataFinalizaPdf,
-			"tipoRetorno": "LINK"
+			"tipoRetorno": "BASE64"
 		};
 		const options = {
 			method: "POST",

@@ -99,8 +99,10 @@ export default class ArquivosController {
       return 'Falha ao apagar o arquivo!'
     }
   }
-  public async storeFile({ request }: HttpContextContract) {
-    const file = request.input('file')
+  public async storeFile(file) {
+    console.log(file);
+    //const file = request.input('file')
+    console.log(file);
     const tipo_conteudo = 'pdf'
     const ACL = 'public-read'
     const nome = 'PDF'

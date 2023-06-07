@@ -76,7 +76,8 @@ export default class ReceitasController {
     const descricao = validateData.descricao
     const id_usuario = request.input('id_usuario');
     const pdf_url = url
-
+    
+    console.log(pdf_url);
     const receita = await Receita.create({
       titulo,
       descricao,
