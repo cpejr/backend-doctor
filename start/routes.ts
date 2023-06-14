@@ -62,6 +62,8 @@ Route.delete('/comentarios/:id', 'ComentariosController.destroy')
 Route.get('/sobremims', 'SobreMimsController.index')
 Route.post('/sobremims', 'SobreMimsController.store')
 Route.put('/sobremims/:id', 'SobreMimsController.update')
+Route.put('/sobremims/imagemUm/:id', 'SobreMimsController.updateImagemUm')
+Route.put('/sobremims/imagemDois/:id', 'SobreMimsController.updateImagemDois')
 Route.delete('/sobremims/:id', 'SobreMimsController.destroy')
 
 Route.get('/consultorios', 'ConsultoriosController.index')
