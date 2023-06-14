@@ -41,6 +41,17 @@ export default class UsuarioSeeder extends BaseSeeder {
         avatar_url: '',
         id_endereco: '1696fc70-0ddf-4aee-8263-69979f0c3ea0',
       },
+      {
+        nome: 'Secretario(a) de Exames',
+        email: 'secretariaexame@gmail.com',
+        senha: 'orion2022!',
+        data_nascimento: new Date('1990-01-01'),
+        cpf: '31335333330',
+        telefone: '31982921336',
+        tipo: 'SECRETARIA(O)',
+        avatar_url: '',
+        id_endereco: 'b94961b7-7bbd-473f-9374-5adae1698d96',
+      },
     ])
   }
 }
