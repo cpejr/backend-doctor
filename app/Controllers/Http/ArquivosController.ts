@@ -100,9 +100,6 @@ export default class ArquivosController {
     }
   }
   public async storeFile(file) {
-    console.log(file);
-    //const file = request.input('file')
-    console.log(file);
     const tipo_conteudo = 'pdf'
     const ACL = 'public-read'
     const nome = 'PDF'
