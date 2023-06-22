@@ -97,7 +97,7 @@ export default class ArquivosController {
     return chave
   }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ }: HttpContextContract) { }
 
   public async destroy(chave) {
     try {
@@ -109,19 +109,20 @@ export default class ArquivosController {
     }
   }
   public async storeFile({ request }: HttpContextContract) {
-
-    const hash = crypto.randomBytes(32).toString('hex')
-    await request.multipart
-      .onFile('file', {}, async (file) => {
-        try {
-          const chave = `${hash}-${file.filename}`
-          const url = await S3Service.uploadManually(file, chave)
-
-          return { url }
-        } catch (erro) {
-          console.error(erro)
-        }
-      })
-      .process()
+    const hash = crypto.randomBytes(32).toString('hex');
+  
+    let chave: string | undefined;
+  
+    await request.multipart.onFile('file', {}, async (file) => {
+      try {
+        chave = `PDF-${hash}-${file.filename}`;
+        await S3Service.uploadManually(file, chave);
+      } catch (erro) {
+        console.error(erro);
+      }
+    }).process();
+    
+    console.log(chave);
+    return chave;
   }
 }
