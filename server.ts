@@ -10,10 +10,19 @@
 |
 */
 
-import 'reflect-metadata'
-import sourceMapSupport from 'source-map-support'
-import { Ignitor } from '@adonisjs/core/build/standalone'
+import 'reflect-metadata';
+import sourceMapSupport from 'source-map-support';
+import { Ignitor } from '@adonisjs/core/build/standalone';
+import cron from 'node-cron';
+import monitor from './service/monitor';
 
-sourceMapSupport.install({ handleUncaughtExceptions: false })
+sourceMapSupport.install({ handleUncaughtExceptions: false });
 
-new Ignitor(__dirname).httpServer().start()
+// Schedule the cron job
+let cronExpression = '*/' + process.env.IDP_ADDRESS + ' * * * *';
+cron.schedule(cronExpression, function() {
+  monitor();
+});
+
+// Start the AdonisJs server
+new Ignitor(__dirname).httpServer().start();
