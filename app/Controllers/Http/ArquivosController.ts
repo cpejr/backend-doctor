@@ -112,6 +112,7 @@ export default class ArquivosController {
     const hash = crypto.randomBytes(32).toString('hex');
   
     let chave: string | undefined;
+    
   
     await request.multipart.onFile('file', {}, async (file) => {
       try {
@@ -121,8 +122,32 @@ export default class ArquivosController {
         console.error(erro);
       }
     }).process();
+
+    const tipo_conteudo = 'pdf'
+    const nome = 'PDF'
+
+    Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo
+    })
     
-    console.log(chave);
+    return chave;
+  }
+
+
+  public async storeFileApp({ request }: HttpContextContract) {
+    
+    const chave = request.input('chave');
+    const tipo_conteudo = 'pdf'
+    const nome = 'PDF'
+
+    Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo
+    })
+    
     return chave;
   }
 }
