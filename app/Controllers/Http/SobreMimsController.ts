@@ -4,6 +4,7 @@ import SobreMimsDTO from 'App/DTO/SobreMimsDTO'
 import SobreMimsRepository from 'App/Repositories/SobreMimsRepository'
 import { limpaCamposNulosDeObjeto } from 'App/Utils/Utils'
 import { SobreMimValidatorStore, SobreMimValidatorUpdate } from 'App/Validators/SobreMimValidator'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 export default class SobreMimsController {
   public async index({ request }: HttpContextContract) {
@@ -52,6 +53,44 @@ export default class SobreMimsController {
     await SobreMims.save()
 
     return SobreMims
+  }
+
+  public async updateImagemUm({ request }: HttpContextContract) {
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    const id = request.param('id')
+    if (!id) return
+
+    const imagem_especifica = await SobreMim.findOrFail(id);
+    if(imagem_especifica.imagem_um != undefined && imagem_especifica.imagem_um != null && imagem_especifica.imagem_um != ""){
+      const chave = imagem_especifica.imagem_um
+      await arquivoscontroller.destroy(chave);
+    }
+
+    const file = request.input('file')
+    const chave_nova = await arquivoscontroller.store(file)
+    imagem_especifica.$attributes.imagem_um = chave_nova;
+    await imagem_especifica.save()
+
+    return chave_nova;
+  }
+  
+  public async updateImagemDois({ request }: HttpContextContract) {
+    const arquivoscontroller: ArquivosController = new ArquivosController()
+    const id = request.param('id')
+    if (!id) return
+
+    const imagem_especifica = await SobreMim.findOrFail(id);
+    if(imagem_especifica.imagem_dois != undefined && imagem_especifica.imagem_dois != null && imagem_especifica.imagem_dois != ""){
+      const chave = imagem_especifica.imagem_dois
+      await arquivoscontroller.destroy(chave);
+    }
+
+    const file = request.input('file')
+    const chave_nova = await arquivoscontroller.store(file)
+    imagem_especifica.$attributes.imagem_dois = chave_nova;
+    await imagem_especifica.save()
+
+    return chave_nova;
   }
 
   public async destroy({ request }: HttpContextContract) {

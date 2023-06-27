@@ -22,7 +22,7 @@ export default class AuthController {
             let user = await Usuario.findBy('email', email)
             let token = await auth.generate(user)
     
-            Object.assign(user, token)
+            //Object.assign(user, token)
             return response.json(user)
           }
     
