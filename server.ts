@@ -20,7 +20,7 @@ import monitor from './service/monitor'
 sourceMapSupport.install({ handleUncaughtExceptions: false })
 
 // Schedule the cron job
-let cronExpression = '*/' + Env.get('IDP_ADDRESS') + ' * * * *'
+let cronExpression = '*/' +'https://cloud.bry.com.br '+ ' * * * *'
 cron.schedule(cronExpression, function () {
   monitor()
 })

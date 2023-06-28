@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export function initializeAccessToken(): Promise<AxiosResponse> {
   const body = `grant_type=client_credentials&client_id=${process.env.IDP_CLIENT_ID}&client_secret=${process.env.IDP_CLIENT_SECRET}`;
-
   const requestConfig: AxiosRequestConfig = {
     baseURL: process.env.IDP_ADDRESS,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
