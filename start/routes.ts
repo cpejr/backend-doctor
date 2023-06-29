@@ -6,6 +6,7 @@ Route.post('/arquivo', 'ArquivosController.store')
 Route.post('/arquivoimage/', 'ArquivosController.storeImage')
 Route.post('/arquivopdf/', 'ArquivosController.storePdf')
 Route.post('/arquivofile/', 'ArquivosController.storeFile')
+Route.post('/arquivofileapp/', 'ArquivosController.storeFileApp')
 Route.get('/arquivo/:chave', 'ArquivosController.indexByChave')
 Route.delete('/arquivo/:chave', 'ArquivosController.destroy')
 

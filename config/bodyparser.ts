@@ -109,7 +109,7 @@ const bodyParserConfig: BodyParserConfig = {
     | file sizes.
     |
     */
-    autoProcess: false,
+    autoProcess: true,
 
     /*
     |--------------------------------------------------------------------------
@@ -131,7 +131,7 @@ const bodyParserConfig: BodyParserConfig = {
     | projects/:id/file
     | ```
     */
-    processManually: ['/arquivo'],
+    processManually: ['/arquivofile'],
 
     /*
     |--------------------------------------------------------------------------

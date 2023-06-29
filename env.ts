@@ -35,6 +35,11 @@ export default Env.rules({
   S3_REGION: Env.schema.string(),
   S3_ENDPOINT: Env.schema.string.optional(),
 
+  AWS_BUCKET_NAME: Env.schema.string(),
+  AWS_ACCESS_KEY_ID: Env.schema.string(),
+  AWS_SECRET_ACCESS_KEY: Env.schema.string(),
+  AWS_REGION: Env.schema.string(),
+
   SMTP_HOST: Env.schema.string(),
   SMTP_PORT: Env.schema.number(),
   SMTP_USERNAME: Env.schema.string(),
