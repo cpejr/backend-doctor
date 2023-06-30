@@ -104,9 +104,10 @@ export default class AssinadorPdfsController {
         nonces: ['PDF1'],
       }),
       configuracao_imagem: JSON.stringify({
-        altura: 60,
-        largura: 170,
+        altura: 80,
+        largura: 180,
         posicao: 'INFERIOR_ESQUERDO',
+        coordenadaY: 70,
         pagina: 'PRIMEIRA',
       }),
       metadados: JSON.stringify(meta),
