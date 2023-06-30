@@ -8,22 +8,25 @@ import ArquivosController from 'App/Controllers/Http/ArquivosController'
 var nonceSessaoLotePdfInicializado = '0'
 var credencial;
 export default class AssinadorPdfsController {
-  public async getAccessToken(req, res) {
-    if (cache.get('currentCredential') == null) {
+  public async getAccessToken(): Promise<string | null> {
+    const currentCredential = cache.get('currentCredential')
+    console.log("current credencial " + currentCredential)
+    if (currentCredential == null) {
       console.log('Not a valid credential available.')
-      res.status(500).contentType('application/json').json('Not a valid credential available.')
+      return null
     } else {
       console.log('Credential valid.')
-      credencial = cache.get('currentCredential').get('access_token')
-      // Use the `accessToken` variable for further processing
-      let jsonBody = mapToJSON(cache)
-      res.status(200).contentType('application/json').json(jsonBody)
+      return currentCredential.get('access_token')
     }
   }
+  
   public async inicializar({ request, response }: HttpContextContract) {
     let bodyJson = request.body()
     let meta = bodyJson.metadados
     const arquivoscontroller: ArquivosController = new ArquivosController()
+
+    credencial = await this.getAccessToken()
+    console.log("testestes " + credencial)
 
     const nomePaciente = meta.documento.NomePaciente
     const dataNascimento = meta.documento.dataNascimentoPaciente

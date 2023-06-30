@@ -28,7 +28,7 @@ function initializeAccessTokenReference(): void {
   promisePost
     .then(function (response: any) {
       const map = extractCredentialAttributes(response)
-      console.log('Created credential: ' + map.get('access_token'))
+      //console.log('Created credential: ' + map.get('access_token'))
     })
     .catch(function (error: any) {
       console.log('Detected an error during the process of requesting access token: ' + error)
