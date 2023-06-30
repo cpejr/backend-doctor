@@ -26,7 +26,7 @@ export default class AssinadorPdfsController {
     const arquivoscontroller: ArquivosController = new ArquivosController()
 
     credencial = await this.getAccessToken()
-    console.log("testestes " + credencial)
+    console.log("access token " + credencial)
 
     const nomePaciente = meta.documento.NomePaciente
     const dataNascimento = meta.documento.dataNascimentoPaciente
