@@ -10,6 +10,10 @@ import { stream2buffer } from 'App/Utils/stream2buffer'
 import * as AWS from 'aws-sdk'
 import Env from '@ioc:Adonis/Core/Env'
 import S3Service from 'App/Services/S3'
+import File from 'multiparty'
+import { Readable } from 'stream'
+import AssinadorPdfsController from './AssinadorPdfsController'
+import FormData from 'form-data'
 
 export default class ArquivosController {
   public async indexByChave({ request, response }: HttpContextContract) {
@@ -65,10 +69,10 @@ export default class ArquivosController {
 
     return chave
   }
-
-  public async storePdf(nomePaciente, dataNascimento, tituloReceita, descricao) {
+  
+  public async criaPDFReceita(nomePaciente, dataNascimento, tituloReceita, descricao) {
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
-      return 0
+      return false;
     }
 
     const tipo_conteudo = 'pdf'

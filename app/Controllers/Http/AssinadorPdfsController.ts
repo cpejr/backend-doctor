@@ -1,182 +1,174 @@
-//Teste 2( já está em NodeJs, porém frontend é diferente)
-import request from 'request';
-import fs from 'fs';
-import FormData from 'form-data';
-require('dotenv/config');
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-//Biblioteca que o ChatGPT sugeriu.
-import got from "got";
-// É necessário armazenar o nonce do lote inicializado
-// para que seja possível finalizar a assinatura
-var nonceSessaoLotePdfInicializado = "0";
+import request from 'request'
+import fs from 'fs'
+const cache = require('memory-cache')
+require('dotenv/config')
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
-var credencial = `${process.env.ACCESS_TOKEN}`;
+var nonceSessaoLotePdfInicializado = '0'
+var credencial;
 export default class AssinadorPdfsController {
-	public async inicializar({ request, response }: HttpContextContract) {
+  public async getAccessToken(): Promise<string | null> {
+    const currentCredential = cache.get('currentCredential')
+    console.log("current credencial " + currentCredential)
+    if (currentCredential == null) {
+      console.log('Not a valid credential available.')
+      return null
+    } else {
+      console.log('Credential valid.')
+      return currentCredential.get('access_token')
+    }
+  }
+  
+  public async inicializar({ request, response }: HttpContextContract) {
+    let bodyJson = request.body()
+    let meta = bodyJson.metadados
+    const arquivoscontroller: ArquivosController = new ArquivosController()
 
-		let bodyJson = request.body();
-		let meta = bodyJson.metadados;
+    credencial = await this.getAccessToken()
+    console.log("access token " + credencial)
 
-		// Certificado veio do lado cliente
-		let certificado = bodyJson.certificado;
+    const nomePaciente = meta.documento.NomePaciente
+    const dataNascimento = meta.documento.dataNascimentoPaciente
+    const titulo = meta.documento.tituloReceita
+    const descricao = meta.documento.descricaoReceita
 
+    const arquivoPdfReceita = await arquivoscontroller.criaPDFReceita(
+      nomePaciente,
+      dataNascimento,
+      titulo,
+      descricao
+    )
 
-		// Inicializa assinatura PDF (Server-Framework através do BRy HUB)
-		const resultPdf = await this.inicializarPdf(certificado, meta);
-		// Prepara os dados de entrada para a extensão e envia para o lado cliente
-		let respostaInicializar = await this.prepararDadosEntradaExtensao(resultPdf);
-		return respostaInicializar;
-		response.status(200).send(respostaInicializar);
+    let documento = arquivoPdfReceita
 
-	}
+    let certificado = bodyJson.certificado
 
-	public async finalizar ({ request, response }: HttpContextContract)  {
-		let resultadoExtensao = request.body();
-		let dadosFinalizarPdf = new Array();
-		// Prepara os dados para finalizar a assinatura
-		dadosFinalizarPdf.push({
-			"cifrado": resultadoExtensao.assinaturas[0].hashes[0],
-			"nonce": resultadoExtensao.assinaturas[0].nonce
-		});
+    delete meta.documento
 
+    const resultPdf = await this.inicializarPdf(certificado, meta, documento)
+    let respostaInicializar = await this.prepararDadosEntradaExtensao(resultPdf)
+    return respostaInicializar
+  }
 
-		// Finaliza assinatura PDF (Server-Framework através do BRy HUB)
-		const resultPdf =  await this.finalizarPdf(dadosFinalizarPdf);
-				// Cria uma estrutura JSON apenas para exibir no textarea no lado cliente
-				var input = {
-					"PDF": resultPdf
-				};
-        return input;
-				response.status(200).send(input);
+  public async finalizar({ request, response }: HttpContextContract) {
+    let resultadoExtensao = request.body()
+    let dadosFinalizarPdf = new Array()
+    dadosFinalizarPdf.push({
+      cifrado: resultadoExtensao.assinaturas[0].hashes[0],
+      nonce: resultadoExtensao.assinaturas[0].nonce,
+    })
 
+    const resultPdf = await this.finalizarPdf(dadosFinalizarPdf)
+    var input = {
+      PDF: resultPdf,
+    }
+    return input
+    response.status(200).send(input)
+  }
 
-	}
+  public async prepararDadosEntradaExtensao(resultPDf) {
+    let resultadoPDF = JSON.parse(resultPDf)
+    nonceSessaoLotePdfInicializado = resultadoPDF.nonce
 
-	// Esta função prepara os dados para a extensão assinar.
-	public async prepararDadosEntradaExtensao(resultPDf) {
-		// Para mais detalhes sobre os dados de entrada da extensão favor consular a documentação da extensão.  
-		let resultadoPDF = JSON.parse(resultPDf)
-		nonceSessaoLotePdfInicializado = resultadoPDF.nonce;
+    let assinaturaobjeto = resultadoPDF.assinaturasInicializadas
+    let assinaturas = new Array()
 
-		let assinaturaobjeto = resultadoPDF.assinaturasInicializadas;
-		let assinaturas = new Array();
+    assinaturas.push({
+      algoritmoHash: resultadoPDF.algoritmoHash,
+      nonce: resultadoPDF.assinaturasInicializadas[0].nonce,
+      hashes: [resultadoPDF.assinaturasInicializadas[0].messageDigest],
+    })
 
-		assinaturas.push({
-			"algoritmoHash": resultadoPDF.algoritmoHash,
-			"nonce": resultadoPDF.assinaturasInicializadas[0].nonce,
-			"hashes": [resultadoPDF.assinaturasInicializadas[0].messageDigest]
-		});
+    let input = {
+      formatoDadosEntrada: 'Base64',
+      formatoDadosSaida: 'Base64',
+      assinaturas: assinaturas,
+    }
 
+    return JSON.stringify(input)
+  }
 
-		let input = {
-			"formatoDadosEntrada": "Base64",
-			"formatoDadosSaida": "Base64",
-			"assinaturas": assinaturas
-		};
+  public async inicializarPdf(certificado, meta, documento) {
+    fs.writeFileSync('documento3.pdf', documento)
 
-		return JSON.stringify(input);
-	}
+    var formData = {
+      documento: fs.createReadStream('documento3.pdf'),
+      imagem: fs.createReadStream('./imagem.jpg'),
+      dados_inicializar: JSON.stringify({
+        perfil: 'CARIMBO',
+        algoritmoHash: 'SHA256',
+        formatoDadosEntrada: 'Base64',
+        formatoDadosSaida: 'Base64',
+        certificado: certificado,
+        nonces: ['PDF1'],
+      }),
+      configuracao_imagem: JSON.stringify({
+        altura: 80,
+        largura: 180,
+        posicao: 'INFERIOR_ESQUERDO',
+        coordenadaY: 70,
+        pagina: 'PRIMEIRA',
+      }),
+      metadados: JSON.stringify(meta),
+    }
 
-	public async inicializarPdf(certificado, meta) {
-		var formData = {
-			// loop
-			'documento': [
-				fs.createReadStream("./documento.pdf"),
-			],
-			// fim loop
-			'imagem': fs.createReadStream("./imagem.jpg"),
-			'dados_inicializar': JSON.stringify(
-				{
-					"perfil": "CARIMBO",
-					"algoritmoHash": "SHA256",
-					"formatoDadosEntrada": "Base64",
-					"formatoDadosSaida": "Base64",
-					"certificado": certificado,
-					"nonces": ["PDF1"]
-				}
-			),
-			'configuracao_imagem': JSON.stringify(
-				{
-					"altura": 60,
-					"largura": 170,
-					"posicao": "INFERIOR_ESQUERDO",
-					"pagina": "PRIMEIRA"
-				}
-			),
-			'metadados': JSON.stringify(meta)
-		};
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/inicializar`,
+      port: 443,
+      headers: {
+        'Authorization': credencial,
+        'Content-Type': 'multipart/form-data',
+      },
+      formData: formData,
+    }
 
-		const options = {
-			method: "POST",
-			url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/inicializar`,
-			port: 443,
-			headers: {
-				"Authorization": credencial,
-				"Content-Type": "multipart/form-data"
-			},
-			formData: formData
-		};
-		// Comentários, a partir daqui está dando errado, o documento e a imagem estão colocadas fixas, pois estou testando a funcionalidade, no caso está nos documentos que eu mandei, mas tá traquilo
-		// Renovei e e criei outros tokens, mas, mesmo assim, não funcionou
-		return new Promise((resolve, reject) => {
-			request.post(options, (err, res, body) => {
-				if (err) {
-					reject(err);
-				}
-				else {
-					if (res.statusCode == 200) {
-						resolve(body);
-					}
-					else {
-						reject(body);
-					}
-				}
-			});
-		});
+    return new Promise((resolve, reject) => {
+      request.post(options, (err, res, body) => {
+        if (err) {
+          reject(err)
+        } else {
+          if (res.statusCode == 200) {
+            resolve(body)
+          } else {
+            reject(body)
+          }
+        }
+      })
+    })
+  }
 
+  public async finalizarPdf(dataFinalizaPdf) {
+    var jsonFinalizar = {
+      nonce: nonceSessaoLotePdfInicializado,
+      formatoDeDados: 'Base64',
+      assinaturasPkcs1: dataFinalizaPdf,
+      tipoRetorno: 'BASE64',
+    }
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/finalizar`,
+      port: 443,
+      headers: {
+        'Authorization': credencial,
+        'Content-Type': 'application/json',
+      },
+      json: jsonFinalizar,
+    }
 
-
-	}
-
-	public async finalizarPdf(dataFinalizaPdf) {
-		var jsonFinalizar = {
-			"nonce": nonceSessaoLotePdfInicializado,
-			"formatoDeDados": "Base64",
-			"assinaturasPkcs1": dataFinalizaPdf,
-			"tipoRetorno": "BASE64"
-		};
-		const options = {
-			method: "POST",
-			url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/finalizar`,
-			port: 443,
-			headers: {
-				"Authorization": credencial,
-				"Content-Type": "application/json"
-			},
-			json: jsonFinalizar
-		};
-
-		return new Promise((resolve, reject) => {
-			request.post(options, (err, res, body) => {
-				if (err) {
-					reject(err);
-				}
-				else {
-					if (res.statusCode == 200) {
-						resolve(body);
-					}
-					else {
-						reject(body);
-					}
-				}
-			});
-		});
-	}
-
-	public async objToBase64(data) {
-		// Função não otimizada, para fins de exemplo
-		let buff = Buffer.from(data);
-		return buff.toString('base64');
-	}
-
+    return new Promise((resolve, reject) => {
+      request.post(options, (err, res, body) => {
+        if (err) {
+          reject(err)
+        } else {
+          if (res.statusCode == 200) {
+            resolve(body)
+          } else {
+            reject(body)
+          }
+        }
+      })
+    })
+  }
 }

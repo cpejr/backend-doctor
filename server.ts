@@ -10,10 +10,20 @@
 |
 */
 
+import Env from '@ioc:Adonis/Core/Env'
 import 'reflect-metadata'
 import sourceMapSupport from 'source-map-support'
 import { Ignitor } from '@adonisjs/core/build/standalone'
+import cron from 'node-cron'
+import monitor from './service/monitor'
 
 sourceMapSupport.install({ handleUncaughtExceptions: false })
 
+// Schedule the cron job
+let cronExpression = '*/' +'https://cloud.bry.com.br '+ ' * * * *'
+cron.schedule(cronExpression, function () {
+  monitor()
+})
+
+// Start the AdonisJs server
 new Ignitor(__dirname).httpServer().start()
