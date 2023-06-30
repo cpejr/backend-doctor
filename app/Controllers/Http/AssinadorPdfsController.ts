@@ -6,15 +6,15 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ArquivosController from 'App/Controllers/Http/ArquivosController'
 
 var nonceSessaoLotePdfInicializado = '0'
+var credencial;
 export default class AssinadorPdfsController {
-  private credencial: string
   public async getAccessToken(req, res) {
     if (cache.get('currentCredential') == null) {
       console.log('Not a valid credential available.')
       res.status(500).contentType('application/json').json('Not a valid credential available.')
     } else {
       console.log('Credential valid.')
-      this.credencial = cache.get('currentCredential').get('access_token')
+      credencial = cache.get('currentCredential').get('access_token')
       // Use the `accessToken` variable for further processing
       let jsonBody = mapToJSON(cache)
       res.status(200).contentType('application/json').json(jsonBody)
@@ -114,7 +114,7 @@ export default class AssinadorPdfsController {
       url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/inicializar`,
       port: 443,
       headers: {
-        'Authorization': this.credencial,
+        'Authorization': credencial,
         'Content-Type': 'multipart/form-data',
       },
       formData: formData,
@@ -147,7 +147,7 @@ export default class AssinadorPdfsController {
       url: `https://${process.env.URL_HUB}/fw/v1/pdf/pkcs1/assinaturas/acoes/finalizar`,
       port: 443,
       headers: {
-        'Authorization': this.credencial,
+        'Authorization': credencial,
         'Content-Type': 'application/json',
       },
       json: jsonFinalizar,
