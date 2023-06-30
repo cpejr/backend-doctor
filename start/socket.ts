@@ -8,14 +8,11 @@ Ws.io.on('connection', (socket) => {
 
     socket['room'] = usuarioId
     socket.join(usuarioId)
-
   })
 
   socket.on('enviarMensagem', ({ novaMensagem, receptorId }) => {
     socket.to(receptorId).emit('mensagemRecebida', novaMensagem)
   })
-
-
 
   socket.on('enviarConversa', ({ novaConversa, receptorId }) => {
     socket.to(receptorId).emit('conversaRecebida', novaConversa)

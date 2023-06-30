@@ -32,10 +32,18 @@ export default class MensagemsController {
       media_url ? Drive.getSignedUrl(String(media_url)) : null
     )
 
+
+
     const urls = await Promise.all(requests)
+
+
 
     const mensagens = data?.map((messagem, index) => {
       const pertenceAoUsuarioAtual = messagem.id_usuario === id_usuario
+
+
+      if (messagem.tipo === 'PDF') {
+      }
 
       return {
         id: messagem.id,
@@ -47,13 +55,18 @@ export default class MensagemsController {
         tipo: messagem.tipo,
         pertenceAoUsuarioAtual,
       }
+
+
     })
+
 
     return mensagens
   }
 
   public async store({ request }: HttpContextContract) {
     const validateData = await request.validate(MensagemValidatorStore)
+
+
 
     const conteudo = validateData.conteudo
     let media_url = validateData.media_url
@@ -62,9 +75,10 @@ export default class MensagemsController {
     const id_usuario = request.input('id_usuario')
     let tipo = ""
 
+
     if (String(media_url).includes("PDF")) { tipo = "PDF" } else if (String(media_url).includes("doctor-app-image")) { tipo = "IMAGEM" } else { tipo = "TEXTO"; media_url = "" }
 
-    
+
     const mensagem = await Mensagem.create({
       conteudo,
       media_url,
@@ -73,7 +87,7 @@ export default class MensagemsController {
       id_usuario,
       tipo,
     })
-    
+
     return mensagem
   }
 
