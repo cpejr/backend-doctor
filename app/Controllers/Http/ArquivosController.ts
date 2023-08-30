@@ -13,7 +13,7 @@ import S3Service from 'App/Services/S3'
 import File from 'multiparty'
 import { Readable } from 'stream'
 import AssinadorPdfsController from './AssinadorPdfsController'
-import FormData from 'form-data'
+import FormData, { promises } from 'form-data'
 
 export default class ArquivosController {
   public async indexByChave({ request, response }: HttpContextContract) {
@@ -74,31 +74,31 @@ export default class ArquivosController {
     if (!nomePaciente || !dataNascimento || !tituloReceita) {
       return false;
     }
+   
+    return new Promise((resolve, reject) => {
+     let FormDataObj = new FormData();
 
-    const tipo_conteudo = 'pdf'
-    const ACL = 'public-read'
-    const nome = 'PDF'
-    const chave = `${(Math.random() * 100).toString()}-${nome}`
-    await pdf
-      .create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {})
-      .toFile((err, res) => {
-        if (err) {
-          return false
-        } else {
-          let arquivo64 = fs.readFileSync(res.filename, { encoding: 'base64' })
-          Drive.put(chave, arquivo64, {
-            contentType: tipo_conteudo,
-            visibility: ACL,
-          })
-          Arquivo.create({
-            nome,
-            chave,
-            tipo_conteudo,
-          })
-        }
-      })
+     pdf.create(pdfReceita({nomePaciente, dataNascimento, tituloReceita, descricao}), {}).toFile((err,res) => {
+      const tipo_conteudo = 'pdf'
+      const ACL = 'public-read'
+      const nome = 'PDF'
+      const chave = `${(Math.random() * 100).toString()}-${nome}`
+      pdf
+        .create(pdfReceita({ nomePaciente, dataNascimento, tituloReceita, descricao }), {})
+        .toFile((err, res) => {
+          if (err) {
+            return false;
+          }else{
+            let arquivo64 = fs.readFileSync(res.filename, {encoding: "base64"});
+            const fileBuffer = Buffer.from(arquivo64, 'base64');
+            FormDataObj.append("arquivo",fileBuffer, {filename:res.filename, contentType: 'application/pdf'})
+            resolve(fileBuffer);
+          }
 
-    return chave
+     })
+
+    })
+  });
   }
 
   public async update({ }: HttpContextContract) { }

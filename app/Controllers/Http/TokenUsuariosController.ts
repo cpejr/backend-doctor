@@ -36,6 +36,7 @@ export default class TokenUsuariosController {
       id_usuario,
       token_dispositivo,
     })
+    console.log(token)
     return token
   }
 
