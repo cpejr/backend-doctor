@@ -10,13 +10,13 @@ const conteudoPdf = ({ nomePaciente, dataNascimento, tituloReceita, descricao })
 
 <div
     style="
-        width: 265mm;
-        height: 357mm;
+    width: 265mm;
+    height: 357mm;
     ">
 
     <img
         style="
-            width: 360px;
+            width: 288px;
             position: absolute;
             top: 10px;
             margin-top: 10px;
@@ -29,7 +29,7 @@ const conteudoPdf = ({ nomePaciente, dataNascimento, tituloReceita, descricao })
 </div>
 <div
     style="
-        width: 265mm;
+        width: 212mm;
         position: absolute;
         top: 5cm;
         margin-top: 50px;
@@ -42,9 +42,9 @@ const conteudoPdf = ({ nomePaciente, dataNascimento, tituloReceita, descricao })
 </div>
 <img
     style="
-        width: 265mm;
+        width: 212mm;
         position: absolute;
-        top: 325mm;
+        top: 260mm;
     "
     src="${footer}"
 />
