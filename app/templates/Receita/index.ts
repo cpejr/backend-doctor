@@ -20,7 +20,7 @@ const conteudoPdf = ({ nomePaciente, dataNascimento, tituloReceita, descricao })
             position: absolute;
             top: 10px;
             margin-top: 10px;
-            left: 8.6cm;
+            left: 7cm;
 
         "
 
