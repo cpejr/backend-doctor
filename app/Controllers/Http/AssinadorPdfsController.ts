@@ -39,7 +39,7 @@ export default class AssinadorPdfsController {
       titulo,
       descricao
     )
-
+    console.log(arquivoPdfReceita);
     let documento = arquivoPdfReceita
 
     let certificado = bodyJson.certificado

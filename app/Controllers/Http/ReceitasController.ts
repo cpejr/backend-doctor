@@ -69,6 +69,27 @@ export default class ReceitasController {
   }
   public async storeComArquivo({ request }: HttpContextContract) {
     const validateData = await request.validate(ReceitaValidatorStore)
+    const file = request.input('file')
+    const titulo = validateData.titulo
+    const descricao = validateData.descricao
+    const id_usuario = request.input('id_usuario');
+    const pdf_url = file
+    
+    console.log(pdf_url);
+    const receita = await Receita.create({
+      titulo,
+      descricao,
+      id_usuario,
+      pdf_url,
+    });
+
+    await receita.save();
+
+    return receita;
+  }
+
+  public async storeComArquivo2({ request }: HttpContextContract) {
+    const validateData = await request.validate(ReceitaValidatorStore)
     const arquivoscontroller: ArquivosController = new ArquivosController()
     const file = request.input('file')
     const url = await arquivoscontroller.storeFile(file)

@@ -103,6 +103,7 @@ Route.post('/receitas', 'ReceitasController.store')
 Route.put('/receitas/:id', 'ReceitasController.update')
 Route.delete('/receitas/:id', 'ReceitasController.destroy')
 Route.post('/receitasarquivo', 'ReceitasController.storeComArquivo')
+Route.post('/receitasarquivo2', 'ReceitasController.storeComArquivo2')
 
 Route.get('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.index').middleware('auth')
 Route.post('/lista_de_espera_dispositivos', 'ListaDeEsperaDispositivosController.store').middleware('auth')
