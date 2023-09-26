@@ -92,7 +92,7 @@ export default class ReceitasController {
     const validateData = await request.validate(ReceitaValidatorStore)
     const arquivoscontroller: ArquivosController = new ArquivosController()
     const file = request.input('file')
-    const url = await arquivoscontroller.storeFile(file)
+    const url = await arquivoscontroller.storePDF64(file)
     const titulo = validateData.titulo
     const descricao = validateData.descricao
     const id_usuario = request.input('id_usuario');
