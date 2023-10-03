@@ -139,6 +139,29 @@ export default class ArquivosController {
     return chave;
   }
 
+  public async storePDF64(arquivo) {
+    const tipo_conteudo = 'text'
+    const ACL = 'public-read'
+    const nome = 'PDF'
+    const chave = `${(Math.random() * 100).toString()}-${nome}`
+    const file = arquivo.replace(/^data:.+;base64,/, '')
+
+    const fileBuffer = Buffer.from(file, 'base64')
+
+    await Drive.put(chave, fileBuffer, {
+      contentType: tipo_conteudo,
+      visibility: ACL,
+    })
+
+    await Arquivo.create({
+      nome,
+      chave,
+      tipo_conteudo,
+    })
+
+    return chave
+  }
+
 
   public async storeFileApp({ request }: HttpContextContract) {
     
